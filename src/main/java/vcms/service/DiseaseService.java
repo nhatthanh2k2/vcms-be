@@ -1,11 +1,9 @@
 package vcms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.DiseaseRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.DiseaseRespone;
-
 import vcms.mapper.DiseaseMapper;
 import vcms.model.Disease;
 import vcms.repository.DiseaseRepository;
@@ -56,7 +54,6 @@ public class DiseaseService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex) {
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
 
@@ -77,7 +74,6 @@ public class DiseaseService {
         }
         catch (Exception ex) {
             apiResponse.setSuccess(false);
-            apiResponse.setResult(null);
         }
         return apiResponse;
     }
@@ -98,7 +94,6 @@ public class DiseaseService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex) {
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
 

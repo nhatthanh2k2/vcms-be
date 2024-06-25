@@ -13,8 +13,6 @@ public class DateService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                 "dd-MM-yyyy HH-mm-ss");
         String strDateTime = now.format(formatter);
-        LocalDateTime formattedLocalDateTime =
-                LocalDateTime.parse(strDateTime, formatter);
-        return formattedLocalDateTime;
+        return LocalDateTime.parse(strDateTime, formatter);
     }
 }

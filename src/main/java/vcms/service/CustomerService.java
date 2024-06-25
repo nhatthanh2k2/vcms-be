@@ -1,10 +1,8 @@
 package vcms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.CustomerRequest;
 import vcms.dto.response.ApiResponse;
-
 import vcms.mapper.CustomerMapper;
 import vcms.model.Customer;
 import vcms.repository.CustomerRepository;
@@ -18,14 +16,19 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
-    @Autowired
-    private DateService dateService;
+    private final DateService dateService;
+
+    public CustomerService(CustomerRepository customerRepository,
+                           CustomerMapper customerMapper,
+                           DateService dateService) {
+        this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
+        this.dateService = dateService;
+    }
 
     public ApiResponse<List<Customer>> getCustomers() {
 
@@ -52,7 +55,6 @@ public class CustomerService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex) {
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
         return apiResponse;
@@ -76,7 +78,6 @@ public class CustomerService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex) {
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
         return apiResponse;
@@ -96,7 +97,6 @@ public class CustomerService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex) {
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
         return apiResponse;

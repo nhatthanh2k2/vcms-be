@@ -53,7 +53,6 @@ public class VaccineService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex){
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
         return apiResponse;
@@ -73,7 +72,6 @@ public class VaccineService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex){
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
         return apiResponse;
@@ -92,7 +90,6 @@ public class VaccineService {
             apiResponse.setSuccess(true);
         }
         catch (Exception ex){
-            apiResponse.setResult(null);
             apiResponse.setSuccess(false);
         }
         return apiResponse;
