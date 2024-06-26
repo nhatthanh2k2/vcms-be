@@ -11,7 +11,7 @@ import vcms.service.VaccineService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vaccines")
+@RequestMapping("/api/vaccine")
 public class VaccineController {
     private final VaccineService vaccineService;
 
@@ -21,27 +21,72 @@ public class VaccineController {
 
     @GetMapping
     public ApiResponse<List<Vaccine>> getAllVaccines(){
-        return vaccineService.getVaccines();
+        ApiResponse<List<Vaccine>> apiResponse = new ApiResponse();
+        try {
+            apiResponse.setResult(vaccineService.getVaccines());
+            apiResponse.setSuccess(true);
+        }
+        catch (Exception exception) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
     @GetMapping("/detail/{id}")
     public ApiResponse<VaccineResponse> getVaccineById(@PathVariable("id") Long id){
-        return vaccineService.getVaccine(id);
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            apiResponse.setResult(vaccineService.getVaccine(id));
+            apiResponse.setSuccess(true);
+        }
+        catch (Exception exception) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
     @PostMapping("/create")
     public ApiResponse<VaccineResponse> createVaccine(@RequestBody VaccineCreationRequest request){
-        return vaccineService.createVaccine(request);
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            apiResponse.setResult(vaccineService.createVaccine(request));
+            apiResponse.setSuccess(true);
+        }
+        catch (Exception exception) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
     @PutMapping("/update/{id}")
     public ApiResponse<VaccineResponse> updateVaccineById(@PathVariable("id") Long id,
                                                           @RequestBody VaccineUpdateRequest request){
-        return vaccineService.updateVaccine(id, request);
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            apiResponse.setResult(vaccineService.updateVaccine(id, request));
+            apiResponse.setSuccess(true);
+        }
+        catch (Exception exception) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
     @DeleteMapping("/delete/{id}")
     public ApiResponse<String> deleteVaccineById(@PathVariable("id") Long id){
-        return vaccineService.deleteVaccine(id);
+        ApiResponse apiResponse = new ApiResponse();
+        if (vaccineService.deleteVaccine(id)) {
+            apiResponse.setMessage("Vaccine deleted successfully");
+            apiResponse.setSuccess(true);
+        }
+        else {
+            apiResponse.setMessage("Vaccine deleted failed");
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 }

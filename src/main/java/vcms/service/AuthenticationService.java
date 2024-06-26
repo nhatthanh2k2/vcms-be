@@ -11,18 +11,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.AuthenticationRequest;
 import vcms.dto.request.IntrospectRequest;
-import vcms.dto.response.ApiResponse;
 import vcms.dto.response.AuthenticationResponse;
 import vcms.dto.response.IntrospectResponse;
 import vcms.enums.Role;
-import vcms.model.Employee;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
 import vcms.repository.EmployeeRepository;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Optional;
+
 
 @Service
 public class AuthenticationService {
@@ -35,10 +35,8 @@ public class AuthenticationService {
         this.employeeRepository = employeeRepository;
     }
 
-    public ApiResponse<IntrospectResponse> introspect(IntrospectRequest request)
+    public IntrospectResponse introspect(IntrospectRequest request)
             throws JOSEException, ParseException {
-        IntrospectResponse introspectResponse = new IntrospectResponse();
-        ApiResponse apiResponse = new ApiResponse();
         var token = request.getToken();
 
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
@@ -48,55 +46,34 @@ public class AuthenticationService {
         Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
         var verified = signedJWT.verify(verifier);
-        if (verified && expiryTime.after(new Date())) {
-            introspectResponse.setValid(true);
-            apiResponse.setResult(introspectResponse);
-            apiResponse.setSuccess(true);
-        }
-        else {
-            introspectResponse.setValid(false);
-            apiResponse.setResult(introspectResponse);
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+
+        return IntrospectResponse.builder()
+                .valid(verified && expiryTime.after(new Date()))
+                .build();
     }
 
 
-    public ApiResponse<Object> authenticate(AuthenticationRequest request) {
-        ApiResponse<Object> apiResponse = new ApiResponse();
-        Optional<Employee> optionalEmployee =
-                employeeRepository.findByEmployeeUsername(
-                request.getUsername());
-
-        if (optionalEmployee.isEmpty()) {
-            AuthenticationResponse authenticationResponse =
-                    new AuthenticationResponse();
-            apiResponse.setSuccess(false);
-            return apiResponse;
-        }
-
-        Employee employee = optionalEmployee.get();
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        boolean isAuthenticated = passwordEncoder.matches(request.getPassword(),
-                                                          employee.getEmployeePassword());
 
-        if (!isAuthenticated) {
-            AuthenticationResponse authenticationResponse =
-                    new AuthenticationResponse();
-            apiResponse.setSuccess(false);
-            return apiResponse;
-        }
+        var employee =
+                employeeRepository.findByEmployeeUsername(request.getUsername())
+                        .orElseThrow(() -> new AppException(
+                                ErrorCode.EMPLOYEE_NOT_EXISTED));
+
+        boolean authenticated = passwordEncoder.matches(request.getPassword(),
+                                                          employee.getEmployeePassword());
+        if (!authenticated)
+            throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
 
         String token = generateToken(employee.getEmployeeUsername(),
                                      employee.getEmployeeEmail(),
                                      employee.getEmployeeRole());
-        AuthenticationResponse authenticationResponse =
-                new AuthenticationResponse();
-        authenticationResponse.setToken(token);
-        authenticationResponse.setAuthenticated(true);
-        apiResponse.setResult(authenticationResponse);
-        apiResponse.setSuccess(true);
-        return apiResponse;
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .authenticated(true)
+                .build();
     }
 
 

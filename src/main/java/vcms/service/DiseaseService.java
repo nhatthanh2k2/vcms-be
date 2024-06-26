@@ -2,7 +2,6 @@ package vcms.service;
 
 import org.springframework.stereotype.Service;
 import vcms.dto.request.DiseaseRequest;
-import vcms.dto.response.ApiResponse;
 import vcms.dto.response.DiseaseRespone;
 import vcms.mapper.DiseaseMapper;
 import vcms.model.Disease;
@@ -30,58 +29,28 @@ public class DiseaseService {
         this.diseaseMapper = diseaseMapper;
     }
 
-    public ApiResponse<List<Disease>> getDiseases() {
-        ApiResponse<List<Disease>> apiResponse = new ApiResponse<>();
-        try {
-            List<Disease> diseases = diseaseRepository.findAll();
-            apiResponse.setResult(diseases);
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setResult(new ArrayList<>());
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public List<DiseaseRespone> getDiseases() {
+        return diseaseRepository.findAll().stream()
+                .map(diseaseMapper::toDiseaseResponse).toList();
     }
 
-    public ApiResponse<DiseaseRespone> getDisease(Long id) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            Disease disease = diseaseRepository.findById(id)
-                    .orElseThrow(
-                            () -> new RuntimeException("Disease Not Found"));
-            apiResponse.setResult(diseaseMapper.toDiseaseResponse(disease));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-
-        return apiResponse;
+    public DiseaseRespone getDisease(Long id) {
+        return diseaseMapper.toDiseaseResponse(
+                diseaseRepository.findById(id).orElseThrow(
+                        () -> new RuntimeException("Disease Not Found")));
     }
 
-    public ApiResponse<DiseaseRespone> createDisease(DiseaseRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
+    public DiseaseRespone createDisease(DiseaseRequest request) {
             Disease disease = diseaseMapper.toDisease(request);
             LocalDateTime createDateTime =
                     dateService.getDateTimeNow();
             disease.setDiseaseCreateAt(createDateTime);
             disease.setDiseaseUpdateAt(createDateTime);
-            apiResponse.setResult(diseaseMapper.toDiseaseResponse(
-                    diseaseRepository.save(disease)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+        return diseaseMapper.toDiseaseResponse(diseaseRepository.save(disease));
     }
 
-    public ApiResponse<DiseaseRespone> updateDisease(Long id,
-                                                     DiseaseRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
+    public DiseaseRespone updateDisease(Long id, DiseaseRequest request) {
+
             Disease disease = diseaseRepository.findById(id)
                     .orElseThrow(
                             () -> new RuntimeException("Disease Not Found"));
@@ -89,29 +58,17 @@ public class DiseaseService {
             LocalDateTime updateDateTime =
                     dateService.getDateTimeNow();
             disease.setDiseaseUpdateAt(updateDateTime);
-            apiResponse.setResult(diseaseMapper.toDiseaseResponse(
-                    diseaseRepository.save(disease)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-
-        return apiResponse;
+        return diseaseMapper.toDiseaseResponse(diseaseRepository.save(disease));
     }
 
-    public ApiResponse<String> deleteDisease(Long id) {
-        ApiResponse apiResponse = new ApiResponse();
+    public boolean deleteDisease(Long id) {
         try {
             diseaseRepository.deleteById(id);
-            apiResponse.setResult("Disease deleted successfully");
-            apiResponse.setSuccess(true);
+            return true;
         }
-        catch (Exception ex) {
-            apiResponse.setResult("Disease deleted failed");
-            apiResponse.setSuccess(false);
+        catch (Exception exception) {
+            return false;
         }
-        return apiResponse;
     }
 
     public void insertDiseaseDataToDatabase() {

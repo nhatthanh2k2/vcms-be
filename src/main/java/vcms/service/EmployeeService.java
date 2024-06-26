@@ -9,7 +9,6 @@ import vcms.dto.request.ChangePasswordRequest;
 import vcms.dto.request.EmployeeCreationRequest;
 import vcms.dto.request.EmployeeUpdateRequest;
 import vcms.dto.request.ForgotPasswordRequest;
-import vcms.dto.response.ApiResponse;
 import vcms.dto.response.EmployeeResponse;
 import vcms.enums.Role;
 import vcms.mapper.EmployeeMapper;
@@ -18,12 +17,12 @@ import vcms.repository.EmployeeRepository;
 import vcms.utils.DateService;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,39 +45,20 @@ public class EmployeeService {
         this.dateService = dateService;
     }
 
-    public ApiResponse<List<Employee>> getEmployees() {
-        ApiResponse<List<Employee>> apiResponse = new ApiResponse<>();
-        try {
-            List<Employee> employees = employeeRepository.findAll();
-            apiResponse.setResult(employees);
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setResult(new ArrayList<>());
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public List<Employee> getEmployees() {
+        return employeeRepository.findAll();
     }
 
-    public ApiResponse<Employee> getEmployee(Long id) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            Employee employee = employeeRepository.findById(id)
-                    .orElseThrow(
-                            () -> new RuntimeException("Employee Not Found!"));
-            apiResponse.setResult(employee);
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public EmployeeResponse getEmployee(Long id) {
+        return employeeMapper.toEmployeeResponse(
+                employeeRepository.findById(id)
+                        .orElseThrow(
+                                () -> new RuntimeException(
+                                        "Employee Not Found!")));
     }
 
-    public ApiResponse<EmployeeResponse> createEmployee(
+    public EmployeeResponse createEmployee(
             EmployeeCreationRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
             Employee employee = employeeMapper.toEmployee(request);
             LocalDateTime createDateTime = dateService.getDateTimeNow();
             employee.setEmployeeCreateAt(createDateTime);
@@ -109,14 +89,9 @@ public class EmployeeService {
                         passwordEncoder.encode(staffChar + numberToString));
             }
 
-            apiResponse.setResult(employeeMapper.toEmployeeResponse(
-                    employeeRepository.save(employee)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+        return employeeMapper.toEmployeeResponse(
+                employeeRepository.save(employee));
+
     }
 
     private String getFileExtension(String fileName) {
@@ -126,11 +101,8 @@ public class EmployeeService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-    public ApiResponse<EmployeeResponse> updateEmployee(Long id,
-                                                        MultipartFile file,
-                                                        EmployeeUpdateRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
+    public EmployeeResponse updateEmployee(Long id, MultipartFile file,
+                                           EmployeeUpdateRequest request) throws IOException {
             Employee employee = employeeRepository.findById(id)
                     .orElseThrow(
                             () -> new RuntimeException("Employee Not Found"));
@@ -153,40 +125,28 @@ public class EmployeeService {
             LocalDateTime updateDateTime = dateService.getDateTimeNow();
             employee.setEmployeeUpdateAt(updateDateTime);
 
-            apiResponse.setResult(employeeMapper.toEmployeeResponse(
-                    employeeRepository.save(employee)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+        return employeeMapper.toEmployeeResponse(
+                employeeRepository.save(employee));
+
     }
 
-    public ApiResponse<String> deleteEmployee(Long id) {
-        ApiResponse apiResponse = new ApiResponse();
+    public boolean deleteEmployee(Long id) {
         try {
             employeeRepository.deleteById(id);
-            apiResponse.setResult("Employee deleted successfully");
-            apiResponse.setSuccess(true);
+            return true;
         }
         catch (Exception ex) {
-            apiResponse.setResult("Employee deleted failed");
-            apiResponse.setSuccess(false);
+            return false;
         }
-        return apiResponse;
     }
 
-    public ApiResponse<String> changePassword(ChangePasswordRequest request) {
-        ApiResponse apiResponse = new ApiResponse<>();
+    public boolean changePassword(ChangePasswordRequest request) {
         Optional<Employee> optionalEmployee =
                 employeeRepository.findByEmployeeUsername(
                         request.getEmployeeUsername());
 
         if (optionalEmployee.isEmpty()) {
-            apiResponse.setResult("Username invalid");
-            apiResponse.setSuccess(false);
-            return apiResponse;
+            return false;
         }
 
         Employee employee = optionalEmployee.get();
@@ -198,34 +158,24 @@ public class EmployeeService {
             employee.setEmployeePassword(
                     passwordEncoder.encode(request.getNewPassword()));
             employeeRepository.save(employee);
-            apiResponse.setResult("Password change successfully");
-            apiResponse.setSuccess(true);
+            return true;
         }
-        else {
-            apiResponse.setResult("Password invalid");
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+        return false;
     }
 
-    public ApiResponse<String> forgotPassword(ForgotPasswordRequest request) {
-        ApiResponse apiResponse = new ApiResponse<>();
+    public boolean forgotPassword(ForgotPasswordRequest request) {
         Optional<Employee> optionalEmployee =
                 employeeRepository.findByEmployeeEmail(
                         request.getEmployeeEmail());
 
         if (optionalEmployee.isEmpty()) {
-            apiResponse.setResult("Email invalid");
-            apiResponse.setSuccess(false);
-            return apiResponse;
+            return false;
         }
         Employee employee = optionalEmployee.get();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         employee.setEmployeePassword(
                 passwordEncoder.encode(request.getNewPassword()));
         employeeRepository.save(employee);
-        apiResponse.setResult("Password reset successfully");
-        apiResponse.setSuccess(true);
-        return apiResponse;
+        return true;
     }
 }

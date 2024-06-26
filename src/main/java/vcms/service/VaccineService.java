@@ -3,7 +3,6 @@ package vcms.service;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.VaccineCreationRequest;
 import vcms.dto.request.VaccineUpdateRequest;
-import vcms.dto.response.ApiResponse;
 import vcms.dto.response.VaccineResponse;
 import vcms.mapper.VaccineMapper;
 import vcms.model.Vaccine;
@@ -11,7 +10,6 @@ import vcms.repository.VaccineRepository;
 import vcms.utils.DateService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,82 +28,44 @@ public class VaccineService {
         this.dateService = dateService;
     }
 
-    public ApiResponse<List<Vaccine>> getVaccines(){
-        ApiResponse<List<Vaccine>> apiResponse = new ApiResponse<>();
-        try {
-            List<Vaccine> vaccines = vaccineRepository.findAll();
-            apiResponse.setResult(vaccines);
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex){
-            apiResponse.setResult(new ArrayList<>());
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public List<Vaccine> getVaccines() {
+        return vaccineRepository.findAll();
     }
 
-    public ApiResponse<VaccineResponse> getVaccine(Long id){
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            Vaccine vaccine = vaccineRepository.findById(id).orElseThrow(
-                    () -> new RuntimeException("Vaccine Not Found"));
-            apiResponse.setResult(vaccineMapper.toVaccineResponse(vaccine));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex){
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public VaccineResponse getVaccine(Long id) {
+        return vaccineMapper.toVaccineResponse(
+                vaccineRepository.findById(id).orElseThrow(
+                        () -> new RuntimeException("Vaccine Not Found")));
     }
 
-    public ApiResponse<VaccineResponse> createVaccine(VaccineCreationRequest request){
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            Vaccine vaccine = vaccineMapper.toVaccine(request);
-            vaccineRepository.save(vaccine);
-            String vaccineCode = "VAC" + vaccine.getVaccineId().toString();
-            vaccine.setVaccineCode(vaccineCode);
-            LocalDateTime createDateTime = dateService.getDateTimeNow();
-            vaccine.setVaccineCreateAt(createDateTime);
-            vaccine.setVaccineUpdateAt(createDateTime);
-            apiResponse.setResult(vaccineMapper.toVaccineResponse(vaccineRepository.save(vaccine)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex){
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public VaccineResponse createVaccine(VaccineCreationRequest request) {
+        Vaccine vaccine = vaccineMapper.toVaccine(request);
+        vaccineRepository.save(vaccine);
+        String vaccineCode = "VAC" + vaccine.getVaccineId().toString();
+        vaccine.setVaccineCode(vaccineCode);
+        LocalDateTime createDateTime = dateService.getDateTimeNow();
+        vaccine.setVaccineCreateAt(createDateTime);
+        vaccine.setVaccineUpdateAt(createDateTime);
+        return vaccineMapper.toVaccineResponse(vaccineRepository.save(vaccine));
     }
 
-    public ApiResponse<VaccineResponse> updateVaccine(Long id,
-                                                      VaccineUpdateRequest request){
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            Vaccine vaccine = vaccineRepository.findById(id).orElseThrow(
-                    () -> new RuntimeException("Vaccine Not Found"));
-            vaccineMapper.updateVaccine(vaccine, request);
-            LocalDateTime updateDateTime = dateService.getDateTimeNow();
-            vaccine.setVaccineUpdateAt(updateDateTime);
-            apiResponse.setResult(vaccineMapper.toVaccineResponse(vaccineRepository.save(vaccine)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex){
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public VaccineResponse updateVaccine(Long id,
+                                         VaccineUpdateRequest request) {
+        Vaccine vaccine = vaccineRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Vaccine Not Found"));
+        vaccineMapper.updateVaccine(vaccine, request);
+        LocalDateTime updateDateTime = dateService.getDateTimeNow();
+        vaccine.setVaccineUpdateAt(updateDateTime);
+        return vaccineMapper.toVaccineResponse(vaccineRepository.save(vaccine));
     }
 
-    public ApiResponse<String> deleteVaccine(Long id){
-        ApiResponse apiResponse = new ApiResponse();
+    public boolean deleteVaccine(Long id) {
         try {
             vaccineRepository.deleteById(id);
-            apiResponse.setResult("Vaccine deleted successfully");
-            apiResponse.setSuccess(true);
+            return true;
         }
         catch (Exception ex){
-            apiResponse.setResult("Vaccine deleted failed");
-            apiResponse.setSuccess(false);
+            return false;
         }
-        return apiResponse;
     }
 }

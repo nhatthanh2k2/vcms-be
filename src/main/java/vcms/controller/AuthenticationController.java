@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vcms.dto.request.AuthenticationRequest;
 import vcms.dto.request.IntrospectRequest;
 import vcms.dto.response.ApiResponse;
+import vcms.dto.response.AuthenticationResponse;
 import vcms.dto.response.IntrospectResponse;
 import vcms.service.AuthenticationService;
 
@@ -20,16 +21,25 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @PostMapping("/login")
-    public ApiResponse<Object> login(
+    @PostMapping("/token")
+    public ApiResponse<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request) {
-        return authenticationService.authenticate(request);
+        var result = authenticationService.authenticate(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
+                .success(true)
+                .code(1000)
+                .build();
     }
-
     @PostMapping("/introspect")
     public ApiResponse<IntrospectResponse> authenticate(
             @RequestBody IntrospectRequest request)
             throws ParseException, JOSEException {
-        return authenticationService.introspect(request);
+        var result = authenticationService.introspect(request);
+        return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .code(1000)
+                .success(true)
+                .build();
     }
 }

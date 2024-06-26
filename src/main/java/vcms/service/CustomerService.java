@@ -2,7 +2,7 @@ package vcms.service;
 
 import org.springframework.stereotype.Service;
 import vcms.dto.request.CustomerRequest;
-import vcms.dto.response.ApiResponse;
+import vcms.dto.response.CustomerResponse;
 import vcms.mapper.CustomerMapper;
 import vcms.model.Customer;
 import vcms.repository.CustomerRepository;
@@ -11,7 +11,6 @@ import vcms.utils.DateService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,39 +29,17 @@ public class CustomerService {
         this.dateService = dateService;
     }
 
-    public ApiResponse<List<Customer>> getCustomers() {
-
-        ApiResponse<List<Customer>> apiResponse = new ApiResponse<>();
-        try {
-            List<Customer> customers = customerRepository.findAll();
-            apiResponse.setResult(customers);
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setResult(new ArrayList<>());
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public List<Customer> getCustomers() {
+        return customerRepository.findAll();
     }
 
-    public ApiResponse<Customer> getCustomer(long id) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            Customer customer =
-                    customerRepository.findById(id).orElseThrow(
-                            () -> new RuntimeException("Customer Not Found"));
-            apiResponse.setResult(customer);
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+    public CustomerResponse getCustomer(long id) {
+        return customerMapper.toCustomerResponse(
+                customerRepository.findById(id).orElseThrow(
+                        () -> new RuntimeException("Customer Not Found")));
     }
 
-    public ApiResponse<Customer> createCustomer(CustomerRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
+    public CustomerResponse createCustomer(CustomerRequest request) {
             Customer customer = customerMapper.toCustomer(request);
             LocalDateTime createDateTime = dateService.getDateTimeNow();
             customer.setCustomerCreateAt(createDateTime);
@@ -74,45 +51,29 @@ public class CustomerService {
             String strCode =
                     "C" + strLocalDate + "-" + customer.getCustomerId();
             customer.setCustomerCode(strCode);
-            apiResponse.setResult(customerMapper.toCustomerResponse(customerRepository.save(customer)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+        return customerMapper.toCustomerResponse(
+                customerRepository.save(customer));
     }
 
-    public ApiResponse<Customer> updateCustomer(Long id,
+    public CustomerResponse updateCustomer(Long id,
                                                 CustomerRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
             Customer customer =
                     customerRepository.findById(id).orElseThrow(
                             () -> new RuntimeException("Customer Not Found"));
             customerMapper.updateCustomer(customer, request);
             LocalDateTime updateDateTime = dateService.getDateTimeNow();
             customer.setCustomerUpdateAt(updateDateTime);
-            apiResponse.setResult(customerMapper.toCustomerResponse(customerRepository.save(customer)));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-        }
-        return apiResponse;
+        return customerMapper.toCustomerResponse(
+                customerRepository.save(customer));
     }
 
-    public ApiResponse<String> deleteCustomer(Long id) {
-        ApiResponse apiResponse = new ApiResponse();
+    public boolean deleteCustomer(Long id) {
         try {
             customerRepository.deleteById(id);
-            apiResponse.setResult("Customer deleted successfully");
-            apiResponse.setSuccess(true);
+            return true;
         }
-        catch (Exception ex) {
-            apiResponse.setResult("Customer deleted failed");
-            apiResponse.setSuccess(false);
+        catch (Exception exception) {
+            return false;
         }
-        return apiResponse;
     }
 }

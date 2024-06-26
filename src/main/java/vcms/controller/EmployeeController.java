@@ -13,6 +13,7 @@ import vcms.dto.response.EmployeeResponse;
 import vcms.model.Employee;
 import vcms.service.EmployeeService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,18 +29,46 @@ public class EmployeeController {
 
     @GetMapping
     public ApiResponse<List<Employee>> getAllEmployees() {
-        return employeeService.getEmployees();
+        ApiResponse<List<Employee>> apiResponse = new ApiResponse<>();
+        try {
+            apiResponse.setResult(employeeService.getEmployees());
+            apiResponse.setSuccess(true);
+        }
+        catch (Exception exception) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
     @GetMapping("/detail/{id}")
-    public ApiResponse<Employee> getEmployeeById(@PathVariable("id") Long id) {
-        return employeeService.getEmployee(id);
+    public ApiResponse<EmployeeResponse> getEmployeeById(
+            @PathVariable("id") Long id) {
+        ApiResponse apiResponse = new ApiResponse<>();
+        try {
+            apiResponse.setResult(employeeService.getEmployee(id));
+            apiResponse.setSuccess(true);
+        }
+        catch (Exception exception) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
     @PostMapping("/create")
     public ApiResponse<EmployeeResponse> createEmployee(@RequestBody
                                                         EmployeeCreationRequest request) {
-        return employeeService.createEmployee(request);
+        ApiResponse apiResponse = new ApiResponse<>();
+        try {
+            apiResponse.setResult(employeeService.createEmployee(request));
+            apiResponse.setSuccess(true);
+        }
+        catch (Exception exception) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
 //    @PostMapping("/create")
@@ -61,23 +90,64 @@ public class EmployeeController {
             @PathVariable("id") Long id,
             @RequestPart("employeeAvatar") MultipartFile file,
             @RequestPart("employeeUpdateRequest") EmployeeUpdateRequest request) {
-        return employeeService.updateEmployee(id, file, request);
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            apiResponse.setResult(
+                    employeeService.updateEmployee(id, file, request));
+            apiResponse.setSuccess(true);
+
+        }
+        catch (IOException e) {
+            apiResponse.setSuccess(false);
+            apiResponse.setCode(9999);
+        }
+        return apiResponse;
     }
 
     @DeleteMapping("/delete/{id}")
     public ApiResponse<String> deleteEmployeeById(@PathVariable("id") Long id) {
-        return employeeService.deleteEmployee(id);
+        ApiResponse apiResponse = new ApiResponse();
+        if (employeeService.deleteEmployee(id)) {
+            apiResponse.setMessage("Employee deleted successfully");
+            apiResponse.setSuccess(true);
+        }
+        else {
+            apiResponse.setMessage("Employee deleted failed");
+            apiResponse.setSuccess(false);
+        }
+
+        return apiResponse;
     }
 
     @PostMapping("/change-password")
     public ApiResponse<String> changePassword(@RequestBody
                                               ChangePasswordRequest request) {
-        return employeeService.changePassword(request);
+        ApiResponse apiResponse = new ApiResponse();
+        if (employeeService.changePassword(request)) {
+            apiResponse.setMessage("Password changed successfully");
+            apiResponse.setSuccess(true);
+        }
+        else {
+            apiResponse.setMessage("Password changed failed");
+            apiResponse.setSuccess(false);
+        }
+
+        return apiResponse;
     }
 
     @PostMapping("/forgot-password")
     public ApiResponse<String> forgotPassword(@RequestBody
                                               ForgotPasswordRequest request) {
-        return employeeService.forgotPassword(request);
+        ApiResponse apiResponse = new ApiResponse();
+        if (employeeService.forgotPassword(request)) {
+            apiResponse.setMessage("Password reset successfully");
+            apiResponse.setSuccess(true);
+        }
+        else {
+            apiResponse.setMessage("Password reset failed");
+            apiResponse.setSuccess(false);
+        }
+
+        return apiResponse;
     }
 }
