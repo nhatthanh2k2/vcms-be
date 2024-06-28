@@ -1,5 +1,6 @@
 package vcms.service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.DiseaseRequest;
 import vcms.dto.response.DiseaseRespone;
@@ -40,6 +41,7 @@ public class DiseaseService {
                         () -> new RuntimeException("Disease Not Found")));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public DiseaseRespone createDisease(DiseaseRequest request) {
             Disease disease = diseaseMapper.toDisease(request);
             LocalDateTime createDateTime =
@@ -49,6 +51,7 @@ public class DiseaseService {
         return diseaseMapper.toDiseaseResponse(diseaseRepository.save(disease));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public DiseaseRespone updateDisease(Long id, DiseaseRequest request) {
 
             Disease disease = diseaseRepository.findById(id)
@@ -61,6 +64,7 @@ public class DiseaseService {
         return diseaseMapper.toDiseaseResponse(diseaseRepository.save(disease));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteDisease(Long id) {
         try {
             diseaseRepository.deleteById(id);
@@ -173,7 +177,6 @@ public class DiseaseService {
                                     createDateTime,
                                     createDateTime));
         try {
-            System.out.println("Start Adding Data To The Database!");
             diseaseRepository.saveAll(diseaseList);
             System.out.println("Disease Data Inserted Successfully!");
         }

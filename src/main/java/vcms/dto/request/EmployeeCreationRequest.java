@@ -3,9 +3,9 @@ package vcms.dto.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import vcms.enums.Gender;
-import vcms.enums.Role;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Getter
@@ -24,6 +24,6 @@ public class EmployeeCreationRequest {
     private int employeeWard;
     private String employeeDegree;
     private String employeeQualification;
-    private Role employeeRole;
+    private Set<String> roles;
 
 }

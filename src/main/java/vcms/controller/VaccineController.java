@@ -11,7 +11,7 @@ import vcms.service.VaccineService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vaccine")
+@RequestMapping("/api/vaccines")
 public class VaccineController {
     private final VaccineService vaccineService;
 

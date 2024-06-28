@@ -10,7 +10,7 @@ import vcms.service.DiseaseService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/disease")
+@RequestMapping("/api/diseases")
 public class DiseaseController {
     @Autowired
     private DiseaseService diseaseService;

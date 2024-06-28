@@ -1,6 +1,8 @@
 package vcms.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,8 @@ import vcms.dto.request.EmployeeCreationRequest;
 import vcms.dto.request.EmployeeUpdateRequest;
 import vcms.dto.request.ForgotPasswordRequest;
 import vcms.dto.response.EmployeeResponse;
-import vcms.enums.Role;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
 import vcms.mapper.EmployeeMapper;
 import vcms.model.Employee;
 import vcms.repository.EmployeeRepository;
@@ -24,7 +27,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class EmployeeService {
@@ -45,54 +48,46 @@ public class EmployeeService {
         this.dateService = dateService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public EmployeeResponse getEmployee(Long id) {
         return employeeMapper.toEmployeeResponse(
                 employeeRepository.findById(id)
                         .orElseThrow(
-                                () -> new RuntimeException(
-                                        "Employee Not Found!")));
+                                () -> new AppException(
+                                        ErrorCode.EMPLOYEE_NOT_EXISTED)));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public EmployeeResponse createEmployee(
             EmployeeCreationRequest request) {
+
             Employee employee = employeeMapper.toEmployee(request);
             LocalDateTime createDateTime = dateService.getDateTimeNow();
             employee.setEmployeeCreateAt(createDateTime);
             employee.setEmployeeUpdateAt(createDateTime);
             employee.setEmployeeAvatar("default-avatar.png");
+        Set<String> roles = request.getRoles();
+        employee.setRoles(roles);
             employeeRepository.save(employee);
+
             // tạo employee code
             String numberToString = employee.getEmployeeId().toString();
-            char adminChar = 'A', doctorChar = 'D', staffChar = 'S';
             Long id = employee.getEmployeeId();
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
             if (numberToString.length() < 9) {
                 numberToString = String.format("%09d", id);
             }
-            if (employee.getEmployeeRole() == Role.ADMIN) {
-                employee.setEmployeeUsername(adminChar + numberToString);
-                employee.setEmployeePassword(
-                        passwordEncoder.encode(adminChar + numberToString));
-            }
-            if (employee.getEmployeeRole() == Role.DOCTOR) {
-                employee.setEmployeeUsername(doctorChar + numberToString);
-                employee.setEmployeePassword(
-                        passwordEncoder.encode(doctorChar + numberToString));
-            }
-            if (employee.getEmployeeRole() == Role.STAFF) {
-                employee.setEmployeeUsername(staffChar + numberToString);
-                employee.setEmployeePassword(
-                        passwordEncoder.encode(staffChar + numberToString));
-            }
-
+        employee.setEmployeeUsername(numberToString);
+        employee.setEmployeePassword(passwordEncoder.encode(numberToString));
         return employeeMapper.toEmployeeResponse(
                 employeeRepository.save(employee));
-
     }
+
 
     private String getFileExtension(String fileName) {
         if (fileName == null || fileName.lastIndexOf(".") == -1) {
@@ -101,11 +96,13 @@ public class EmployeeService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public EmployeeResponse updateEmployee(Long id, MultipartFile file,
                                            EmployeeUpdateRequest request) throws IOException {
             Employee employee = employeeRepository.findById(id)
                     .orElseThrow(
-                            () -> new RuntimeException("Employee Not Found"));
+                            () -> new AppException(
+                                    ErrorCode.EMPLOYEE_NOT_EXISTED));
             String avatar = employee.getEmployeeAvatar();
             employeeMapper.updateEmployee(employee, request);
 
@@ -130,6 +127,7 @@ public class EmployeeService {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteEmployee(Long id) {
         try {
             employeeRepository.deleteById(id);
@@ -140,16 +138,14 @@ public class EmployeeService {
         }
     }
 
+    @PostAuthorize("returnObject.username == authentication.name")
     public boolean changePassword(ChangePasswordRequest request) {
-        Optional<Employee> optionalEmployee =
+        var employee =
                 employeeRepository.findByEmployeeUsername(
-                        request.getEmployeeUsername());
+                                request.getEmployeeUsername())
+                        .orElseThrow(() -> new AppException(
+                                ErrorCode.EMPLOYEE_NOT_EXISTED));
 
-        if (optionalEmployee.isEmpty()) {
-            return false;
-        }
-
-        Employee employee = optionalEmployee.get();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean isMatch = passwordEncoder.matches(request.getEmployeePassword(),
                                                   employee.getEmployeePassword());
@@ -164,14 +160,12 @@ public class EmployeeService {
     }
 
     public boolean forgotPassword(ForgotPasswordRequest request) {
-        Optional<Employee> optionalEmployee =
-                employeeRepository.findByEmployeeEmail(
-                        request.getEmployeeEmail());
 
-        if (optionalEmployee.isEmpty()) {
-            return false;
-        }
-        Employee employee = optionalEmployee.get();
+        Employee employee = employeeRepository.findByEmployeeEmail(
+                        request.getEmployeeEmail())
+                .orElseThrow(
+                        () -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
+
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         employee.setEmployeePassword(
                 passwordEncoder.encode(request.getNewPassword()));

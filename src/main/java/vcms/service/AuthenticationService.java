@@ -9,19 +9,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import vcms.dto.request.AuthenticationRequest;
 import vcms.dto.request.IntrospectRequest;
 import vcms.dto.response.AuthenticationResponse;
 import vcms.dto.response.IntrospectResponse;
-import vcms.enums.Role;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
+import vcms.model.Employee;
 import vcms.repository.EmployeeRepository;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.StringJoiner;
 
 
 @Service
@@ -66,9 +68,7 @@ public class AuthenticationService {
         if (!authenticated)
             throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
 
-        String token = generateToken(employee.getEmployeeUsername(),
-                                     employee.getEmployeeEmail(),
-                                     employee.getEmployeeRole());
+        String token = generateToken(employee);
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -77,19 +77,19 @@ public class AuthenticationService {
     }
 
 
-    public String generateToken(String username, String email, Role role) {
+    public String generateToken(Employee employee) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(employee.getEmployeeFullName())
                 .issuer("dnthanh.dev")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(24, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("UserName", username)
-                .claim("Email", email)
-                .claim("Role", role)
+                .claim("username", employee.getEmployeeUsername())
+                .claim("email", employee.getEmployeeEmail())
+                .claim("scope", buildScope(employee))
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -105,5 +105,12 @@ public class AuthenticationService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private String buildScope(Employee employee) {
+        StringJoiner stringJoiner = new StringJoiner(" ");
+        if (!CollectionUtils.isEmpty(employee.getRoles()))
+            employee.getRoles().forEach(stringJoiner::add);
+        return stringJoiner.toString();
     }
 }
