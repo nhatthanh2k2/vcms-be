@@ -23,6 +23,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
     @SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq",
@@ -50,16 +51,13 @@ public class Employee {
     private String employeeAvatar;
 
     @Column(name = "employee_province")
-    private int employeeProvince;
+    private String employeeProvince;
 
     @Column(name = "employee_district")
-    private int employeeDistrict;
+    private String employeeDistrict;
 
     @Column(name = "employee_ward")
-    private int employeeWard;
-
-    @Column(name = "employee_degree")
-    private String employeeDegree;
+    private String employeeWard;
 
     @Column(name = "employee_qualification")
     private String employeeQualification;
@@ -84,8 +82,5 @@ public class Employee {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             mappedBy = "employee", orphanRemoval = true)
     private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
-
-
-
 
 }

@@ -2,9 +2,17 @@ package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "order_details")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,46 +33,4 @@ public class OrderDetail {
     @JsonBackReference
     private VaccinePackage vaccinePackage;
 
-    public OrderDetail() {
-    }
-
-    public OrderDetail(Long orderDetailId, Order order, Vaccine vaccine,
-                       VaccinePackage vaccinePackage) {
-        this.orderDetailId = orderDetailId;
-        this.order = order;
-        this.vaccine = vaccine;
-        this.vaccinePackage = vaccinePackage;
-    }
-
-    public Long getOrderDetailId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(Long orderDetailId) {
-        this.orderDetailId = orderDetailId;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Vaccine getVaccine() {
-        return vaccine;
-    }
-
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
-    }
-
-    public VaccinePackage getVaccinePackage() {
-        return vaccinePackage;
-    }
-
-    public void setVaccinePackage(VaccinePackage vaccinePackage) {
-        this.vaccinePackage = vaccinePackage;
-    }
 }

@@ -2,11 +2,19 @@ package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "vaccination_records")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class VaccinationRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,76 +49,4 @@ public class VaccinationRecord {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public VaccinationRecord() {
-    }
-
-    public VaccinationRecord(Long vaccinationRecordId,
-                             LocalDate vaccinationRecordDate,
-                             String vaccinationRecordDosage,
-                             String vaccinationRecordShot, Customer customer,
-                             Vaccine vaccine, Employee employee) {
-        this.vaccinationRecordId = vaccinationRecordId;
-        this.vaccinationRecordDate = vaccinationRecordDate;
-        this.vaccinationRecordDosage = vaccinationRecordDosage;
-        this.vaccinationRecordShot = vaccinationRecordShot;
-        this.customer = customer;
-        this.vaccine = vaccine;
-        this.employee = employee;
-    }
-
-    public Long getVaccinationRecordId() {
-        return vaccinationRecordId;
-    }
-
-    public void setVaccinationRecordId(Long vaccinationRecordId) {
-        this.vaccinationRecordId = vaccinationRecordId;
-    }
-
-    public LocalDate getVaccinationRecordDate() {
-        return vaccinationRecordDate;
-    }
-
-    public void setVaccinationRecordDate(LocalDate vaccinationRecordDate) {
-        this.vaccinationRecordDate = vaccinationRecordDate;
-    }
-
-    public String getVaccinationRecordDosage() {
-        return vaccinationRecordDosage;
-    }
-
-    public void setVaccinationRecordDosage(String vaccinationRecordDosage) {
-        this.vaccinationRecordDosage = vaccinationRecordDosage;
-    }
-
-    public String getVaccinationRecordShot() {
-        return vaccinationRecordShot;
-    }
-
-    public void setVaccinationRecordShot(String vaccinationRecordShot) {
-        this.vaccinationRecordShot = vaccinationRecordShot;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Vaccine getVaccine() {
-        return vaccine;
-    }
-
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
 }

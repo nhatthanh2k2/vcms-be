@@ -77,7 +77,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<String> deleteCustomerById(@PathVariable("id") Long id) {
+    public ApiResponse deleteCustomerById(@PathVariable("id") Long id) {
         ApiResponse apiResponse = new ApiResponse();
         if (customerService.deleteCustomer(id)) {
             apiResponse.setMessage("Customer deleted successfully");

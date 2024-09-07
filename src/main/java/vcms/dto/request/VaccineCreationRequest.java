@@ -14,7 +14,8 @@ public class VaccineCreationRequest {
 
     private String vaccineImage;
 
-    private String vaccineDescription;
+    //Cong dung
+    private String vaccinePurpose;
 
     // Nguồn gốc
     private String vaccineOrigin;
@@ -25,19 +26,22 @@ public class VaccineCreationRequest {
     // Chống chỉ định
     private String vaccineContraindication;
 
-    // Tương tác thuốc
-    private String vaccineDrugInteractions;
+    // Phản ứng sau tiêm
+    private String vaccineReaction;
 
-    // Tác dụng không mong muốn
-    private String vaccineAdverseEffects;
+    //So mui tre em
+    private int vaccineChildShots;
+
+    //So mui nguoi lon
+    private int vaccineAdultShots;
 
     // Bảo quản
     private String vaccineStorage;
 
+    //Phac do tiem
+    private String vaccineInjectionSchedule;
+
     // Đối tượng
     private String vaccinePatient;
-
-    // Phản ứng sau tiêm
-    private String vaccineReaction;
 
 }

@@ -3,12 +3,20 @@ package vcms.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import vcms.enums.Gender;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "appointments")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,175 +79,4 @@ public class Appointment {
     @JsonBackReference
     private VaccinePackage vaccinePackage;
 
-    public Appointment() {
-    }
-
-    public Appointment(Long appointmentId, String appointmentCustomerCode,
-                       String appointmentFullName, LocalDate appointmentDob,
-                       Gender appointmentGender, String appointmentPhone,
-                       String appointmentEmail, int appointmentProvince,
-                       int appointmentDistrict, int appointmentWard,
-                       LocalDate appointmentInjectionDate,
-                       String appointmentRelativesFullName,
-                       String appointmentRelativesPhone,
-                       String appointmentRelativesRelationship,
-                       Customer customer,
-                       Vaccine vaccine, VaccinePackage vaccinePackage) {
-        this.appointmentId = appointmentId;
-        this.appointmentCustomerCode = appointmentCustomerCode;
-        this.appointmentFullName = appointmentFullName;
-        this.appointmentDob = appointmentDob;
-        this.appointmentGender = appointmentGender;
-        this.appointmentPhone = appointmentPhone;
-        this.appointmentEmail = appointmentEmail;
-        this.appointmentProvince = appointmentProvince;
-        this.appointmentDistrict = appointmentDistrict;
-        this.appointmentWard = appointmentWard;
-        this.appointmentInjectionDate = appointmentInjectionDate;
-        this.appointmentRelativesFullName = appointmentRelativesFullName;
-        this.appointmentRelativesPhone = appointmentRelativesPhone;
-        this.appointmentRelativesRelationship = appointmentRelativesRelationship;
-        this.customer = customer;
-        this.vaccine = vaccine;
-        this.vaccinePackage = vaccinePackage;
-    }
-
-    public Long getAppointmentId() {
-        return appointmentId;
-    }
-
-    public void setAppointmentId(Long appointmentId) {
-        this.appointmentId = appointmentId;
-    }
-
-    public String getAppointmentCustomerCode() {
-        return appointmentCustomerCode;
-    }
-
-    public void setAppointmentCustomerCode(String appointmentCustomerCode) {
-        this.appointmentCustomerCode = appointmentCustomerCode;
-    }
-
-    public String getAppointmentFullName() {
-        return appointmentFullName;
-    }
-
-    public void setAppointmentFullName(String appointmentFullName) {
-        this.appointmentFullName = appointmentFullName;
-    }
-
-    public LocalDate getAppointmentDob() {
-        return appointmentDob;
-    }
-
-    public void setAppointmentDob(LocalDate appointmentDob) {
-        this.appointmentDob = appointmentDob;
-    }
-
-    public Gender getAppointmentGender() {
-        return appointmentGender;
-    }
-
-    public void setAppointmentGender(Gender appointmentGender) {
-        this.appointmentGender = appointmentGender;
-    }
-
-    public String getAppointmentPhone() {
-        return appointmentPhone;
-    }
-
-    public void setAppointmentPhone(String appointmentPhone) {
-        this.appointmentPhone = appointmentPhone;
-    }
-
-    public String getAppointmentEmail() {
-        return appointmentEmail;
-    }
-
-    public void setAppointmentEmail(String appointmentEmail) {
-        this.appointmentEmail = appointmentEmail;
-    }
-
-    public int getAppointmentProvince() {
-        return appointmentProvince;
-    }
-
-    public void setAppointmentProvince(int appointmentProvince) {
-        this.appointmentProvince = appointmentProvince;
-    }
-
-    public int getAppointmentDistrict() {
-        return appointmentDistrict;
-    }
-
-    public void setAppointmentDistrict(int appointmentDistrict) {
-        this.appointmentDistrict = appointmentDistrict;
-    }
-
-    public int getAppointmentWard() {
-        return appointmentWard;
-    }
-
-    public void setAppointmentWard(int appointmentWard) {
-        this.appointmentWard = appointmentWard;
-    }
-
-    public LocalDate getAppointmentInjectionDate() {
-        return appointmentInjectionDate;
-    }
-
-    public void setAppointmentInjectionDate(
-            LocalDate appointmentInjectionDate) {
-        this.appointmentInjectionDate = appointmentInjectionDate;
-    }
-
-    public String getAppointmentRelativesFullName() {
-        return appointmentRelativesFullName;
-    }
-
-    public void setAppointmentRelativesFullName(
-            String appointmentRelativesFullName) {
-        this.appointmentRelativesFullName = appointmentRelativesFullName;
-    }
-
-    public String getAppointmentRelativesPhone() {
-        return appointmentRelativesPhone;
-    }
-
-    public void setAppointmentRelativesPhone(String appointmentRelativesPhone) {
-        this.appointmentRelativesPhone = appointmentRelativesPhone;
-    }
-
-    public String getAppointmentRelativesRelationship() {
-        return appointmentRelativesRelationship;
-    }
-
-    public void setAppointmentRelativesRelationship(
-            String appointmentRelativesRelationship) {
-        this.appointmentRelativesRelationship = appointmentRelativesRelationship;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Vaccine getVaccine() {
-        return vaccine;
-    }
-
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
-    }
-
-    public VaccinePackage getVaccinePackage() {
-        return vaccinePackage;
-    }
-
-    public void setVaccinePackage(VaccinePackage vaccinePackage) {
-        this.vaccinePackage = vaccinePackage;
-    }
 }

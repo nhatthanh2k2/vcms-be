@@ -23,7 +23,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {
-            "/api/diseases/*", "/auth/token", "/auth/introspect"
+            "/api/diseases/*", "/auth/token", "/auth/introspect",
     };
 
     @Value("${jwt.signerKey}")
@@ -36,6 +36,8 @@ public class SecurityConfig {
                 request -> request
                         .requestMatchers(HttpMethod.POST,
                                          PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/vaccines",
+                                         "/api/vaccines/detail/").permitAll()
                         .anyRequest().authenticated()
         );
 

@@ -2,9 +2,17 @@ package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "batch_details")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BatchDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +26,7 @@ public class BatchDetail {
     private int batchDetailVaccinePrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "vaccineBatch_id")
     private VaccineBatch vaccineBatch;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,56 +34,4 @@ public class BatchDetail {
     @JsonBackReference
     private Vaccine vaccine;
 
-    public BatchDetail() {
-    }
-
-    public BatchDetail(Long batchDetailId, int batchDetailVaccineQuantity,
-                       int batchDetailVaccinePrice, VaccineBatch vaccineBatch,
-                       Vaccine vaccine) {
-        this.batchDetailId = batchDetailId;
-        this.batchDetailVaccineQuantity = batchDetailVaccineQuantity;
-        this.batchDetailVaccinePrice = batchDetailVaccinePrice;
-        this.vaccineBatch = vaccineBatch;
-        this.vaccine = vaccine;
-    }
-
-    public Long getBatchDetailId() {
-        return batchDetailId;
-    }
-
-    public void setBatchDetailId(Long batchDetailId) {
-        this.batchDetailId = batchDetailId;
-    }
-
-    public int getBatchDetailVaccineQuantity() {
-        return batchDetailVaccineQuantity;
-    }
-
-    public void setBatchDetailVaccineQuantity(int batchDetailVaccineQuantity) {
-        this.batchDetailVaccineQuantity = batchDetailVaccineQuantity;
-    }
-
-    public int getBatchDetailVaccinePrice() {
-        return batchDetailVaccinePrice;
-    }
-
-    public void setBatchDetailVaccinePrice(int batchDetailVaccinePrice) {
-        this.batchDetailVaccinePrice = batchDetailVaccinePrice;
-    }
-
-    public VaccineBatch getVaccineBatch() {
-        return vaccineBatch;
-    }
-
-    public void setVaccineBatch(VaccineBatch vaccineBatch) {
-        this.vaccineBatch = vaccineBatch;
-    }
-
-    public Vaccine getVaccine() {
-        return vaccine;
-    }
-
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
-    }
 }

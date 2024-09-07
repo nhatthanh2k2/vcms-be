@@ -34,12 +34,11 @@ public class ApplicationInitConfig {
                 admin.setEmployeeDob(dob);
                 admin.setEmployeeEmail("thanh2002@gmail.com");
                 admin.setEmployeePhone("0399686868");
-                admin.setEmployeeProvince(1);
-                admin.setEmployeeDistrict(2);
-                admin.setEmployeeWard(3);
-                admin.setEmployeeDegree("Dai Hoc");
+                admin.setEmployeeProvince("Sóc Trăng");
+                admin.setEmployeeDistrict("Long Phú");
+                admin.setEmployeeWard("Phú Hữu");
                 admin.setEmployeeAvatar("default-avatar.png");
-                admin.setEmployeeQualification("IT");
+                admin.setEmployeeQualification("Kỹ Sư");
                 HashSet<String> roles = new HashSet<>();
                 roles.add(Role.ADMIN.name());
                 admin.setRoles(roles);
@@ -49,7 +48,7 @@ public class ApplicationInitConfig {
                 admin.setEmployeeCreateAt(dateService.getDateTimeNow());
                 admin.setEmployeeUpdateAt(dateService.getDateTimeNow());
                 employeeRepository.save(admin);
-                log.warn("admin user has been created");
+                log.warn("Admin user has been created!!!");
             }
         };
     }
