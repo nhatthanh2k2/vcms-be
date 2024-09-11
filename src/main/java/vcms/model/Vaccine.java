@@ -2,7 +2,6 @@ package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "vaccines")
@@ -26,68 +23,70 @@ public class Vaccine {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vaccine_seq")
     @SequenceGenerator(name = "vaccine_seq", sequenceName = "vaccine_seq",
             allocationSize = 1, initialValue = 1000)
-    @Column(name = "vaccine_id")
+    @Column(name = "vac_id")
     private Long vaccineId;
 
-    @Column(name = "vaccine_code")
+    @Column(name = "vac_code")
     private String vaccineCode;
 
-    @Column(name = "vaccine_name")
+    @Column(name = "vac_name")
     private String vaccineName;
 
-    @Column(name = "vaccine_image")
+    @Column(name = "vac_image")
     private String vaccineImage;
 
     //Cong dung
     @Lob
-    @Column(name = "vaccine_purpose", columnDefinition = "TEXT")
+    @Column(name = "vac_purpose", columnDefinition = "TEXT")
     private String vaccinePurpose;
 
     // Nguồn gốc
-    @Column(name = "vaccine_origin")
+    @Column(name = "vac_origin")
     private String vaccineOrigin;
 
     // Đường tiêm
     @Lob
-    @Column(name = "vaccine_injection_route", columnDefinition = "TEXT")
+    @Column(name = "vac_inj_route", columnDefinition = "TEXT")
     private String vaccineInjectionRoute;
 
     // Chống chỉ định
     @Lob
-    @Column(name = "vaccine_contraindication", columnDefinition = "TEXT")
+    @Column(name = "vac_contraind", columnDefinition = "TEXT")
     private String vaccineContraindication;
 
     // Phản ứng sau tiêm
     @Lob
-    @Column(name = "vaccine_reaction", columnDefinition = "TEXT")
+    @Column(name = "vac_post_inj_react", columnDefinition = "TEXT")
     private String vaccineReaction;
 
     //So mui tre em
-    @Column(name = "vaccine_Childshots")
-    private int vaccineChildShots;
+    @Column(name = "vac_child_dose_count")
+    private int vaccineChildDoseCount;
 
     //So mui nguoi lon
-    @Column(name = "vaccine_Adultshots")
-    private int vaccineAdultShots;
+    @Column(name = "vac_adult_dose_count")
+    private int vaccineAdultDoseCount;
 
     // Bảo quản
-    @Column(name = "vaccine_storage")
+    @Lob
+    @Column(name = "vac_storage", columnDefinition = "TEXT")
     private String vaccineStorage;
 
     //Phac do tiem
     @Lob
-    @Column(name = "vaccine_injection_schedule", columnDefinition = "TEXT")
+    @Column(name = "vac_inj_sched", columnDefinition = "TEXT")
     private String vaccineInjectionSchedule;
 
     // Đối tượng
-    @Column(name = "vaccine_patient")
+    @Lob
+    @Column(name = "vac_patient", columnDefinition = "TEXT")
     private String vaccinePatient;
 
-    @Column(name = "vaccine_createAt")
+    @Column(name = "vac_createAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccineCreateAt;
 
-    @Column(name = "vaccine_updateAt")
+    @Column(name = "vac_updateAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccineUpdateAt;
 
@@ -99,26 +98,5 @@ public class Vaccine {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "vaccine", orphanRemoval = true)
     private List<BatchDetail> batchDetailList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "vaccine", orphanRemoval = true)
-    private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "vaccine", orphanRemoval = true)
-    @JsonManagedReference
-    private List<Appointment> appointmentList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "vaccine", orphanRemoval = true)
-    private List<OrderDetail> orderDetailList = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }, mappedBy = "vaccines")
-    private Set<VaccinePackage> vaccinePackageSet = new HashSet<>();
-
 
 }

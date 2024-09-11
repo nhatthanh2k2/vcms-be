@@ -24,7 +24,10 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {
             "/api/diseases/*", "/auth/token", "/auth/introspect",
+            "/api/batches/add"
     };
+
+    private final String[] PUBLIC_GET_ENDPOINTS = {};
 
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -37,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,
                                          PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/vaccines",
-                                         "/api/vaccines/detail/").permitAll()
+                                         "/api/vaccines/detail/*").permitAll()
                         .anyRequest().authenticated()
         );
 

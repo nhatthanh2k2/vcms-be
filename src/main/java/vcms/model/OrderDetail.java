@@ -24,9 +24,9 @@ public class OrderDetail {
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vaccine_id")
+    @JoinColumn(name = "batch_detail_id")
     @JsonBackReference
-    private Vaccine vaccine;
+    private BatchDetail batchDetail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccine_package_id")

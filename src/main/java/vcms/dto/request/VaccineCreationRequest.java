@@ -30,10 +30,10 @@ public class VaccineCreationRequest {
     private String vaccineReaction;
 
     //So mui tre em
-    private int vaccineChildShots;
+    private int vaccineChildDoseCount;
 
     //So mui nguoi lon
-    private int vaccineAdultShots;
+    private int vaccineAdultDoseCount;
 
     // Bảo quản
     private String vaccineStorage;

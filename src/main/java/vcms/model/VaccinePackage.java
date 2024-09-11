@@ -1,5 +1,6 @@
 package vcms.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,10 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "vaccine_packages")
@@ -21,23 +21,27 @@ import java.util.Set;
 public class VaccinePackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vaccine_package_id")
+    @Column(name = "vac_pkg_id")
     private Long vaccinePackageId;
 
-    @Column(name = "vaccine_package_name")
+    @Column(name = "vac_pkg_name")
     private String vaccinePackageName;
 
-    @Column(name = "vaccine_package_description")
-    private String vaccinePackageDescription;
+    @Column(name = "vac_pkg_price")
+    private int vaccinePackagePrice;
 
-    @Column(name = "vaccine_package_price")
-    private Double vaccinePackagePrice;
+    @Column(name = "vac_pkg_createAt")
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime vaccinePackageCreateAt;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "vaccine_package_details",
-            joinColumns = @JoinColumn(name = "vaccine_package_id"),
-            inverseJoinColumns = @JoinColumn(name = "vaccine_id"))
-    private Set<Vaccine> vaccines = new HashSet<>();
+    @Column(name = "vac_pkg_updateAt")
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime vaccinePackageUpdateAt;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "vaccinePackage", orphanRemoval = true)
+    @JsonManagedReference
+    private List<BatchDetail> batchDetailList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "vaccinePackage", orphanRemoval = true)

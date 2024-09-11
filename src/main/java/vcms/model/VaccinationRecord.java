@@ -1,5 +1,6 @@
 package vcms.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,21 +19,24 @@ import java.time.LocalDate;
 public class VaccinationRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vaccination_record_id")
+    @Column(name = "vac_rec_id")
     private Long vaccinationRecordId;
 
     // Ngày tiêm
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "vaccination_record_date")
+    @Column(name = "vac_rec_date")
     private LocalDate vaccinationRecordDate;
 
     // Liều lượng tiêm
-    @Column(name = "vaccination_record_dosage")
+    @Column(name = "vac_rec_dosage")
     private String vaccinationRecordDosage;
 
     // Mũi tiêm
-    @Column(name = "vaccination_record_shot")
-    private String vaccinationRecordShot;
+    @Column(name = "vac_rec_dose")
+    private String vaccinationRecordDose;
+
+    @Column(name = "vac_rec_note")
+    private String vaccinationRecordNote;
 
     // Người tiêm
     @ManyToOne
@@ -40,12 +44,13 @@ public class VaccinationRecord {
     private Customer customer;
 
     // Vắc-xin tiêm
-    @ManyToOne
-    @JoinColumn(name = "vaccine_id")
-    private Vaccine vaccine;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "batch_detail_id")
+    @JsonBackReference
+    private BatchDetail batchDetail;
 
     // nhân viên thực hiện
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 

@@ -34,7 +34,7 @@ public class Order {
     private LocalDate orderDate;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "order_injection_date")
+    @Column(name = "order_inj_date")
     private LocalDate orderInjectionDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

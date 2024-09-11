@@ -20,49 +20,49 @@ import java.time.LocalDate;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "appointment_id")
+    @Column(name = "appt_id")
     private Long appointmentId;
 
     // thong tin nguoi tiêm
-    @Column(name = "appointment_customer_code")
+    @Column(name = "appt_cust_code")
     private String appointmentCustomerCode;
 
-    @Column(name = "appointment_full_name")
-    private String appointmentFullName;
+    @Column(name = "appt_cust_full_name")
+    private String appointmentCustomerFullName;
 
-    @Column(name = "appointment_dob")
-    private LocalDate appointmentDob;
+    @Column(name = "appt_cust_dob")
+    private LocalDate appointmentCustomerDob;
 
-    @Column(name = "appointment_gender")
-    private Gender appointmentGender;
+    @Column(name = "appt_cust_gender")
+    private Gender appointmentCustomerGender;
 
-    @Column(name = "appointment_phone")
-    private String appointmentPhone;
+    @Column(name = "appt_cust_phone")
+    private String appointmentCustomerPhone;
 
-    @Column(name = "appointment_email")
-    private String appointmentEmail;
+    @Column(name = "appt_cust_email")
+    private String appointmentCustomerEmail;
 
-    @Column(name = "appointment_province")
-    private int appointmentProvince;
+    @Column(name = "appt_cust_province")
+    private String appointmentCustomerProvince;
 
-    @Column(name = "appointment_district")
-    private int appointmentDistrict;
+    @Column(name = "appt_cust_district")
+    private String appointmentCustomerDistrict;
 
-    @Column(name = "appointment_ward")
-    private int appointmentWard;
+    @Column(name = "appt_cust ward")
+    private String appointmentCustomerWard;
 
-    @Column(name = "appointment_injection_date")
+    @Column(name = "appt_inj_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate appointmentInjectionDate;
 
     // thong tin lien he
-    @Column(name = "appointment_relatives_full_name")
+    @Column(name = "appt_rel_full_name")
     private String appointmentRelativesFullName;
 
-    @Column(name = "appointment_relatives_phone")
+    @Column(name = "appt_rel_phone")
     private String appointmentRelativesPhone;
 
-    @Column(name = "appointment_relatives_relationship")
+    @Column(name = "appt_rel_relationship")
     private String appointmentRelativesRelationship;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -70,9 +70,9 @@ public class Appointment {
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "vaccine_id")
+    @JoinColumn(name = "batch_detail_id")
     @JsonBackReference
-    private Vaccine vaccine;
+    private BatchDetail batchDetail;
 
     @ManyToOne
     @JoinColumn(name = "vaccine_package_id")

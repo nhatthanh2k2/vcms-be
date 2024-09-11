@@ -66,22 +66,22 @@ public class EmployeeService {
     public EmployeeResponse createEmployee(
             EmployeeCreationRequest request) {
 
-            Employee employee = employeeMapper.toEmployee(request);
-            LocalDateTime createDateTime = dateService.getDateTimeNow();
-            employee.setEmployeeCreateAt(createDateTime);
-            employee.setEmployeeUpdateAt(createDateTime);
-            employee.setEmployeeAvatar("default-avatar.png");
+        Employee employee = employeeMapper.toEmployee(request);
+        LocalDateTime createDateTime = dateService.getDateTimeNow();
+        employee.setEmployeeCreateAt(createDateTime);
+        employee.setEmployeeUpdateAt(createDateTime);
+        employee.setEmployeeAvatar("default-avatar.png");
         Set<String> roles = request.getRoles();
         employee.setRoles(roles);
-            employeeRepository.save(employee);
+        employeeRepository.save(employee);
 
-            // tạo employee code
-            String numberToString = employee.getEmployeeId().toString();
-            Long id = employee.getEmployeeId();
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-            if (numberToString.length() < 9) {
-                numberToString = String.format("%09d", id);
-            }
+        // tạo employee code
+        String numberToString = employee.getEmployeeId().toString();
+        Long id = employee.getEmployeeId();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        if (numberToString.length() < 9) {
+            numberToString = String.format("%09d", id);
+        }
         employee.setEmployeeUsername(numberToString);
         employee.setEmployeePassword(passwordEncoder.encode(numberToString));
         return employeeMapper.toEmployeeResponse(

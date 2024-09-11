@@ -25,42 +25,42 @@ public class Customer {
             generator = "customer_seq")
     @SequenceGenerator(name = "customer_seq", sequenceName = "customer_seq",
             allocationSize = 1, initialValue = 10000)
-    @Column(name = "customer_id")
+    @Column(name = "cust_id")
     private Long customerId;
 
-    @Column(name = "customer_code")
+    @Column(name = "cust_code")
     private String customerCode;
 
-    @Column(name = "customer_full_name")
+    @Column(name = "cust_full_name")
     private String customerFullName;
 
-    @Column(name = "customer_gender")
+    @Column(name = "cust_gender")
     private Gender customerGender;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "customer_dob")
+    @Column(name = "cust_dob")
     private LocalDate customerDob;
 
-    @Column(name = "customer_email")
+    @Column(name = "cust_email")
     private String customerEmail;
 
-    @Column(name = "customer_phone")
+    @Column(name = "cust_phone")
     private String customerPhone;
 
-    @Column(name = "customer_province")
+    @Column(name = "cust_province")
     private String customerProvince;
 
-    @Column(name = "customer_district")
+    @Column(name = "cust_district")
     private String customerDistrict;
 
-    @Column(name = "customer_ward")
+    @Column(name = "cust_ward")
     private String customerWard;
 
-    @Column(name = "customer_createAt")
+    @Column(name = "cust_createAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime customerCreateAt;
 
-    @Column(name = "customer_updateAt")
+    @Column(name = "cust_updateAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime customerUpdateAt;
 

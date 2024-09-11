@@ -1,6 +1,5 @@
 package vcms.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,36 +19,27 @@ public class VaccineResponse {
 
     private String vaccineImage;
 
-    private String vaccineDescription;
+    private String vaccinePurpose;
 
-    // Nguồn gốc
     private String vaccineOrigin;
 
-
-    // Đường tiêm
     private String vaccineInjectionRoute;
 
-    // Chống chỉ định
     private String vaccineContraindication;
 
-    // Tương tác thuốc
-    private String vaccineDrugInteractions;
-
-    // Tác dụng không mong muốn
-    private String vaccineAdverseEffects;
-
-    // Bảo quản
-    private String vaccineStorage;
-
-    // Đối tượng
-    private String vaccinePatient;
-
-    // Phản ứng sau tiêm
     private String vaccineReaction;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private int vaccineChildDoseCount;
+
+    private int vaccineAdultDoseCount;
+
+    private String vaccineStorage;
+
+    private String vaccineInjectionSchedule;
+
+    private String vaccinePatient;
+
     private LocalDateTime vaccineCreateAt;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccineUpdateAt;
 }

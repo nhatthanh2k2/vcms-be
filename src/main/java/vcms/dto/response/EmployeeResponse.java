@@ -29,13 +29,11 @@ public class EmployeeResponse {
 
     private String employeeAvatar;
 
-    private int employeeProvince;
+    private String employeeProvince;
 
-    private int employeeDistrict;
+    private String employeeDistrict;
 
-    private int employeeWard;
-
-    private String employeeDegree;
+    private String employeeWard;
 
     private String employeeQualification;
 

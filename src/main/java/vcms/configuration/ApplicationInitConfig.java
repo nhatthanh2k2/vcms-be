@@ -37,7 +37,7 @@ public class ApplicationInitConfig {
                 admin.setEmployeeProvince("Sóc Trăng");
                 admin.setEmployeeDistrict("Long Phú");
                 admin.setEmployeeWard("Phú Hữu");
-                admin.setEmployeeAvatar("default-avatar.png");
+                admin.setEmployeeAvatar("admin-avatar.png");
                 admin.setEmployeeQualification("Kỹ Sư");
                 HashSet<String> roles = new HashSet<>();
                 roles.add(Role.ADMIN.name());

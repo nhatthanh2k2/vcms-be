@@ -12,6 +12,4 @@ public class AuthenticationResponse {
     private boolean authenticated;
     private String token;
 
-
-
 }

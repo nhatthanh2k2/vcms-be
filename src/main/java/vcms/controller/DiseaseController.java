@@ -1,10 +1,9 @@
 package vcms.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.DiseaseRequest;
 import vcms.dto.response.ApiResponse;
-import vcms.dto.response.DiseaseRespone;
+import vcms.dto.response.DiseaseResponse;
 import vcms.service.DiseaseService;
 
 import java.util.List;
@@ -12,14 +11,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/diseases")
 public class DiseaseController {
-    @Autowired
-    private DiseaseService diseaseService;
+    private final DiseaseService diseaseService;
+
+    public DiseaseController(DiseaseService diseaseService) {
+        this.diseaseService = diseaseService;
+    }
 
     @GetMapping
-    public ApiResponse<List<DiseaseRespone>> getAllDiseases() {
-        ApiResponse<List<DiseaseRespone>> apiResponse = new ApiResponse<>();
+    public ApiResponse<List<DiseaseResponse>> getAllDiseases() {
+        ApiResponse<List<DiseaseResponse>> apiResponse = new ApiResponse<>();
         try {
-            apiResponse.setResult(diseaseService.getDiseases());
+            apiResponse.setResult(diseaseService.getAllDisease());
             apiResponse.setSuccess(true);
         }
         catch (Exception exception) {
@@ -30,7 +32,7 @@ public class DiseaseController {
     }
 
     @GetMapping("/detail/{id}")
-    public ApiResponse<DiseaseRespone> getDiseaseById(
+    public ApiResponse<DiseaseResponse> getDiseaseById(
             @PathVariable("id") Long id) {
         ApiResponse apiResponse = new ApiResponse();
         try {
@@ -45,7 +47,7 @@ public class DiseaseController {
     }
 
     @PostMapping("/create")
-    public ApiResponse<DiseaseRespone> createDisease(
+    public ApiResponse<DiseaseResponse> createDisease(
             @RequestBody DiseaseRequest request) {
         ApiResponse apiResponse = new ApiResponse();
         try {
@@ -60,7 +62,7 @@ public class DiseaseController {
     }
 
     @PutMapping("/update/{id}")
-    public ApiResponse<DiseaseRespone> updateDisease(
+    public ApiResponse<DiseaseResponse> updateDisease(
             @PathVariable("id") Long id,
             @RequestBody DiseaseRequest request) {
         ApiResponse apiResponse = new ApiResponse();

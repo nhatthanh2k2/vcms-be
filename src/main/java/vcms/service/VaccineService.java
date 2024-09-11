@@ -100,18 +100,18 @@ public class VaccineService {
                                            "Trẻ từ 2 tháng tuổi đến < 6 tháng tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng; Trẻ từ tròn 6 tháng đến dưới 12 tháng tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng; Trẻ từ tròn 1 tuổi đến dưới 2 tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng;Trẻ từ tròn 2 tuổi đến 50 tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 1 tháng;\n",
                                            "Trẻ em và người lớn từ 2 tháng tuổi đến 50 tuổi (chưa đến sinh nhật 51 tuổi)."));
 
-        vaccineCreationRequestList.add(new VaccineCreationRequest("Vắc xin " +
-                                                                          "Abhayrab (Ấn Độ)",
-                                                                  "vac-xin-abhayrab.jpg",
-                                                                  "Vắc xin Abhayrab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
-                                                                  "Human Biological Institute (Ấn Độ) ",
-                                                                  "Tiêm bắp (IM): người lớn tiêm ở vùng cơ Delta cánh tay, trẻ em tiêm ở mặt trước bên đùi. Không tiêm vào vùng mông.;Trong một số trường hợp có thể áp dụng tiêm trong da (ID), tiêm ở cẳng tay hoặc cánh tay.",
-                                                                  "Không tiêm bắp ở người có rối loạn chảy máu như hemophilia hoặc giảm tiểu cầu.;Hoãn tiêm khi khách hàng có sốt nhiễm trùng nặng, bệnh cấp tính, đợt tiến triển của bệnh mạn tính.;Mẫn cảm với bất kỳ thành phần nào của vắc xin.;Bệnh dại là bệnh rất nguy hiểm, do vậy không có chống chỉ định nào trong trường hợp điều trị sau phơi nhiễm.",
-                                                                  "Abhayrab là vắc xin dại tế bào vero tinh chế nên rất an toàn. Các tác dụng phụ nhẹ tại chỗ tiêm và toàn thân ít gặp như: đau tại chỗ tiêm, ngứa, sốt, chóng mặt, đau đầu,… Hiếm hơn nữa là các phản ứng sốc phản vệ, nổi mày đay.",
-                                                                  0, 0,
-                                                                  "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
-                                                                  "Lịch tiêm vắc xin dại dự phòng trước phơi nhiễm gồm 3 mũi: Vào các ngày 0-7-21 hoặc (28).; Lịch tiêm khi xác định có phơi nhiễm:; Tiêm 4 mũi (*): vào các ngày N0 – N3 – N7 – N28;Tiêm 5 mũi (**) vào các ngày N0 – N3 – N7- N14 – N28; (*) Con vật sống sau 10 ngày theo dõi;(**) Con vật chết, bệnh, không theo dõi được;Người đã tiêm dự phòng trước phơi nhiễm hoặc sau phơi nhiễm ít nhất 3 mũi vắc xin Dại:Tiêm 2 mũi vào các ngày 0-3.\n",
-                                                                  "Vắc xin Abhayrab phòng bệnh dại được chỉ định tiêm cho trẻ em và người lớn ở mọi lứa tuổi."));
+        vaccineCreationRequestList.add(
+                new VaccineCreationRequest("Vắc xin Abhayrab (Ấn Độ)",
+                                           "vac-xin-abhayrab.jpg",
+                                           "Vắc xin Abhayrab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
+                                           "Human Biological Institute (Ấn Độ) ",
+                                           "Tiêm bắp (IM): người lớn tiêm ở vùng cơ Delta cánh tay, trẻ em tiêm ở mặt trước bên đùi. Không tiêm vào vùng mông.;Trong một số trường hợp có thể áp dụng tiêm trong da (ID), tiêm ở cẳng tay hoặc cánh tay.",
+                                           "Không tiêm bắp ở người có rối loạn chảy máu như hemophilia hoặc giảm tiểu cầu.;Hoãn tiêm khi khách hàng có sốt nhiễm trùng nặng, bệnh cấp tính, đợt tiến triển của bệnh mạn tính.;Mẫn cảm với bất kỳ thành phần nào của vắc xin.;Bệnh dại là bệnh rất nguy hiểm, do vậy không có chống chỉ định nào trong trường hợp điều trị sau phơi nhiễm.",
+                                           "Abhayrab là vắc xin dại tế bào vero tinh chế nên rất an toàn. Các tác dụng phụ nhẹ tại chỗ tiêm và toàn thân ít gặp như: đau tại chỗ tiêm, ngứa, sốt, chóng mặt, đau đầu,… Hiếm hơn nữa là các phản ứng sốc phản vệ, nổi mày đay.",
+                                           3, 3,
+                                           "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
+                                           "Lịch tiêm vắc xin dại dự phòng trước phơi nhiễm gồm 3 mũi: Vào các ngày 0-7-21 hoặc (28).; Lịch tiêm khi xác định có phơi nhiễm:; Tiêm 4 mũi (*): vào các ngày N0 – N3 – N7 – N28;Tiêm 5 mũi (**) vào các ngày N0 – N3 – N7- N14 – N28; (*) Con vật sống sau 10 ngày theo dõi;(**) Con vật chết, bệnh, không theo dõi được;Người đã tiêm dự phòng trước phơi nhiễm hoặc sau phơi nhiễm ít nhất 3 mũi vắc xin Dại:Tiêm 2 mũi vào các ngày 0-3.\n",
+                                           "Vắc xin Abhayrab phòng bệnh dại được chỉ định tiêm cho trẻ em và người lớn ở mọi lứa tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Verorab (Pháp)",
@@ -121,7 +121,7 @@ public class VaccineService {
                                            "Tiêm bắp: với liều 0.5ml vắc xin đã hoàn nguyên, ở người lớn vào vùng cơ Delta ở cánh tay, trẻ nhỏ tiêm ở mặt trước – bên đùi. Không tiêm ở vùng mông.;Tiêm trong da: với liều 0.1ml vắc xin đã hoàn nguyên (bằng 1/5 liều tiêm bắp).",
                                            "Không được tiêm trong da ở những trường hợp sau: đang điều trị dài ngày bằng các thuốc ức chế miễn dịch (bao gồm cả corticoid), và thuốc Chloroquin; người bị khiếm khuyết miễn dịch; trẻ em hoặc người có vết cắn nặng phần đầu, cổ, hay đến khám trễ sau khi bị vết thương.",
                                            "Tại chỗ tiêm: đau, quầng đỏ, sưng, ngứa và nốt cứng.;Toàn thân: sốt, đau đầu, chóng mặt, mệt mỏi.",
-                                           0, 0,
+                                           3, 3,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C.",
                                            "Lịch tiêm vắc xin dại dự phòng trước phơi nhiễm gồm 3 mũi: Vào các ngày 0-7-21 hoặc (28).; Lịch tiêm khi xác định có phơi nhiễm:; Tiêm 4 mũi (*): vào các ngày N0 – N3 – N7 – N28;Tiêm 5 mũi (**) vào các ngày N0 – N3 – N7- N14 – N28; (*) Con vật sống sau 10 ngày theo dõi;(**) Con vật chết, bệnh, không theo dõi được;Người đã tiêm dự phòng trước phơi nhiễm hoặc sau phơi nhiễm ít nhất 3 mũi vắc xin Dại:Tiêm 2 mũi vào các ngày 0-3.\n",
                                            "Vắc xin Verorab (Pháp) phòng bệnh dại được chỉ định tiêm cho trẻ em và người lớn ở mọi lứa tuổi."));
@@ -577,7 +577,7 @@ public class VaccineService {
                                            "Huyết thanh uốn ván SAT được chỉ định tiêm bắp.",
                                            "Những trường hợp có tiền sử dị ứng với huyết thanh kháng độc tố uốn ván nguồn gốc từ ngựa. Những trường hợp này nếu bắt buộc dùng nên dùng loại huyết thanh uốn ván nguồn gốc từ người.;Phụ nữ đang mang thai.",
                                            "Huyết thanh Uốn ván SAT có độ an toàn cao. Tuy nhiên, những người có cơ địa dị ứng, người dùng huyết thanh nhiều lần thường có nguy cơ phản ứng dị ứng với huyết thanh như nổi mề đay, ngứa phù, viêm thận, trường hợp nặng có thể bị choáng, sốc phản vệ.",
-                                           0, 0,
+                                           1, 1,
                                            "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
                                            "Dự phòng sau khi bị thương:;Nhất thiết phải dùng phương pháp Besredka: Tiêm 0.1ml, chờ nửa giờ, tiêm 0.25ml, chờ nửa giờ, nếu không phản ứng, tiêm hết liều còn lại. Liều thông thường huyết thanh kháng độc tố uốn ván ở người lớn và trẻ em để dự phòng sau khi bị thương là 1500 đvqt, tiêm càng sớm càng tốt sau khi bị thương. Tăng liều gấp đôi đối với vết thương dễ gây uốn ván hoặc chậm trễ khi bắt đầu tiêm phòng hoặc ở người có thể trọng quá cao.;Điều trị uốn ván:;Mặc dù liều điều trị tối ưu và liều có hiệu quả trong điều trị bệnh uốn ván còn chưa được xác định, liều khuyên dùng cho người lớn và trẻ em là 3000 – 6000 đơn vị.;Uốn ván sơ sinh: 5000 – 10.000 đvqt.;Trẻ em và người lớn: 50.000 – 100.000 đvqt, tiêm dưới da 1/2 liều và nửa còn lại tiêm bắp.",
                                            "Huyết thanh Uốn ván SAT được dùng để dự phòng bệnh uốn ván trong trường hợp bị các vết thương, vết cắn súc vật. Điều trị bệnh nhân bị bệnh uốn ván (khi đã có triệu chứng bệnh)."));
@@ -748,10 +748,10 @@ public class VaccineService {
                 vaccine.setVaccineUpdateAt(createDateTime);
                 vaccineRepository.save(vaccine);
             }
-            System.out.println("Insert Vaccine Data Successfully!");
+            System.out.println("Vaccine Data Inserted Successfully!");
         }
         catch (Exception ex) {
-            System.out.println("Insert Vaccine Data Failed!");
+            System.out.println("Vaccine Data Inserted Failed!");
         }
     }
 }

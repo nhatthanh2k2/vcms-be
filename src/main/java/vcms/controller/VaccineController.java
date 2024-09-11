@@ -19,7 +19,7 @@ public class VaccineController {
         this.vaccineService = vaccineService;
     }
 
-    @GetMapping
+    @GetMapping()
     public ApiResponse<List<Vaccine>> getAllVaccines(){
         ApiResponse<List<Vaccine>> apiResponse = new ApiResponse();
         try {
