@@ -1,7 +1,7 @@
 package vcms.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -92,11 +92,12 @@ public class Vaccine {
 
     @ManyToOne
     @JoinColumn(name = "disease_id")
-    @JsonBackReference
+    @JsonIgnore
     private Disease disease;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "vaccine", orphanRemoval = true)
+    @JsonIgnore
     private List<BatchDetail> batchDetailList = new ArrayList<>();
 
 }

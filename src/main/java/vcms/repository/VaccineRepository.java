@@ -7,4 +7,5 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
     boolean existsByVaccineName(String vaccineName);
 
     Vaccine findByVaccineCode(String vaccineCode);
+
 }

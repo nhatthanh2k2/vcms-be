@@ -61,7 +61,7 @@ public class AuthenticationService {
         var employee =
                 employeeRepository.findByEmployeeUsername(request.getUsername())
                         .orElseThrow(() -> new AppException(
-                                ErrorCode.EMPLOYEE_NOT_EXISTED));
+                                ErrorCode.NOT_EXISTED));
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(),
                                                           employee.getEmployeePassword());

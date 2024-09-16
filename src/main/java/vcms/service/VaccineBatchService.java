@@ -1,22 +1,32 @@
 package vcms.service;
 
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vcms.dto.request.VaccineBatchCreationRequest;
-import vcms.enums.VaccineType;
+import vcms.dto.response.BatchDetailResponse;
+import vcms.dto.response.VaccineBatchResponse;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
+import vcms.mapper.DiseaseMapper;
+import vcms.mapper.VaccineBatchMapper;
+import vcms.mapper.VaccineMapper;
 import vcms.model.BatchDetail;
 import vcms.model.Vaccine;
 import vcms.model.VaccineBatch;
 import vcms.repository.BatchDetailRepository;
+import vcms.repository.DiseaseRepository;
 import vcms.repository.VaccineBatchRepository;
 import vcms.repository.VaccineRepository;
 import vcms.utils.DateService;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +41,56 @@ public class VaccineBatchService {
 
     private final BatchDetailRepository batchDetailRepository;
 
+    private final VaccineBatchMapper vaccineBatchMapper;
+
+    private final VaccineMapper vaccineMapper;
+
+    private final DiseaseMapper diseaseMapper;
+
+    private final DiseaseRepository diseaseRepository;
+
     public VaccineBatchService(VaccineBatchRepository vaccineBatchRepository,
                                DateService dateService,
                                BatchDetailRepository batchDetailRepository,
-                               VaccineRepository vaccineRepository) {
+                               VaccineRepository vaccineRepository,
+                               VaccineBatchMapper vaccineBatchMapper,
+                               VaccineMapper vaccineMapper,
+                               DiseaseMapper diseaseMapper,
+                               DiseaseRepository diseaseRepository) {
         this.vaccineBatchRepository = vaccineBatchRepository;
         this.dateService = dateService;
         this.batchDetailRepository = batchDetailRepository;
         this.vaccineRepository = vaccineRepository;
+        this.vaccineBatchMapper = vaccineBatchMapper;
+        this.vaccineMapper = vaccineMapper;
+        this.diseaseMapper = diseaseMapper;
+        this.diseaseRepository = diseaseRepository;
+    }
+
+    public List<VaccineBatchResponse> getVaccineBatches() {
+        return vaccineBatchRepository.findAll().stream()
+                .map(vaccineBatchMapper::toVaccineBatchResponse).toList();
+    }
+
+    public List<BatchDetailResponse> getDetailsOfBatch(Long batchId) {
+
+        VaccineBatch vaccineBatch = vaccineBatchRepository.findById(
+                batchId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXISTED));
+        List<BatchDetail> batchDetailList = batchDetailRepository.findAllByVaccineBatch(
+                vaccineBatch);
+        List<BatchDetailResponse> batchDetailResponseList = new ArrayList<>();
+        for (BatchDetail batchDetail : batchDetailList) {
+            BatchDetailResponse batchDetailResponse = vaccineBatchMapper.toBatchDetailResponse(
+                    batchDetail);
+            Vaccine vaccine = batchDetail.getVaccine();
+            batchDetailResponse.setVaccineResponse(
+                    vaccineMapper.toVaccineResponse(batchDetail.getVaccine()));
+            batchDetailResponse.setDiseaseResponse(
+                    diseaseMapper.toDiseaseResponse(vaccine.getDisease()));
+            batchDetailResponseList.add(batchDetailResponse);
+        }
+        return batchDetailResponseList;
     }
 
     public VaccineBatch addNewVaccineBatch(
@@ -70,24 +122,26 @@ public class VaccineBatchService {
 
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
         XSSFSheet sheet = workbook.getSheetAt(0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             XSSFRow row = sheet.getRow(i);
+
+            if (row == null || isRowEmpty(row)) {
+                continue;
+            }
 
             BatchDetail batchDetail = new BatchDetail();
 
             // Lấy dữ liệu từ các ô trong dòng
             String vaccineCode = row.getCell(0).getStringCellValue();
-            //String vaccineBatchNumber = row.getCell(1).getStringCellValue();
-            int quantity = (int) row.getCell(1).getNumericCellValue();
-            int price = (int) row.getCell(2).getNumericCellValue();
-            LocalDate manufactureDate = row.getCell(
-                    3).getLocalDateTimeCellValue().toLocalDate();
-            LocalDate expirationDate = row.getCell(
-                    4).getLocalDateTimeCellValue().toLocalDate();
-            String vaccineTypeStr = row.getCell(5).getStringCellValue();
-            VaccineType vaccineType = VaccineType.valueOf(
-                    vaccineTypeStr.toUpperCase());
+            int quantity = (int) row.getCell(2).getNumericCellValue();
+            int price = (int) row.getCell(3).getNumericCellValue();
+            LocalDate manufactureDate = getLocalDateFromCell(row.getCell(4),
+                                                             formatter);
+            LocalDate expirationDate = getLocalDateFromCell(row.getCell(5),
+                                                            formatter);
+            String vaccineTypeStr = row.getCell(6).getStringCellValue();
 
             Vaccine vaccine = vaccineRepository.findByVaccineCode(vaccineCode);
 
@@ -98,7 +152,7 @@ public class VaccineBatchService {
             batchDetail.setBatchDetailVaccinePrice(price);
             batchDetail.setBatchDetailManufactureDate(manufactureDate);
             batchDetail.setBatchDetailExpirationDate(expirationDate);
-            batchDetail.setVaccineType(vaccineType);
+            batchDetail.setVaccineType(vaccineTypeStr);
 
             batchDetails.add(batchDetail);
         }
@@ -106,5 +160,29 @@ public class VaccineBatchService {
         workbook.close();
 
         return batchDetails;
+    }
+
+    private LocalDate getLocalDateFromCell(XSSFCell cell,
+                                           DateTimeFormatter formatter) {
+        if (cell == null) {
+            return null;
+        }
+        if (cell.getCellType() == CellType.NUMERIC) {
+            return cell.getLocalDateTimeCellValue().toLocalDate();
+        }
+        else if (cell.getCellType() == CellType.STRING) {
+            return LocalDate.parse(cell.getStringCellValue(), formatter);
+        }
+        return null;
+    }
+
+    private boolean isRowEmpty(XSSFRow row) {
+        for (int cellNum = row.getFirstCellNum(); cellNum < row.getLastCellNum(); cellNum++) {
+            XSSFCell cell = row.getCell(cellNum);
+            if (cell != null && cell.getCellType() != CellType.BLANK) {
+                return false;
+            }
+        }
+        return true;
     }
 }

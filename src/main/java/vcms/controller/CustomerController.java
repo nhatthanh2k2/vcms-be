@@ -1,11 +1,9 @@
 package vcms.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.CustomerRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.CustomerResponse;
-import vcms.model.Customer;
 import vcms.service.CustomerService;
 
 import java.util.List;
@@ -13,81 +11,50 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
-    @GetMapping
-    public ApiResponse<List<Customer>> getAllCustomers() {
-        ApiResponse<List<Customer>> apiResponse = new ApiResponse<>();
-        try {
-            apiResponse.setResult(customerService.getCustomers());
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception exception) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping
+    public ApiResponse<List<CustomerResponse>> getAllCustomers() {
+        return ApiResponse.<List<CustomerResponse>>builder()
+                .result(customerService.getCustomers())
+                .build();
+    }
+
+    @GetMapping("/detail/{customerId}")
     public ApiResponse<CustomerResponse> getCustomerById(
-            @PathVariable("id") Long id) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            apiResponse.setResult(customerService.getCustomer(id));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception exception) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+            @PathVariable("customerId") Long customerId) {
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.getCustomer(customerId))
+                .build();
     }
 
     @PostMapping("/create")
     public ApiResponse<CustomerResponse> createCustomer(
             @RequestBody CustomerRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            apiResponse.setResult(customerService.createCustomer(request));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception exception) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.createCustomer(request))
+                .build();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{customerId}")
     public ApiResponse<CustomerResponse> updateCustomerById(
-            @PathVariable("id") Long id,
-                                                    @RequestBody CustomerRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            apiResponse.setResult(customerService.updateCustomer(id, request));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception exception) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+            @PathVariable("customerId") Long customerId,
+            @RequestBody CustomerRequest request) {
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.updateCustomer(customerId, request))
+                .build();
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ApiResponse deleteCustomerById(@PathVariable("id") Long id) {
-        ApiResponse apiResponse = new ApiResponse();
-        if (customerService.deleteCustomer(id)) {
-            apiResponse.setMessage("Customer deleted successfully");
-            apiResponse.setSuccess(true);
-        }
-        else {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-            apiResponse.setMessage("Customer deleted failed");
-        }
-        return apiResponse;
+    @DeleteMapping("/delete/{customerId}")
+    public ApiResponse<String> deleteCustomerById(
+            @PathVariable("customerId") Long customerId) {
+        customerService.deleteCustomer(customerId);
+        return ApiResponse.<String>builder()
+                .result("Customer has been deleted")
+                .build();
     }
 }

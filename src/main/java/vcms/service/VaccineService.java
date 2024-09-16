@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import vcms.dto.request.VaccineCreationRequest;
 import vcms.dto.request.VaccineUpdateRequest;
 import vcms.dto.response.VaccineResponse;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
 import vcms.mapper.VaccineMapper;
 import vcms.model.Vaccine;
 import vcms.repository.VaccineRepository;
@@ -29,14 +31,15 @@ public class VaccineService {
         this.dateService = dateService;
     }
 
-    public List<Vaccine> getVaccines() {
-        return vaccineRepository.findAll();
+    public List<VaccineResponse> getVaccines() {
+        return vaccineRepository.findAll().stream()
+                .map(vaccineMapper::toVaccineResponse).toList();
     }
 
-    public VaccineResponse getVaccine(Long id) {
+    public VaccineResponse getVaccine(Long vaccineId) {
         return vaccineMapper.toVaccineResponse(
-                vaccineRepository.findById(id).orElseThrow(
-                        () -> new RuntimeException("Vaccine Not Found")));
+                vaccineRepository.findById(vaccineId).orElseThrow(
+                        () -> new AppException(ErrorCode.NOT_EXISTED)));
     }
 
     public VaccineResponse createVaccine(VaccineCreationRequest request) {
@@ -50,29 +53,36 @@ public class VaccineService {
         return vaccineMapper.toVaccineResponse(vaccineRepository.save(vaccine));
     }
 
-    public VaccineResponse updateVaccine(Long id,
+    public VaccineResponse updateVaccine(Long vaccineId,
                                          VaccineUpdateRequest request) {
-        Vaccine vaccine = vaccineRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Vaccine Not Found"));
+        Vaccine vaccine = vaccineRepository.findById(vaccineId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXISTED));
         vaccineMapper.updateVaccine(vaccine, request);
         LocalDateTime updateDateTime = dateService.getDateTimeNow();
         vaccine.setVaccineUpdateAt(updateDateTime);
         return vaccineMapper.toVaccineResponse(vaccineRepository.save(vaccine));
     }
 
-    public boolean deleteVaccine(Long id) {
-        try {
-            vaccineRepository.deleteById(id);
-            return true;
-        }
-        catch (Exception ex){
-            return false;
-        }
+    public void deleteVaccine(Long vaccineId) {
+        vaccineRepository.deleteById(vaccineId);
     }
 
-    public void insertVaccineDataToDB() {
+    public void initalVaccineData() {
         LocalDateTime createDateTime = dateService.getDateTimeNow();
         List<VaccineCreationRequest> vaccineCreationRequestList = new ArrayList<>();
+
+        vaccineCreationRequestList.add(
+                new VaccineCreationRequest("Vắc xin Pneumovax 23 (Mỹ)",
+                                           "Pneumovax-23.jpg",
+                                           "Pneumovax 23, hay còn được biết đến với tên gọi vắc xin Polysaccharide phế cầu 23-valent, là vắc xin được chỉ định để ngăn ngừa các bệnh nhiễm trùng do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu)…",
+                                           "Merck Sharp & Dohme (MSD)",
+                                           "Pneumovax 23 được tiêm dưới dạng dung dịch trong lọ đơn liều 0,5ml, qua đường tiêm bắp hoặc tiêm dưới da, thường là vào bắp tay (cơ delta) ở người lớn.;Không được tiêm vào mạch máu và phải thận trọng để đảm bảo kim không đi vào mạch máu.;Không được tiêm vắc xin trong da vì có liên quan đến tăng các phản ứng tại chỗ.",
+                                           "Những người có tiền sử dị ứng nặng, quá mẫn với bất kỳ thành phần, tá dược nào của vắc xin.;Người đang bị sốt cao hoặc có tình trạng nhiễm trùng cấp tính nên hoãn tiêm phòng cho tới khi hồi phục.",
+                                           "Phản ứng tại vị trí tiêm: Đau, đỏ, sưng, nóng, chai cứng;Phản ứng toàn thân: Sốt nhẹ, đau cơ, đau đầu, mệt mỏi",
+                                           1, 1,
+                                           "Pneumovax 23 cần được bảo quản ở nhiệt độ từ 2°C đến 8°C (36°F đến 46°F), tránh đông lạnh. Phải đảm bảo rằng vắc xin được bảo quản đúng quy định trước khi sử dụng để đảm bảo hiệu quả tối đa.",
+                                           "Lịch tiêm cơ bản:;Trẻ em từ 2 tuổi trở lên và người lớn: Tiêm 01 liều cơ bản;Không khuyến cáo tiêm cho trẻ em dưới 2 tuổi vì độ an toàn và hiệu quả của vắc xin chưa được xác định và đáp ứng kháng thể có thể kém.;Lịch tiêm chủng lại: Người có nguy cơ cao mắc bệnh phế cầu xâm lấn (≥2 tuổi): tiêm chủng lại 5 năm sau liều cơ bản hoặc theo chỉ định của bác sĩ điều trị.",
+                                           "Vắc xin Pneumovax 23 được khuyến cáo sử dụng cho trẻ em từ 2 tuổi trở lên, thanh thiếu niên và người lớn"));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Gardasil 9 (Mỹ)",
@@ -138,19 +148,6 @@ public class VaccineService {
                                            "Vắc xin Vaxigrip Tetra được bảo quản ở nhiệt độ 2-8 độ C. Không để đông băng và tránh ánh sáng.",
                                            "Vắc xin Vaxigrip Tetra 0,5 ml dành cho trẻ từ 6 tháng tuổi đến dưới 9 tuổi chưa tiêm cúm có lịch tiêm 2 mũi:; Mũi 1: lần tiêm đầu tiên.;Mũi 2: cách mũi 1 ít nhất 4 tuần và tiêm nhắc hàng năm.;Từ 9 tuổi trở lên: Lịch tiêm 01 mũi duy nhất và nhắc lại hằng năm.",
                                            "Vắc xin Vaxigrip Tetra 0.5ml của Pháp phòng cúm mùa, được chỉ định cho trẻ từ 6 tháng tuổi trở lên và người lớn."));
-
-        vaccineCreationRequestList.add(
-                new VaccineCreationRequest("Vắc xin Pneumovax 23 (Mỹ)",
-                                           "Pneumovax-23.jpg",
-                                           "Pneumovax 23, hay còn được biết đến với tên gọi vắc xin Polysaccharide phế cầu 23-valent, là vắc xin được chỉ định để ngăn ngừa các bệnh nhiễm trùng do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu)…",
-                                           "Merck Sharp & Dohme (MSD)",
-                                           "Pneumovax 23 được tiêm dưới dạng dung dịch trong lọ đơn liều 0,5ml, qua đường tiêm bắp hoặc tiêm dưới da, thường là vào bắp tay (cơ delta) ở người lớn.;Không được tiêm vào mạch máu và phải thận trọng để đảm bảo kim không đi vào mạch máu.;Không được tiêm vắc xin trong da vì có liên quan đến tăng các phản ứng tại chỗ.",
-                                           "Những người có tiền sử dị ứng nặng, quá mẫn với bất kỳ thành phần, tá dược nào của vắc xin.;Người đang bị sốt cao hoặc có tình trạng nhiễm trùng cấp tính nên hoãn tiêm phòng cho tới khi hồi phục.",
-                                           "Phản ứng tại vị trí tiêm: Đau, đỏ, sưng, nóng, chai cứng;Phản ứng toàn thân: Sốt nhẹ, đau cơ, đau đầu, mệt mỏi",
-                                           1, 1,
-                                           "Pneumovax 23 cần được bảo quản ở nhiệt độ từ 2°C đến 8°C (36°F đến 46°F), tránh đông lạnh. Phải đảm bảo rằng vắc xin được bảo quản đúng quy định trước khi sử dụng để đảm bảo hiệu quả tối đa.",
-                                           "Lịch tiêm cơ bản:;Trẻ em từ 2 tuổi trở lên và người lớn: Tiêm 01 liều cơ bản;Không khuyến cáo tiêm cho trẻ em dưới 2 tuổi vì độ an toàn và hiệu quả của vắc xin chưa được xác định và đáp ứng kháng thể có thể kém.;Lịch tiêm chủng lại: Người có nguy cơ cao mắc bệnh phế cầu xâm lấn (≥2 tuổi): tiêm chủng lại 5 năm sau liều cơ bản hoặc theo chỉ định của bác sĩ điều trị.",
-                                           "Vắc xin Pneumovax 23 được khuyến cáo sử dụng cho trẻ em từ 2 tuổi trở lên, thanh thiếu niên và người lớn"));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Prevenar 13 (Bỉ)",

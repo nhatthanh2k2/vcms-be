@@ -24,13 +24,12 @@ public class Appointment {
     private Long appointmentId;
 
     // thong tin nguoi tiêm
-    @Column(name = "appt_cust_code")
-    private String appointmentCustomerCode;
 
     @Column(name = "appt_cust_full_name")
     private String appointmentCustomerFullName;
 
     @Column(name = "appt_cust_dob")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate appointmentCustomerDob;
 
     @Column(name = "appt_cust_gender")

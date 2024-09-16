@@ -13,17 +13,27 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeCreationRequest {
+
     private String employeeFullName;
+
     private Gender employeeGender;
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate employeeDob;
+
     private String employeeEmail;
+
     private String employeePhone;
-    private int employeeProvince;
-    private int employeeDistrict;
-    private int employeeWard;
-    private String employeeDegree;
+
+    private String employeeProvince;
+
+    private String employeeDistrict;
+
+    private String employeeWard;
+
     private String employeeQualification;
+
     private Set<String> roles;
+
 
 }

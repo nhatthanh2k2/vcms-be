@@ -27,7 +27,6 @@ public class AuthenticationController {
         var result = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
-                .success(true)
                 .code(1000)
                 .build();
     }
@@ -39,7 +38,6 @@ public class AuthenticationController {
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
                 .code(1000)
-                .success(true)
                 .build();
     }
 }

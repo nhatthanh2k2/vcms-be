@@ -13,15 +13,20 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class EmployeeUpdateRequest {
     private String employeeFullName;
+
     private Gender employeeGender;
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate employeeDob;
+
     private String employeeEmail;
+
     private String employeePhone;
-    private int employeeProvince;
-    private int employeeDistrict;
-    private int employeeWard;
-    private String employeeDegree;
-    private String employeeQualification;
+
+    private String employeeProvince;
+
+    private String employeeDistrict;
+
+    private String employeeWard;
 
 }

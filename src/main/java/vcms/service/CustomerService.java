@@ -3,6 +3,8 @@ package vcms.service;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.CustomerRequest;
 import vcms.dto.response.CustomerResponse;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
 import vcms.mapper.CustomerMapper;
 import vcms.model.Customer;
 import vcms.repository.CustomerRepository;
@@ -29,14 +31,15 @@ public class CustomerService {
         this.dateService = dateService;
     }
 
-    public List<Customer> getCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerResponse> getCustomers() {
+        return customerRepository.findAll().stream()
+                .map(customerMapper::toCustomerResponse).toList();
     }
 
-    public CustomerResponse getCustomer(long id) {
+    public CustomerResponse getCustomer(long customerId) {
         return customerMapper.toCustomerResponse(
-                customerRepository.findById(id).orElseThrow(
-                        () -> new RuntimeException("Customer Not Found")));
+                customerRepository.findById(customerId).orElseThrow(
+                        () -> new AppException(ErrorCode.NOT_EXISTED)));
     }
 
     public CustomerResponse createCustomer(CustomerRequest request) {
@@ -55,11 +58,10 @@ public class CustomerService {
                 customerRepository.save(customer));
     }
 
-    public CustomerResponse updateCustomer(Long id,
+    public CustomerResponse updateCustomer(Long customerId,
                                                 CustomerRequest request) {
-            Customer customer =
-                    customerRepository.findById(id).orElseThrow(
-                            () -> new RuntimeException("Customer Not Found"));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXISTED));
             customerMapper.updateCustomer(customer, request);
             LocalDateTime updateDateTime = dateService.getDateTimeNow();
             customer.setCustomerUpdateAt(updateDateTime);
@@ -67,13 +69,7 @@ public class CustomerService {
                 customerRepository.save(customer));
     }
 
-    public boolean deleteCustomer(Long id) {
-        try {
-            customerRepository.deleteById(id);
-            return true;
-        }
-        catch (Exception exception) {
-            return false;
-        }
+    public void deleteCustomer(Long customerId) {
+        customerRepository.deleteById(customerId);
     }
 }

@@ -1,16 +1,19 @@
 package vcms.configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import vcms.enums.Gender;
 import vcms.enums.Role;
 import vcms.model.Employee;
 import vcms.repository.EmployeeRepository;
+import vcms.service.DiseaseService;
+import vcms.service.EmployeeService;
+import vcms.service.VaccineService;
 import vcms.utils.DateService;
 
 import java.time.LocalDate;
@@ -18,12 +21,31 @@ import java.util.HashSet;
 
 @Configuration
 @Slf4j
+@Order(1)
 public class ApplicationInitConfig {
-    @Autowired
-    private DateService dateService;
+    private final DateService dateService;
+
+    private final EmployeeRepository employeeRepository;
+
+    private final DiseaseService diseaseService;
+
+    private final VaccineService vaccineService;
+    private final EmployeeService employeeService;
+
+    public ApplicationInitConfig(DateService dateService,
+                                 EmployeeRepository employeeRepository,
+                                 DiseaseService diseaseService,
+                                 VaccineService vaccineService,
+                                 EmployeeService employeeService) {
+        this.dateService = dateService;
+        this.employeeRepository = employeeRepository;
+        this.diseaseService = diseaseService;
+        this.vaccineService = vaccineService;
+        this.employeeService = employeeService;
+    }
 
     @Bean
-    ApplicationRunner applicationRunner(EmployeeRepository employeeRepository) {
+    ApplicationRunner applicationRunner() {
         return args -> {
             if (employeeRepository.findByEmployeeUsername("admin").isEmpty()) {
                 PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -49,7 +71,13 @@ public class ApplicationInitConfig {
                 admin.setEmployeeUpdateAt(dateService.getDateTimeNow());
                 employeeRepository.save(admin);
                 log.warn("Admin user has been created!!!");
+                diseaseService.initalDiseaseData();
+                vaccineService.initalVaccineData();
+                employeeService.initalEmployeeData();
+                employeeService.updateEmployeeAvatars();
+                diseaseService.updateDiseaseVaccineRelations();
             }
+
         };
     }
 }

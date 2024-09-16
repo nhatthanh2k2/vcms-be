@@ -17,79 +17,44 @@ public class DiseaseController {
         this.diseaseService = diseaseService;
     }
 
-    @GetMapping
+    @GetMapping("/get")
     public ApiResponse<List<DiseaseResponse>> getAllDiseases() {
-        ApiResponse<List<DiseaseResponse>> apiResponse = new ApiResponse<>();
-        try {
-            apiResponse.setResult(diseaseService.getAllDisease());
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception exception) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+        return ApiResponse.<List<DiseaseResponse>>builder()
+                .result(diseaseService.getDiseases())
+                .build();
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/detail/{diseaseId}")
     public ApiResponse<DiseaseResponse> getDiseaseById(
-            @PathVariable("id") Long id) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            apiResponse.setResult(diseaseService.getDisease(id));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception exception) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+            @PathVariable("diseaseId") Long diseaseId) {
+        return ApiResponse.<DiseaseResponse>builder()
+                .result(diseaseService.getDisease(diseaseId))
+                .build();
     }
 
     @PostMapping("/create")
     public ApiResponse<DiseaseResponse> createDisease(
             @RequestBody DiseaseRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            apiResponse.setResult(diseaseService.createDisease(request));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+        return ApiResponse.<DiseaseResponse>builder()
+                .result(diseaseService.createDisease(request))
+                .build();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{diseaseId}")
     public ApiResponse<DiseaseResponse> updateDisease(
-            @PathVariable("id") Long id,
+            @PathVariable("diseaseId") Long diseaseId,
             @RequestBody DiseaseRequest request) {
-        ApiResponse apiResponse = new ApiResponse();
-        try {
-            apiResponse.setResult(diseaseService.updateDisease(id, request));
-            apiResponse.setSuccess(true);
-        }
-        catch (Exception ex) {
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-
-        return apiResponse;
+        return ApiResponse.<DiseaseResponse>builder()
+                .result(diseaseService.updateDisease(diseaseId, request))
+                .build();
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ApiResponse<String> deleteDiseaseById(@PathVariable("id") Long id) {
-        ApiResponse apiResponse = new ApiResponse();
-        if (diseaseService.deleteDisease(id)) {
-            apiResponse.setMessage("Disease deleted successfully");
-            apiResponse.setSuccess(true);
-        }
-        else {
-            apiResponse.setMessage("Disease deleted failed");
-            apiResponse.setSuccess(false);
-            apiResponse.setCode(9999);
-        }
-        return apiResponse;
+    @DeleteMapping("/delete/{diseaseId}")
+    public ApiResponse<String> deleteDiseaseById(
+            @PathVariable("diseaseId") Long diseaseId) {
+        diseaseService.deleteDisease(diseaseId);
+        return ApiResponse.<String>builder()
+                .result("Disease has been deleted")
+                .build();
     }
 }

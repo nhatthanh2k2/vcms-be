@@ -1,33 +1,41 @@
 package vcms;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import vcms.service.DiseaseService;
+import vcms.service.EmployeeService;
 import vcms.service.VaccineService;
 
 @SpringBootApplication
 public class VcmsBackendApplication {
-    @Autowired
-    private DiseaseService diseaseService;
+    private final DiseaseService diseaseService;
 
-    @Autowired
-    private VaccineService vaccineService;
+    private final VaccineService vaccineService;
+
+    private final EmployeeService employeeService;
+
+    public VcmsBackendApplication(DiseaseService diseaseService,
+                                  VaccineService vaccineService,
+                                  EmployeeService employeeService) {
+        this.diseaseService = diseaseService;
+        this.vaccineService = vaccineService;
+        this.employeeService = employeeService;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(VcmsBackendApplication.class, args);
         System.out.println("The server started successfully!");
     }
 
-    @Bean
-    ApplicationRunner init() {
-        return args -> {
-            diseaseService.insertDiseaseDataToDB();
-            vaccineService.insertVaccineDataToDB();
-            diseaseService.updateDiseaseVaccineRelations();
-        };
-    }
+//    @Bean
+//    ApplicationRunner init() {
+//        return args -> {
+//            diseaseService.initalDiseaseData();
+//            vaccineService.initalVaccineData();
+//            employeeService.initalEmployeeData();
+//            employeeService.updateEmployeeAvatars();
+//            diseaseService.updateDiseaseVaccineRelations();
+//        };
+//    }
 
 }

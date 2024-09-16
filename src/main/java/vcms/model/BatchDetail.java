@@ -1,14 +1,12 @@
 package vcms.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vcms.enums.VaccineType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class BatchDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +40,7 @@ public class BatchDetail {
     private LocalDate batchDetailExpirationDate;
 
     @Column(name = "batch_det_vac_type")
-    @Enumerated(EnumType.STRING)
-    private VaccineType vaccineType;
+    private String vaccineType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccineBatch_id")
@@ -50,25 +48,27 @@ public class BatchDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccine_id")
-    @JsonBackReference
+    @JsonIgnore
     private Vaccine vaccine;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccine_package_id")
-    @JsonBackReference
+    @JsonIgnore
     private VaccinePackage vaccinePackage;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "batchDetail", orphanRemoval = true)
+    @JsonIgnore
     private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "batchDetail", orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Appointment> appointmentList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "batchDetail", orphanRemoval = true)
+    @JsonIgnore
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
 }

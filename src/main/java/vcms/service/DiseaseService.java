@@ -4,6 +4,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.DiseaseRequest;
 import vcms.dto.response.DiseaseResponse;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
 import vcms.mapper.DiseaseMapper;
 import vcms.model.Disease;
 import vcms.model.Vaccine;
@@ -36,15 +38,15 @@ public class DiseaseService {
         this.vaccineRepository = vaccineRepository;
     }
 
-    public List<DiseaseResponse> getAllDisease() {
+    public List<DiseaseResponse> getDiseases() {
         return diseaseRepository.findAll().stream()
                 .map(diseaseMapper::toDiseaseResponse).toList();
     }
 
-    public DiseaseResponse getDisease(Long id) {
+    public DiseaseResponse getDisease(Long diseaseId) {
         return diseaseMapper.toDiseaseResponse(
-                diseaseRepository.findById(id).orElseThrow(
-                        () -> new RuntimeException("Disease Not Found")));
+                diseaseRepository.findById(diseaseId).orElseThrow(
+                        () -> new AppException(ErrorCode.NOT_EXISTED)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -58,11 +60,12 @@ public class DiseaseService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public DiseaseResponse updateDisease(Long id, DiseaseRequest request) {
+    public DiseaseResponse updateDisease(Long diseaseId,
+                                         DiseaseRequest request) {
 
-            Disease disease = diseaseRepository.findById(id)
+        Disease disease = diseaseRepository.findById(diseaseId)
                     .orElseThrow(
-                            () -> new RuntimeException("Disease Not Found"));
+                            () -> new AppException(ErrorCode.NOT_EXISTED));
             diseaseMapper.updateDisease(disease, request);
             LocalDateTime updateDateTime =
                     dateService.getDateTimeNow();
@@ -71,17 +74,11 @@ public class DiseaseService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public boolean deleteDisease(Long id) {
-        try {
-            diseaseRepository.deleteById(id);
-            return true;
-        }
-        catch (Exception exception) {
-            return false;
-        }
+    public void deleteDisease(Long diseaseId) {
+        diseaseRepository.deleteById(diseaseId);
     }
 
-    public void insertDiseaseDataToDB() {
+    public void initalDiseaseData() {
         List<Disease> diseaseList = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(

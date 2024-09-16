@@ -1,6 +1,7 @@
 package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,7 @@ public class VaccineBatch {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccineBatch",
             orphanRemoval = true)
+    @JsonIgnore
     private List<BatchDetail> batchDetailList = new ArrayList<>();
 
 }
