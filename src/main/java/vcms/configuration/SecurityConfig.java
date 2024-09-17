@@ -27,7 +27,8 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/diseases/*", "/auth/token", "/auth/introspect",
-            "/api/batches/add", "/api/appointments/create"
+            "/api/batches/add",
+            "/api/appointments/create", "/api/appointments/create-code"
     };
 
     private final String[] PUBLIC_GET_ENDPOINTS = {

@@ -24,8 +24,8 @@ public class Relatives {
     @Column(name = "rels_phone")
     private String relativesPhone;
 
-    @Column(name = "rel_email")
-    private String relativesEmail;
+    @Column(name = "rel_relationship")
+    private String relativesRelationship;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
