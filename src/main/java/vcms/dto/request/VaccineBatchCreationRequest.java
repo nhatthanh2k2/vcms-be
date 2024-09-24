@@ -20,7 +20,7 @@ public class VaccineBatchCreationRequest {
 
     private int vaccineBatchQuantity;
 
-    private int vaccineBatchValue;
+    private Double vaccineBatchValue;
 
     private MultipartFile batchDetailFile;
 }

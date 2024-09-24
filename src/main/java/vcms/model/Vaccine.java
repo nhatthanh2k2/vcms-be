@@ -100,4 +100,6 @@ public class Vaccine {
     @JsonIgnore
     private List<BatchDetail> batchDetailList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VaccinePackageDetail> vaccinePackageDetails = new ArrayList<>();
 }

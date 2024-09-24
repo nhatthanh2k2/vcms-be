@@ -104,10 +104,10 @@ public class VaccineService {
                                            "Glaxosmithkline – GSK",
                                            "Vắc xin Bexsero được dùng dưới dạng tiêm bắp sâu, nên ưu tiên tiêm ở mặt trước bên cơ đùi của nhũ nhi hoặc vùng cơ delta cánh tay trên ở những đối tượng lớn hơn.;Nếu phải tiêm đồng thời nhiều loại vắc xin khác thì phải tiêm ở nhiều vị trí riêng biệt.",
                                            "Quá mẫn với các hoạt chất hoặc bất kỳ tá dược nào được liệt kê trong bảng thành phần của vắc xin.",
-                                           "Ở trẻ nhũ nhi và trẻ nhỏ (từ 10 tuổi trở xuống), các phản ứng bất lợi thường gặp tại vị trí tiêm và toàn thân bao gồm đau, sưng, đỏ, chai cứng tại vị trí tiêm, sốt, quấy khóc, ăn ít hơn bình thường.;\n" + "Ở" + " thanh thiếu niên (11 tuổi trở lên) và người trưởng thành, các phản ứng bất lợi thường gặp tại chỗ và toàn thân là đau, sưng, đỏ, chai cứng tại vị trí tiêm, khó chịu, đau đầu, Không gia tăng đối với tần suất gặp và mức độ trầm trọng của các phản ứng không mong muốn ở các mũi tiêm sau trong các liệu trình tiêm chủng.",
+                                           "Ở trẻ nhũ nhi và trẻ nhỏ (từ 10 tuổi trở xuống), các phản ứng bất lợi thường gặp tại vị trí tiêm và toàn thân bao gồm đau, sưng, đỏ, chai cứng tại vị trí tiêm, sốt, quấy khóc, ăn ít hơn bình thường.;Ở thanh thiếu niên (11 tuổi trở lên) và người trưởng thành, các phản ứng bất lợi thường gặp tại chỗ và toàn thân là đau, sưng, đỏ, chai cứng tại vị trí tiêm, khó chịu, đau đầu, Không gia tăng đối với tần suất gặp và mức độ trầm trọng của các phản ứng không mong muốn ở các mũi tiêm sau trong các liệu trình tiêm chủng.",
                                            2, 2,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C.",
-                                           "Trẻ từ 2 tháng tuổi đến < 6 tháng tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng; Trẻ từ tròn 6 tháng đến dưới 12 tháng tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng; Trẻ từ tròn 1 tuổi đến dưới 2 tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng;Trẻ từ tròn 2 tuổi đến 50 tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 1 tháng;\n",
+                                           "Trẻ từ 2 tháng tuổi đến < 6 tháng tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng; Trẻ từ tròn 6 tháng đến dưới 12 tháng tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng; Trẻ từ tròn 1 tuổi đến dưới 2 tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 2 tháng;Trẻ từ tròn 2 tuổi đến 50 tuổi có lịch tiêm 2 mũi cơ bản:;Mũi 1: lần tiêm đầu tiên;Mũi 2: cách mũi 1 ít nhất 1 tháng;",
                                            "Trẻ em và người lớn từ 2 tháng tuổi đến 50 tuổi (chưa đến sinh nhật 51 tuổi)."));
 
         vaccineCreationRequestList.add(
@@ -117,7 +117,7 @@ public class VaccineService {
                                            "Human Biological Institute (Ấn Độ) ",
                                            "Tiêm bắp (IM): người lớn tiêm ở vùng cơ Delta cánh tay, trẻ em tiêm ở mặt trước bên đùi. Không tiêm vào vùng mông.;Trong một số trường hợp có thể áp dụng tiêm trong da (ID), tiêm ở cẳng tay hoặc cánh tay.",
                                            "Không tiêm bắp ở người có rối loạn chảy máu như hemophilia hoặc giảm tiểu cầu.;Hoãn tiêm khi khách hàng có sốt nhiễm trùng nặng, bệnh cấp tính, đợt tiến triển của bệnh mạn tính.;Mẫn cảm với bất kỳ thành phần nào của vắc xin.;Bệnh dại là bệnh rất nguy hiểm, do vậy không có chống chỉ định nào trong trường hợp điều trị sau phơi nhiễm.",
-                                           "Abhayrab là vắc xin dại tế bào vero tinh chế nên rất an toàn. Các tác dụng phụ nhẹ tại chỗ tiêm và toàn thân ít gặp như: đau tại chỗ tiêm, ngứa, sốt, chóng mặt, đau đầu,… Hiếm hơn nữa là các phản ứng sốc phản vệ, nổi mày đay.",
+                                           "Tại chỗ tiêm: đau, quầng đỏ, sưng, ngứa và nốt cứng;Toàn thân: sốt, đau đầu, chóng mặt, mệt mỏi.",
                                            3, 3,
                                            "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
                                            "Lịch tiêm vắc xin dại dự phòng trước phơi nhiễm gồm 3 mũi: Vào các ngày 0-7-21 hoặc (28).; Lịch tiêm khi xác định có phơi nhiễm:; Tiêm 4 mũi (*): vào các ngày N0 – N3 – N7 – N28;Tiêm 5 mũi (**) vào các ngày N0 – N3 – N7- N14 – N28; (*) Con vật sống sau 10 ngày theo dõi;(**) Con vật chết, bệnh, không theo dõi được;Người đã tiêm dự phòng trước phơi nhiễm hoặc sau phơi nhiễm ít nhất 3 mũi vắc xin Dại:Tiêm 2 mũi vào các ngày 0-3.\n",
@@ -169,7 +169,7 @@ public class VaccineService {
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Boostrix được chỉ định tiêm bắp với liều 0.5ml. Không được tiêm dưới da hoặc tĩnh mạch. Ở trẻ lớn và người lớn, thường tiêm vào cơ delta còn trẻ nhỏ thường vào mặt trước – bên đùi.",
                                            "Tiền sử quá mẫn với thành phần của vắc xin. Quá mẫn sau khi tiêm vắc xin bạch hầu, ho gà hoặc uốn ván trước đó.;Người đã từng bị các biểu hiện về não: hôn mê, bất tỉnh, co giật kéo dài.;Người có tiền sử giảm tiểu cầu thoáng qua hoặc biến chứng thần kinh sau chủng ngừa bạch hầu và/hoặc uốn ván trước đó.",
-                                           "Trẻ em 4-9 tuổi: Có thể chán ăn, ngủ gà gật, nhạy cảm chỗ tiêm, sốt, nôn, tiêu chảy.;Người lớn, thanh thiếu niên và trẻ em ≥10 tuổi: Có thể đau đầu, nhạy cảm chỗ tiêm, mệt mỏi, khó chịu chóng mặt; buồn nôn, rối loạn tiêu hóa.",
+                                           "Trẻ em 4-9 tuổi: Có thể chán ăn, ngủ gà gật, nhạy cảm chỗ tiêm, sốt, nôn, tiêu chảy.;Người lớn, thanh thiếu niên và trẻ em ≥10 tuổi: Có thể đau đầu, nhạy cảm chỗ tiêm, mệt mỏi, khó chịu chóng mặt, buồn nôn, rối loạn tiêu hóa.",
                                            1, 3,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 đến 8 độ C. Không được để đông băng.",
                                            "Cho trẻ từ 4 tuổi trở lên và người lớn đã tiêm lịch cơ bản bạch hầu – ho gà – uốn ván:;Lịch tiêm 1 mũi;Tiêm nhắc 1 mũi mỗi 10 năm hoặc tiêm nhắc theo độ tuổi khuyến cáo;Cho trẻ từ 4 tuổi trở lên và người lớn chưa tiêm đủ lịch cơ bản bạch hầu – ho gà – uốn ván:;Lịch tiêm 3 mũi:;Mũi 1: Lần tiêm đầu tiên;Mũi 2: Một tháng sau mũi 1;Mũi 3: Sáu tháng sau mũi 2;Tiêm nhắc một mũi mỗi 10 năm hoặc tiêm nhắc theo độ tuổi khuyến cáo.",
@@ -181,7 +181,7 @@ public class VaccineService {
                                            "Vắc xin Varilrix (Bỉ) là vắc xin sống giảm độc lực phòng bệnh thủy đậu do virus Varicella Zoster cho trẻ từ 9 tháng tuổi và người lớn chưa có miễn dịch.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Varilrix được chỉ định tiêm dưới da ở vùng cơ delta hoặc vùng má ngoài đùi với liều 0.5ml.",
-                                           "Hoãn tiêm vắc xin Varilrix với những người đang sốt cao cấp tính.;;Người suy giảm miễn dịch tiên phát hoặc có số lượng tế bào lympho ít hơn 1.200/mm3.;Người thiếu hụt khả năng miễn dịch tế bào như: bạch hầu, ung thư bạch huyết, loạn tạo máu, nhiễm HIV.;Bệnh nhân đang điều trị ức chế miễn dịch (bao gồm việc sử dụng liều cao corticosteroid).;Chống chỉ định tiêm Varilrix cho người quá mẫn cảm với neomycin hoặc bất cứ thành phần khác có trong vắc xin.;Không tiêm vắc xin cho những người có dấu hiệu quá mẫn sau liều tiêm vắc xin thủy đậu trước đó. Không dùng cho phụ nữ mang thai, tốt nhất nên hoàn thành phác đồ tiêm chủng 3 tháng trước khi mang thai.",
+                                           "Hoãn tiêm vắc xin Varilrix với những người đang sốt cao cấp tính.;Người suy giảm miễn dịch tiên phát hoặc có số lượng tế bào lympho ít hơn 1.200/mm3.;Người thiếu hụt khả năng miễn dịch tế bào như: bạch hầu, ung thư bạch huyết, loạn tạo máu, nhiễm HIV.;Bệnh nhân đang điều trị ức chế miễn dịch (bao gồm việc sử dụng liều cao corticosteroid).;Chống chỉ định tiêm Varilrix cho người quá mẫn cảm với neomycin hoặc bất cứ thành phần khác có trong vắc xin.;Không tiêm vắc xin cho những người có dấu hiệu quá mẫn sau liều tiêm vắc xin thủy đậu trước đó.; Không dùng cho phụ nữ mang thai, tốt nhất nên hoàn thành phác đồ tiêm chủng 3 tháng trước khi mang thai.",
                                            "Phản ứng tại chỗ tiêm: Đau, sưng, nổi ban đỏ, chai cứng, ngứa, bầm tím, tăng nhạy cảm tại chỗ tiêm.;Các phản ứng toàn thân khác: Sốt, nhức đầu, mệt mỏi, chóng mặt, buồn nôn.",
                                            2, 2,
                                            "Vắc xin Varilrix được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C.",
@@ -197,7 +197,7 @@ public class VaccineService {
                                            "Người bị dị ứng hoặc nghi ngờ dị ứng với các thành phần của vắc xin, kể cả các tá dược và chất tồn dư như Protamine Sulphate.;Trong trường hợp sau khi tiêm mũi 1 có biểu hiện quá mẫn, không nên tiêm mũi tiếp theo.;Người bị suy giảm miễn dịch bẩm sinh, nhiễm HIV/AIDS;Phụ nữ mang thai và đang cho con bú.",
                                            "Phản ứng tại chỗ tiêm: Sưng, đau, xuất hiện quầng đỏ tại vị trí tiêm, nhạy cảm đau,…;Các phản ứng toàn thân khác: Đau nhức các cơ, ban đỏ, sốt, khó chịu, buồn ngủ, mệt mỏi, trẻ quấy khóc, giảm sự thèm ăn, buồn nôn, …",
                                            2, 2,
-                                           "Vắc xin JEEV được bảo quản trong tủ lạnh có nhiệt độ giao động từ 2 – 8°C;Không để đông lạnh, nếu bị đông đá, loại bỏ lọ vắc xin;Nên sử dụng JEEV càng sớm càng tốt ngay sau khi được lấy ra khỏi tủ lạnh;Tránh ánh sáng mặt trời.",
+                                           "Vắc xin JEEV được bảo quản trong tủ lạnh có nhiệt độ giao động từ 2 – 8°C. Không để đông lạnh, nếu bị đông đá, loại bỏ lọ vắc xin. Tránh ánh sáng mặt trời.",
                                            "Liều tiêm:;Trẻ từ 1 tuổi đến tròn 3 tuổi: tiêm liều 3mcg/0,5 ml;Người từ > 3 tuổi đến 49 tuổi: tiêm liều 6mcg/0,5 ml;Lịch tiêm:;02 mũi cơ bản: ;Mũi 1: Lần đầu tiêm trong độ tuổi;Mũi 2: Cách mũi 1 ít nhất 1 tháng;Các mũi tiêm nhắc: khuyến cáo cần tiêm mũi nhắc để tăng cường và duy trì miễn dịch. Mũi nhắc lại dựa trên tình hình dịch tễ bệnh viêm não Nhật Bản và khuyến cáo của các Quốc gia có cùng dịch tễ.",
                                            "Vắc xin JEEV được chỉ định tiêm chủng cho trẻ em từ tròn 12 tháng tuổi đến người lớn ≤ 49 tuổi."));
 
@@ -208,7 +208,7 @@ public class VaccineService {
                                            "VABIOTECH (Việt Nam)",
                                            "Không được tiêm đường tĩnh mạch hoặc trong da, vắc xin Gene-HBvax được chỉ định tiêm bắp. Ở người lớn thì tiêm vắc xin vào vùng cơ delta, song ở trẻ sơ sinh và trẻ nhỏ thì nên tiêm vào vùng đùi ngoài thì tốt hơn vì cơ delta còn nhỏ. Ngoại lệ có thể tiêm vắc xin theo đường dưới da cho những bệnh nhân ưa chảy máu. Lắc kỹ lọ vắc xin trước khi tiêm.",
                                            "Những người mẫn cảm với bất cứ thành phần nào của vắc xin;Mắc các bệnh bẩm sinh;Mệt mỏi, sốt cao hoặc phản ứng toàn thân với bất kỳ một bệnh nhiễm trùng đang tiến triển;Bệnh tim, bệnh thận hoặc bệnh gan chưa điều trị ổn định;Bệnh tiểu đường chưa điều trị ổn định hoặc suy dinh dưỡng;Bệnh ung thư máu và các bệnh ác tính nói chung;Bệnh quá mẫn.",
-                                           "Những phản ứng thường hay gặp nhất là đau, sưng và ban đỏ tại chỗ tiêm. Những phản ứng này thường là nhẹ và sẽ hết trong vòng hai ngày sau tiêm.;Những phản ứng toàn thân ít gặp như sốt, đau đầu, buồn nôn, chóng mặt và mệt mỏi cũng có thể xảy ra ở một vài người sau khi tiêm, song nguyên nhân để nói là có liên quan đến vắc xin hay không thì vẫn chưa được xác định.",
+                                           "Những phản ứng thường hay gặp nhất là đau, sưng và ban đỏ tại chỗ tiêm.;Những phản ứng toàn thân ít gặp như sốt, đau đầu, buồn nôn, chóng mặt và mệt mỏi cũng có thể xảy ra ở một vài người sau khi tiêm.",
                                            3, 3,
                                            "Bảo quản ở nhiệt độ lạnh (từ +2 đến +8 độ C). Không được đông băng.",
                                            "Trẻ sơ sinh và trẻ em đến tròn 10 tuổi: liều 10mcg/0.5ml;Trẻ lớn trên 10 tuổi và người lớn (10 tuổi 1 ngày): 20mcg/1ml; Lịch tiêm 0-1-2-12 tháng:;Mũi đầu tiên: lần tiêm đầu tiên. Đối với trẻ sơ sinh, tốt nhất tiêm trong vòng 24 giờ đầu sau sinh.;Mũi thứ hai: 1 tháng sau mũi đầu tiên;Mũi thứ ba: 2 tháng sau mũi đầu tiên;Mũi tiêm nhắc lại: 1 năm sau mũi đầu tiên.;Lịch tiêm 0-1-6 tháng:;Mũi đầu tiên: lần tiêm đầu tiên. Đối với trẻ sơ sinh, tốt nhất tiêm trong vòng 24 giờ đầu sau sinh;Mũi tiêm thứ hai: 1 tháng sau mũi tiêm đầu;Mũi tiêm thứ ba: 6 tháng sau mũi tiêm đầu;Mũi tiêm nhắc lại: 5 năm sau mũi tiêm đầu",
@@ -223,9 +223,9 @@ public class VaccineService {
                                            "Người mẫn cảm với các thành phần có trong vắc xin.;Không được tiếp tục dùng Gardasil nếu có phản ứng quá mẫn với lần tiêm trước.",
                                            "Phản ứng tại chỗ tiêm: sưng đau, có ban đỏ, hay gặp bầm tím và ngứa.;Rất hiếm gặp: co thắt khí quản nghiêm trọng.",
                                            3, 3,
-                                           "Vắc xin được bảo quản ở nhiệt độ từ 2-8 độ C, không được đông băng và tránh ánh sáng.;Khi đưa ra khỏi tủ bảo quản nên sử dụng vắc xin ngay nhưng cũng có thể để ngoài nhiệt độ phòng <25 độ C trong thời gian 3 ngày mà không bị ảnh hưởng đến chất lượng vắc xin. Sau 3 ngày, vắc xin cần được loại bỏ.",
+                                           "Vắc xin được bảo quản ở nhiệt độ từ 2-8 độ C. Không được đông băng và tránh ánh sáng. Khi đưa ra khỏi tủ bảo quản nên sử dụng vắc xin ngay nhưng cũng có thể để ngoài nhiệt độ phòng <25 độ C trong thời gian 3 ngày mà không bị ảnh hưởng đến chất lượng vắc xin. Sau 3 ngày, vắc xin cần được loại bỏ.",
                                            "Lịch tiêm của vắc xin Gardasil (Mỹ) 3 mũi:;Mũi 1: Lần tiêm đầu tiên.;Mũi 2: 2 tháng sau mũi 1.;Mũi 3: 6 tháng sau mũi 1.",
-                                           "Vắc xin Gardasil (Mỹ) phòng bệnh ung thư cổ tử cung, âm hộ, âm đạo, các tổn thương tiền ung thư và loạn sản, mụn cóc sinh dục và bệnh lý do nhiễm virus HPV, được chỉ định dành cho trẻ em gái và phụ nữ trong độ tuổi từ 9-26 tuổi."));
+                                           "Vắc xin Gardasil (Mỹ) được chỉ định dành cho trẻ em gái và phụ nữ trong độ tuổi từ 9-26 tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Influvac Tetra (Hà Lan)",
@@ -236,7 +236,7 @@ public class VaccineService {
                                            "Người mẫn cảm với các thành phần hoạt tính, với bất kỳ tá dược hoặc bất cứ thành phần nào có thể chỉ có mặt với một lượng rất nhỏ như trứng (ovalbumin, protein gà), formaldehyde, cetyltrimethylammonium bromide, polysorbat 80, hoặc gentamicin.;Các bệnh nhân/trẻ em có triệu chứng sốt hoặc nhiễm trùng cấp tính sẽ phải hoãn tiêm chủng.",
                                            "Các phản ứng tại chỗ: đỏ, đau, sưng, cứng vị trí tiêm;Các phản ứng toàn thân: sốt, khó chịu, đầu đầu, đổ mồ hôi, chứng đau cơ, đau khớp;Các phản ứng bất lợi này thường mất đi trong vòng 1-2 ngày mà không cần điều trị.",
                                            2, 1,
-                                           "Vắc xin cúm Influvac Tetra phải được bảo quản tại 2°C đến 8°C (trong tủ lạnh).;Không được đông băng.;Bảo quản trong bao bì gốc. Tránh ánh sáng.",
+                                           "Vắc xin cúm Influvac Tetra phải được bảo quản tại 2°C đến 8°C (trong tủ lạnh). Không được đông băng. Bảo quản trong bao bì gốc. Tránh ánh sáng.",
                                            "Vắc xin Influvac Tetra 0.5 ml dành cho trẻ từ 6 tháng tuổi đến dưới 9 tuổi chưa tiêm cúm có lịch tiêm 2 mũi:;Mũi 1: lần tiêm đầu tiên.;Mũi 2: cách mũi 1 ít nhất 4 tuần và tiêm nhắc hàng năm.;Từ 9 tuổi trở lên: Lịch tiêm 01 mũi duy nhất và nhắc lại hằng năm.",
                                            "Vắc xin Influvac Tetra 0.5ml được chỉ định cho trẻ từ 6 tháng tuổi trở lên và người lớn."));
 
@@ -247,11 +247,11 @@ public class VaccineService {
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Synflorix tiêm bắp ở mặt trước – bên đùi của trẻ nhỏ và tiêm ở cơ delta cánh tay của trẻ lớn. Không được tiêm tĩnh mạch hoặc tiêm trong da đối với vắc xin Synflorix.",
                                            "Synflorix không được tiêm cho các đối tượng quá mẫn với bất kỳ thành phần nào trong vắc xin.",
-                                           "Các phản ứng tại chỗ thường gặp với tỷ lệ cao hơn ở trẻ >12 tháng tuổi so với trẻ nhỏ hơn.;Các tác dụng không mong muốn thường trầm trọng hơn khi tiêm cùng với vắc xin ho gà toàn tế bào.;Thường gặp: sốt >38 độ C, đau sưng đỏ hoặc chai cứng ở chỗ tiêm. Tinh thần trẻ có thể bị kích thích, có cảm giác chán ăn.",
+                                           "Tại chỗ tiêm: sưng, đau, đỏ.; Toàn thân: trẻ có thể sốt trên 38 độ C, ăn uống kém, bị kích thích, quấy khóc.",
                                            3, 0,
-                                           "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C, không được để đông băng (*).",
+                                           "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C, không được để đông băng.",
                                            "Vắc xin phòng bệnh do phế cầu dành cho trẻ từ 6 tuần đến 6 tháng tuổi có lịch tiêm:;Mũi 1: vào 2 tháng tuổi.;Mũi 2: vào 3 tháng tuổi.;Mũi 3: vào 4 tháng tuổi.;Mũi nhắc lại: sau 6 tháng kể từ mũi thứ 3.;Vắc xin phòng bệnh do phế cầu dành cho trẻ từ 7-11 tháng tuổi (chưa từng được tiêm phòng vắc xin trước đó) có lịch tiêm:;Mũi 1: lần tiêm đầu tiên.;Mũi 2: cách mũi 1 là 1 tháng.;Mũi nhắc lại: vào năm tuổi thứ 2 và cách mũi 2 ít nhất là 2 tháng.; Vắc xin phòng bệnh do phế cầu dành cho trẻ từ 12 tháng đến trước sinh nhật lần thứ 6 (chưa từng được tiêm phòng vắc xin trước đó) có lịch tiêm:; Mũi 1: lần tiêm đầu tiên.;Mũi 2: 2 tháng sau mũi 1.",
-                                           "Vắc xin Synflorix (Bỉ) phòng bệnh do phế cầu như viêm phổi, viêm màng não, viêm tai giữa, nhiễm khuẩn huyết được chỉ định cho trẻ từ 6 tuần tuổi trở lên và trước sinh nhật lần thứ 6."));
+                                           "Vắc xin Synflorix (Bỉ) được chỉ định cho trẻ từ 6 tuần tuổi trở lên và trước sinh nhật lần thứ 6."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Infanrix Hexa (Bỉ)",
@@ -264,7 +264,7 @@ public class VaccineService {
                                            4, 0,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 – 8 độ C. Không đông đá huyền dịch DTPa-HB-IPV và vắc xin đã hoàn nguyên. Loại bỏ nếu vắc xin bị đông băng.",
                                            "Lịch tiêm 6 trong 1 Infanrix Hexa bao gồm 4 mũi:;Mũi 1: lần tiêm đầu tiên.;Mũi 2: 1 tháng sau mũi 1.;Mũi 3: 1 tháng sau mũi 2.;Mũi 4: cách mũi thứ 3 là 12 tháng (cách tối thiểu 6 tháng).",
-                                           "Vắc xin Infanrix Hexa được chỉ định tiêm cho trẻ từ 6 tuần tuổi đến 2 tuổi phòng 6 bệnh: Bạch hầu, Ho gà, Uốn ván, Bại liệt, Viêm gan B và các bệnh do Hib."));
+                                           "Vắc xin Infanrix Hexa được chỉ định tiêm cho trẻ từ 6 tuần tuổi đến 2 tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Hexaxim (Pháp)",
@@ -277,7 +277,7 @@ public class VaccineService {
                                            4, 0,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C.",
                                            "Lịch tiêm 6 trong 1 Hexaxim bao gồm 4 mũi:;Mũi 1: lần tiêm đầu tiên;Mũi 2: 1 tháng sau mũi 1;Mũi 3: 1 tháng sau mũi 2;Mũi 4: cách mũi thứ 3 là 12 tháng (cách tối thiểu 6 tháng).",
-                                           "Vắc xin Hexaxim được chỉ định tiêm cho trẻ từ 6 tuần tuổi đến 2 tuổi phòng 6 bệnh: Bạch hầu, Ho gà, Uốn ván, Bại liệt, Viêm gan B và các bệnh do Hib."));
+                                           "Vắc xin Hexaxim được chỉ định tiêm cho trẻ từ 6 tuần tuổi đến 2 tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Pentaxim (Pháp)",
@@ -288,9 +288,9 @@ public class VaccineService {
                                            "Chống chỉ định đối với những trường hợp mẫn cảm với các hoạt chất hay bất cứ tá dược nào trong thuốc.;Trẻ bị dị ứng với một trong các thành phần của vắc xin hay với vắc xin ho gà (vô bào hoặc nguyên bào), hay trước đây trẻ đã có phản ứng dị ứng sau khi tiêm vắc xin có chứa các chất tương tự.;Trẻ có bệnh não tiến triển hoặc tổn thương ở não.;Nếu lần trước trẻ từng bị bệnh não (tổn thương ở não) trong vòng 7 ngày sau khi tiêm vắc xin ho gà (ho gà vô bào hay nguyên bào).",
                                            "Tại chỗ tiêm: nốt quầng đỏ, nốt cứng. Các triệu chứng trên thường gặp trong 48 giờ sau khi tiêm và có thể kéo dài 48 – 72 giờ.;Toàn thân: trẻ có thể sốt, quấy khóc, tiêu chảy, nôn, chán ăn, buồn ngủ, phát ban.",
                                            4, 0,
-                                           "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.;Vắc xin phải được hoàn nguyên trước khi tiêm, tạo nên hỗn dịch màu trắng đục. Sau khi hoàn nguyên nên sử dụng ngay.",
+                                           "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng. Vắc xin phải được hoàn nguyên trước khi tiêm, tạo nên hỗn dịch màu trắng đục. Sau khi hoàn nguyên nên sử dụng ngay.",
                                            "Lịch tiêm vắc xin 5 trong 1 Pentaxim gồm 4 mũi:;Mũi 1: lần tiêm đầu tiên;Mũi 2: 1 tháng sau mũi 1;Mũi 3: 1 tháng sau mũi 2;Mũi 4: 1 năm sau mũi 3",
-                                           "Vắc xin Pentaxim được chỉ định tiêm cho trẻ từ 2 tháng tuổi đến tròn 2 tuổi phòng 5 bệnh: Bạch hầu, Ho gà, Uốn ván, Bại liệt và các bệnh do Hib."));
+                                           "Vắc xin Pentaxim được chỉ định tiêm cho trẻ từ 2 tháng tuổi đến tròn 2 tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Heberbiovac (Cu ba)",
@@ -303,7 +303,7 @@ public class VaccineService {
                                            3, 3,
                                            "Vắc xin Heberbiovac HB được bảo quản trong tủ lạnh (2°C – 8°C). Không để đông đá.",
                                            "Vắc xin Heberbiovac HB phòng bệnh viêm gan B có lịch tiêm 3 mũi:;Mũi 1: lần tiêm đầu tiên;Mũi 2: 1 tháng sau mũi 1;Mũi 3: 6 tháng sau mũi 1;Phác đồ tiêm nhanh vắc xin Heberbiovac HB:;Mũi 1: lần tiêm đầu tiên;Mũi 2: 1 tháng sau mũi 1;Mũi 3: 2 tháng sau mũi 1;Mũi 4: 12 tháng sau mũi 1;Phác đồ tiêm vắc xin Heberbiovac HB cho người suy giảm miễn dịch, suy thận, thẩm phân phúc mạc:;Mũi 1: lần tiêm đầu tiên;Mũi 2: 1 tháng sau mũi 1;Mũi 3: 2 tháng sau mũi 1;Mũi 4: 6 tháng sau mũi 1",
-                                           "Vắc xin Heberbiovac HB được chỉ định tiêm chủng cho trẻ sơ sinh và người lớn.;Vắc xin Heberbiovac HB 10mcg/0.5ml phòng ngừa viêm gan B được dùng để chủng ngừa cho trẻ sơ sinh đến trẻ tròn 10 tuổi.;Vắc xin Heberbiovac HB 20mcg/1ml phòng ngừa viêm gan B được dùng để chủng ngừa cho trẻ trên 10 tuổi (10 tuổi 1 ngày) trở lên và người lớn."));
+                                           "Vắc xin Heberbiovac HB được chỉ định tiêm chủng cho trẻ sơ sinh và người lớn."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Priorix (Bỉ)",
@@ -327,9 +327,9 @@ public class VaccineService {
                                            "Không dùng vắc xin Rotarix cho trẻ đã quá mẫn cảm ở lần uống đầu tiên hoặc với bất kỳ thành phần nào của vắc xin.;Không dùng cho trẻ có dị tật bẩm sinh về đường tiêu hóa vì có thể dẫn đến lồng ruột (như túi thừa Meckel).",
                                            "Toàn thân: rối loạn tiêu hóa và thường tự khỏi sau vài ngày.;Nếu đi ngoài phân nước nhiều lần, nôn nhiều, có dấu hiệu mất nước nên khám lại ngay tại cơ sở y tế.",
                                            2, 2,
-                                           "Vắc xin đông khô được bảo quản ở nhiệt độ 2-8 độ C, tránh ánh sáng.;Dung môi hoàn nguyên có thể bảo quản ở 2-8 độ C hoặc ở nhiệt độ phòng (<37 độ C).;Sau khi hoàn nguyên, vắc xin được sử dụng ngay hoặc bảo quản trong tủ lạnh từ 2-8 độ C trong vòng 24 giờ. Sau 24 giờ phải loại bỏ vắc xin đã hoàn nguyên.",
+                                           "Vắc xin đông khô được bảo quản ở nhiệt độ 2-8 độ C, tránh ánh sáng. Dung môi hoàn nguyên có thể bảo quản ở 2-8 độ C hoặc ở nhiệt độ phòng (<37 độ C). Sau khi hoàn nguyên, vắc xin được sử dụng ngay hoặc bảo quản trong tủ lạnh từ 2-8 độ C trong vòng 24 giờ. Sau 24 giờ phải loại bỏ vắc xin đã hoàn nguyên.",
                                            "Vắc xin Rotarix (Bỉ) có lịch uống 2 liều liên tiếp cách nhau tối thiểu 4 tuần.;Liều đầu tiên có thể uống sớm lúc 6 tuần tuổi.;Cần hoàn thành phác đồ đến tròn 24 tuần tuổi (Muộn nhất là đến tròn 6 tháng tuổi).",
-                                           "Vắc xin Rotarix được chỉ định chủng ngừa cho trẻ từ 6 tuần tuổi phòng tránh nguy cơ nhiễm virus Rota – nguyên nhân gây tiêu chảy cấp ở trẻ nhỏ."));
+                                           "Vắc xin Rotarix được chỉ định chủng ngừa cho trẻ từ 6 tuần tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Rotateq (Mỹ)",
@@ -342,7 +342,7 @@ public class VaccineService {
                                            3, 3,
                                            "Vắc xin Rotateq được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Sau khi lấy ra khỏi tủ lạnh, vắc xin cần được sử dụng ngay. Khi bảo quản ở nhiệt độ 25 độ C, vắc xin Rotateq có thể sử dụng trong vòng 48 giờ. Sau 48 giờ vắc xin cần phải loại bỏ theo quy định.",
                                            "Vắc xin Rotateq (Mỹ) có lịch uống 3 liều, các liều cách nhau tối thiểu 4 tuần:;Liều đầu tiên khi trẻ được 7.5 tuần đến tròn 12 tuần tuổi.;Cần hoàn thành phác đồ muộn nhất đến trước 32 tuần.",
-                                           "Vắc xin Rotateq được chỉ định chủng ngừa cho trẻ từ 6 tuần tuổi phòng tránh nguy cơ nhiễm virus Rota – nguyên nhân gây tiêu chảy cấp ở trẻ nhỏ."));
+                                           "Vắc xin Rotateq được chỉ định chủng ngừa cho trẻ từ 6 tuần tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Rotavin (Việt Nam)",
@@ -355,7 +355,7 @@ public class VaccineService {
                                            2, 2,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C.",
                                            "Vắc xin Rotavin có lịch uống 2 liều liên tiếp cách nhau tối thiểu 4 tuần:;Liều đầu tiên có thể uống sớm lúc 6 tuần tuổi.;Cần hoàn thành phác đồ muộn nhất đến trước 6 tháng.",
-                                           "Vắc xin Rotavin được chỉ định chủng ngừa cho trẻ từ 6 tuần tuổi phòng tiêu chảy cấp do Rotavirus."));
+                                           "Vắc xin Rotavin được chỉ định chủng ngừa cho trẻ từ 6 tuần tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin BCG (Việt Nam)",
@@ -405,7 +405,7 @@ public class VaccineService {
                                            "Trường hợp mẫn cảm với bất cứ thành phần nào của vắc xin;Phụ nữ có thai;Trường hợp bị nhiễm trùng cấp tính đường hô hấp, mắc bệnh lao tiến triển chưa được điều trị;Người bị suy giảm miễn dịch (trừ trẻ em bị HIV);Người bị bệnh ác tính.",
                                            "Tại chỗ tiêm: đau, đỏ, sưng;Toàn thân: Sốt, ban, ho và sổ mũi",
                                            3, 3,
-                                           "Lọ vắc xin sởi dạng đông khô được bảo quản ở khoảng nhiệt độ  ≤ 8 độ C và tránh ánh sáng.;Lọ nước pha tiêm được bảo quản nhiệt độ dưới 30oC, không được làm đông băng.;Lọ vắc xin sau khi pha hồi chỉnh bằng nước pha tiêm sẽ được bảo quản ở nhiệt độ 2 độ C đến 8 độ C và chỉ sử dụng trong vòng 6 giờ.",
+                                           "Lọ vắc xin sởi dạng đông khô được bảo quản ở khoảng nhiệt độ  ≤ 8 độ C và tránh ánh sáng. Lọ nước pha tiêm được bảo quản nhiệt độ dưới 30oC, không được làm đông băng. Lọ vắc xin sau khi pha hồi chỉnh bằng nước pha tiêm sẽ được bảo quản ở nhiệt độ 2 độ C đến 8 độ C và chỉ sử dụng trong vòng 6 giờ.",
                                            "Liều thứ 1 tiêm cho trẻ từ 9 tháng tuổi trở lên;;Liều thứ 2 (vắc xin phối hợp Sởi – Quai bị – Rubella): được tiêm cho trẻ từ 12 tháng tuổi (cách mũi sởi đơn ít nhất 1 tháng);;Liều thứ 3: 3 năm sau hoặc lúc trẻ 4-6 tuổi.",
                                            "Vắc xin MVVAC phòng bệnh sởi cho trẻ từ 9 tháng tuổi trở lên và người chưa có kháng thể sởi."));
 
@@ -418,7 +418,7 @@ public class VaccineService {
                                            "Người dị ứng với bất kỳ thành phần nào trong vắc xin, kể cả gelatin.;Người đang mang thai, phải tránh mang thai 3 tháng sau khi tiêm vắc xin cho phụ nữ.;Có tiền sử dị ứng với neomycin.;Đang có bệnh lý sốt hoặc viêm đường hô hấp.;Bệnh lao đang tiến triển mà chưa được điều trị hoặc người đang điều trị bằng thuốc ức chế miễn dịch.;Người có rối loạn về máu, bệnh bạch cầu hay u hạch bạch huyết; hoặc ở người có những khối u tân sinh ác tính ảnh hưởng tới tủy xương hoặc hệ bạch huyết.;Người bị bệnh suy giảm miễn dịch tiên phát hoặc thứ phát, bao gồm cả người mắc bệnh AIDS và người có biểu hiện lâm sàng về nhiễm virus gây suy giảm miễn dịch; các bệnh gây giảm hoặc bất thường gammaglobulin máu.;Người có tiền sử trong gia đình suy giảm miễn dịch bẩm sinh hoặc di truyền cho đến khi chứng minh được họ có khả năng đáp ứng miễn dịch với vắc xin.",
                                            "Tại chỗ tiêm: đau, đỏ, sưng;Toàn thân: Sốt, ban, ho và sổ mũi",
                                            2, 2,
-                                           "Trước khi hoàn nguyên, vắc xin cần được bảo quản ở nhiệt độ 2-8 độ C và tránh ánh sáng.;Sau khi hoàn nguyên nên sử dụng ngay vắc xin,có thể sử dụng được vắc xin đã hoàn nguyên nếu được bảo quản ở chỗ tối nhiệt độ từ 2-8 độ C, tránh ánh sáng. Sau 8 giờ phải hủy bỏ vắc xin theo quy định.",
+                                           "Trước khi hoàn nguyên, vắc xin cần được bảo quản ở nhiệt độ 2-8 độ C và tránh ánh sáng. Sau khi hoàn nguyên nên sử dụng ngay vắc xin,có thể sử dụng được vắc xin đã hoàn nguyên nếu được bảo quản ở chỗ tối nhiệt độ từ 2-8 độ C, tránh ánh sáng. Sau 8 giờ phải hủy bỏ vắc xin theo quy định.",
                                            "Vắc xin MMR-II cho trẻ từ 12 tháng tuổi – < 7 tuổi (chưa tiêm Sởi đơn hay MMR II) có lịch tiêm 2 mũi:;Mũi 1: lần tiêm đầu tiên.;Mũi 2: 3 tháng sau mũi 1 (ưu tiên) hoặc hẹn mũi 2 lúc 4-6 tuổi.;Vắc xin MMR-II cho trẻ từ 7 tuổi và người lớn có lịch tiêm 2 mũi:;Mũi 1: lần tiêm đầu tiên.;Mũi 2: 1 tháng sau mũi 1.",
                                            "Vắc xin MMR-II phòng Sởi – Quai bị – Rubella được chỉ định dành cho trẻ từ 12 tháng tuổi trở lên và người  lớn."));
 
@@ -457,7 +457,7 @@ public class VaccineService {
                                            "Người có tiền sử phản ứng dị ứng với bất kỳ thành phần nào của Imojev.;Người suy giảm miễn dịch bẩm sinh hoặc mắc phải làm suy yếu miễn dịch tế bào.;Người nhiễm HIV có triệu chứng hoặc bằng chứng suy giảm chức năng miễn dịch.;Phụ nữ có thai hoặc cho con bú sữa mẹ.",
                                            "Phản ứng tại chỗ tiêm: Đỏ, ngứa, sưng, đau.;Phản ứng toàn thân: Mệt mỏi, khó chịu, đau đầu, đau cơ, ở trẻ em có thể sốt còn người lớn có thể phát ban.",
                                            2, 1,
-                                           "Vắc xin Imojev cần bảo quản ở nhiệt độ từ 2 đến 8 độ C, không được để đông băng.;Giữ vắc xin trong hộp để tránh ánh sáng.",
+                                           "Vắc xin Imojev cần bảo quản ở nhiệt độ từ 2 đến 8 độ C, không được để đông băng. Giữ vắc xin trong hộp để tránh ánh sáng.",
                                            "Trẻ từ 9 tháng tuổi đến dưới 18 tuổi (chưa tiêm vắc xin Jevax lần nào) có lịch tiêm 2 mũi: ;Mũi 1: Là mũi tiêm đầu tiên.;Mũi 2: Cách 1 năm sau mũi đầu tiên.;Người tròn 18 tuổi trở lên: Tiêm 1 mũi duy nhất.",
                                            "Vắc xin Imojev được chỉ định phòng viêm não Nhật Bản cho trẻ em từ 9 tháng tuổi trở lên và người lớn."));
 
@@ -481,8 +481,7 @@ public class VaccineService {
                                            "Vabiotech – Việt Nam",
                                            "Tiêm bắp. Không được tiêm vào đường tĩnh mạch hoặc trong da.;Ở người lớn thì tiêm vắc-xin vào vùng cơ Delta song ở trẻ em nên tiêm vào vùng đùi ngoài thì tốt hơn vì cơ Delta còn nhỏ.",
                                            "Không tiêm Havax cho những người quá nhạy cảm với bất cứ thành phần nào của vắc xin.;Bệnh tim, bệnh thận hoặc bệnh gan.;Bệnh tiểu đường.;Bệnh ung thư máu và các bệnh ác tính nói chung.;Bệnh quá mẫn.;Không được tiêm tĩnh mạch trong bất cứ trường hợp nào.;Không tiêm cho trẻ em dưới 2 tuổi (24 tháng tuổi).;Không tiêm cho các đối tượng mắc bệnh bẩm sinh.;Hoãn tiêm ở người đang mệt mỏi, sốt cao hoặc phản ứng toàn thân hoặc bệnh nhiễm trùng đang tiến triển.",
-                                           "Tại chỗ tiêm: có thể sưng quầng đỏ tại chỗ tiêm 1-2 ngày.\n" +
-                                                   ";Toàn thân: Sốt nhẹ, đau đầu, đau cơ, mệt mỏi,…\n",
+                                           "Tại chỗ tiêm: có thể sưng quầng đỏ tại chỗ tiêm 1-2 ngày.;Toàn thân: Sốt nhẹ, đau đầu, đau cơ, mệt mỏi,…",
                                            2, 2,
                                            "Vắc xin được bảo quản ở nhiệt độ từ +2 đến +8 độ C. Không để đông đá. Tránh ánh sáng.",
                                            "Mũi 1: lần tiêm đầu tiên.;Mũi 2: 6 tháng sau mũi 1.",
@@ -522,7 +521,7 @@ public class VaccineService {
                                            "Tiêm bắp hoặc tiêm dưới da.",
                                            "Mẫn cảm với các thành phần trong vắc xin.;Không tiêm bắp cho người bị rối loạn đông máu hoặc giảm tiểu cầu.;Trẻ em dưới 2 tuổi vì đáp ứng miễn dịch thấp.",
                                            "Phản ứng tại chỗ: sưng, đau, có quầng đỏ tại vết tiêm.;Phản ứng toàn thân: sốt, mệt mỏi, đau đầu, đau cơ, buồn nôn và đau bụng.",
-                                           2, 2,
+                                           1, 1,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C",
                                            "Lịch tiêm 01 mũi.;Tiêm nhắc: mỗi 3 năm nếu có nguy cơ nhiễm bệnh.",
                                            "Vắc xin thương hàn được chỉ định cho trẻ từ trên 2 tuổi (2 tuổi 1 ngày) trở lên và người lớn."));
@@ -553,18 +552,19 @@ public class VaccineService {
                                            "Lịch tiêm cho trẻ dưới hoặc bằng 12 tháng tuổi:;Tiêm 3 mũi cơ bản khi trẻ được 2 – 4 – 6 tháng tuổi (phải đảm bảo mũi sau cách mũi trước tối thiểu 8 tuần).;Mũi nhắc thứ 4 tiêm lúc trẻ từ 15 – 18 tháng tuổi (mũi 4 phải cách mũi 3 tối thiểu 2 tháng).;Lịch tiêm cho trẻ trên 12 tháng tuổi: Chỉ cần tiêm duy nhất 1 mũi QuimiHib.",
                                            "Vắc xin QuimiHib dành cho trẻ em từ 2 tháng tuổi đến 15 tuổi."));
 
-        vaccineCreationRequestList.add(new VaccineCreationRequest(
-                "Vắc xin Uốn ván, bạch hầu hấp phụ (Việt Nam)",
-                "vac-xin-uon-van-bach-hau-hap-phu-td.jpg",
-                "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định cho trẻ em lứa tuổi lớn (từ 7 tuổi trở lên) và người lớn nhằm gây miễn dịch, phòng các bệnh uốn ván và bạch hầu.",
-                "Viện vắc xin và sinh phẩm y tế Nha Trang IVAC (Việt Nam)",
-                "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định tiêm bắp sâu. Không được tiêm dưới da hoặc tĩnh mạch.;Lắc tan đều trước khi dùng.;Liều tiêm 0,5 ml.",
-                "Tiền sử quá mẫn với thành phần của vắc xin. Có biểu hiện dị ứng với kháng nguyên bạch hầu và uốn ván ở những lần tiêm trước.;Tạm hoãn tiêm vắc xin uốn ván – bạch hầu hấp phụ (Td) trong những trường hợp có bệnh nhiễm trùng cấp tính, sốt chưa rõ nguyên nhân.;Không tiêm bắp cho người có rối loạn chảy máu như Hemophilia hoặc giảm tiểu cầu.",
-                "Tại chỗ tiêm: đau, sưng, quầng đỏ.;Toàn thân: sốt nhẹ, mệt mỏi, khó chịu, đau đầu.",
-                3, 1,
-                "Vắc xin nên được bảo quản ở nhiệt độ từ 2 đến 8 độ C, và không được để đông băng.Để xa tầm tay trẻ em.",
-                "Trẻ em từ tròn 7 tuổi trở lên đến dưới 10 tuổi chưa từng tiêm vắc xin có chứa thành phần Bạch hầu – Ho gà – Uốn ván hoặc chưa rõ tình trạng đã tiêm ngừa hay chưa có lịch tiêm 3 mũi như sau:;Mũi 1: lần tiêm đầu tiên.;Mùi 2: cách mũi 1 tối thiểu 1 tháng;Mũi 3: cách mũi 2 tối thiểu 6 tháng;Mũi 4: 5 năm sau mũi 3;Sau đó, các mỗi 10 năm tiêm 1 mũi nhắc;Trẻ từ 10 tuổi trở lên chưa từng tiêm vắc xin Bạch hầu – Ho gà – Uốn ván hoặc không rõ tình trạng tiêm ngừa:;Mũi 1: lần đầu tiên;Mũi 2: Cách mũi 1 tối thiểu 1 tháng;Mũi 3: Cách mũi 2 tối thiểu 6 tháng;Sau đó, các mũi nhắc : 01 mũi nhắc mỗi 10 năm;Trẻ em từ tròn 7 tuổi trở lên đến dưới 10 tuổi đã tiêm đủ 4 mũi cơ bản vắc xin 6 trong 1 / 5 trong 1 / 4 trong 1 ( trước 4 tuổi) có lịch tiêm 1 mũi như sau:;Mũi 1: lần tiêm đầu tiên (cách mũi thứ 4 ít nhất 3 năm);Liều tiêm nhắc: tiêm 1 mũi sau 05 năm;Sau đó, các mũi nhắc 01 mũi nhắc mỗi 10 năm;Người từ 10 tuổi trở lên đã tiêm đủ 4 mũi vắc xin 6 trong 1 / 5 trong 1 / 4 trong 1 ( trước 10 tuổi):;Tiêm 1 mũi ( cách mũi thứ 4 ít nhất 1 năm);Sau đó, các mũi nhắc: 01 mũi nhắc mỗi 10 năm",
-                "Được chỉ định chủng ngừa cho người từ 7 tuổi trở lên tạo đáp ứng kháng thể chống 2 bệnh bạch hầu và uốn ván.Không chống chỉ định cho phụ nữ có thai và đang cho con bú. Cân nhắc sử dụng theo chỉ định của bác sĩ."));
+        vaccineCreationRequestList.add(
+                new VaccineCreationRequest(
+                        "Vắc xin Uốn ván, bạch hầu hấp phụ (Việt Nam)",
+                        "vac-xin-uon-van-bach-hau-hap-phu-td.jpg",
+                        "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định cho trẻ em lứa tuổi lớn (từ 7 tuổi trở lên) và người lớn nhằm gây miễn dịch, phòng các bệnh uốn ván và bạch hầu.",
+                        "Viện vắc xin và sinh phẩm y tế Nha Trang IVAC (Việt Nam)",
+                        "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định tiêm bắp sâu. Không được tiêm dưới da hoặc tĩnh mạch.;Lắc tan đều trước khi dùng.;Liều tiêm 0,5 ml.",
+                        "Tiền sử quá mẫn với thành phần của vắc xin. Có biểu hiện dị ứng với kháng nguyên bạch hầu và uốn ván ở những lần tiêm trước.;Tạm hoãn tiêm vắc xin uốn ván – bạch hầu hấp phụ (Td) trong những trường hợp có bệnh nhiễm trùng cấp tính, sốt chưa rõ nguyên nhân.;Không tiêm bắp cho người có rối loạn chảy máu như Hemophilia hoặc giảm tiểu cầu.",
+                        "Tại chỗ tiêm: đau, sưng, quầng đỏ.;Toàn thân: sốt nhẹ, mệt mỏi, khó chịu, đau đầu.",
+                        3, 1,
+                        "Vắc xin nên được bảo quản ở nhiệt độ từ 2 đến 8 độ C, và không được để đông băng.Để xa tầm tay trẻ em.",
+                        "Trẻ em từ tròn 7 tuổi trở lên đến dưới 10 tuổi chưa từng tiêm vắc xin có chứa thành phần Bạch hầu – Ho gà – Uốn ván hoặc chưa rõ tình trạng đã tiêm ngừa hay chưa có lịch tiêm 3 mũi như sau:;Mũi 1: lần tiêm đầu tiên.;Mùi 2: cách mũi 1 tối thiểu 1 tháng;Mũi 3: cách mũi 2 tối thiểu 6 tháng;Mũi 4: 5 năm sau mũi 3;Sau đó, các mỗi 10 năm tiêm 1 mũi nhắc;Trẻ từ 10 tuổi trở lên chưa từng tiêm vắc xin Bạch hầu – Ho gà – Uốn ván hoặc không rõ tình trạng tiêm ngừa:;Mũi 1: lần đầu tiên;Mũi 2: Cách mũi 1 tối thiểu 1 tháng;Mũi 3: Cách mũi 2 tối thiểu 6 tháng;Sau đó, các mũi nhắc : 01 mũi nhắc mỗi 10 năm;Trẻ em từ tròn 7 tuổi trở lên đến dưới 10 tuổi đã tiêm đủ 4 mũi cơ bản vắc xin 6 trong 1 / 5 trong 1 / 4 trong 1 ( trước 4 tuổi) có lịch tiêm 1 mũi như sau:;Mũi 1: lần tiêm đầu tiên (cách mũi thứ 4 ít nhất 3 năm);Liều tiêm nhắc: tiêm 1 mũi sau 05 năm;Sau đó, các mũi nhắc 01 mũi nhắc mỗi 10 năm;Người từ 10 tuổi trở lên đã tiêm đủ 4 mũi vắc xin 6 trong 1 / 5 trong 1 / 4 trong 1 ( trước 10 tuổi):;Tiêm 1 mũi ( cách mũi thứ 4 ít nhất 1 năm);Sau đó, các mũi nhắc: 01 mũi nhắc mỗi 10 năm",
+                        "Được chỉ định chủng ngừa cho người từ 7 tuổi trở lên tạo đáp ứng kháng thể chống 2 bệnh bạch hầu và uốn ván.Không chống chỉ định cho phụ nữ có thai và đang cho con bú. Cân nhắc sử dụng theo chỉ định của bác sĩ."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Huyết thanh uốn ván (Việt Nam)",
@@ -579,18 +579,19 @@ public class VaccineService {
                                            "Dự phòng sau khi bị thương:;Nhất thiết phải dùng phương pháp Besredka: Tiêm 0.1ml, chờ nửa giờ, tiêm 0.25ml, chờ nửa giờ, nếu không phản ứng, tiêm hết liều còn lại. Liều thông thường huyết thanh kháng độc tố uốn ván ở người lớn và trẻ em để dự phòng sau khi bị thương là 1500 đvqt, tiêm càng sớm càng tốt sau khi bị thương. Tăng liều gấp đôi đối với vết thương dễ gây uốn ván hoặc chậm trễ khi bắt đầu tiêm phòng hoặc ở người có thể trọng quá cao.;Điều trị uốn ván:;Mặc dù liều điều trị tối ưu và liều có hiệu quả trong điều trị bệnh uốn ván còn chưa được xác định, liều khuyên dùng cho người lớn và trẻ em là 3000 – 6000 đơn vị.;Uốn ván sơ sinh: 5000 – 10.000 đvqt.;Trẻ em và người lớn: 50.000 – 100.000 đvqt, tiêm dưới da 1/2 liều và nửa còn lại tiêm bắp.",
                                            "Huyết thanh Uốn ván SAT được dùng để dự phòng bệnh uốn ván trong trường hợp bị các vết thương, vết cắn súc vật. Điều trị bệnh nhân bị bệnh uốn ván (khi đã có triệu chứng bệnh)."));
 
-        vaccineCreationRequestList.add(new VaccineCreationRequest(
-                "Vắc xin phòng COVID-19 của AstraZeneca ",
-                "vacxin-covid-19.jpg",
-                "COVID-19 vaccine Astrazeneca là một loại vắc xin được sử dụng để bảo vệ các đối tượng từ 18 tuổi trở lên chống lại COVID-19. Vắc xin giúp cho hệ miễn dịch của người được được tiêm chủng có khả năng nhận biết và tiêu diệt virus corona (SARS-COV-2).",
-                "AstraZeneca (Vương quốc Anh)",
-                "Tiêm bắp.",
-                "Tiền sử phản vệ với vắc xin phòng COVID-19 cùng loại (lần trước);;Có bất cứ chống chỉ định nào theo công bố của nhà sản xuất.",
-                "Phản ứng tại chỗ tiêm: Nổi ban đỏ, chai cứng, sưng, ngứa, đỏ tại chỗ tiêm.;Một số phản ứng toàn thân khác: Sốt, mệt mỏi, ớn lạnh, đau đầu, đau cơ hoặc đau khớp, buồn ngủ, giảm cảm giác thèm ăn, nôn mửa, tiêu chảy.",
-                2, 2,
-                "Bảo quản ở mức nhiệt 2 – 8 độ C, trong điều kiện bảo quản lạnh thông thường với thời gian trong vòng 6 tháng.",
-                "Tại Việt Nam, vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm phòng cho những người từ 18 tuổi trở lên.;Lịch tiêm gồm 2 mũi:;Mũi 1: Lần đầu tiên tiêm.;Mũi 2: Sau mũi đầu tiên từ 4 – 12 tuần.",
-                "Vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm cho người lớn từ 18 tuổi trở lên để tạo miễn dịch chủ động phòng bệnh viêm đường hô hấp cấp do virus SARS-CoV-2 gây ra"));
+        vaccineCreationRequestList.add(
+                new VaccineCreationRequest(
+                        "Vắc xin phòng COVID-19 của AstraZeneca ",
+                        "vacxin-covid-19.jpg",
+                        "COVID-19 vaccine Astrazeneca là một loại vắc xin được sử dụng để bảo vệ các đối tượng từ 18 tuổi trở lên chống lại COVID-19. Vắc xin giúp cho hệ miễn dịch của người được được tiêm chủng có khả năng nhận biết và tiêu diệt virus corona (SARS-COV-2).",
+                        "AstraZeneca (Vương quốc Anh)",
+                        "Tiêm bắp.",
+                        "Tiền sử phản vệ với vắc xin phòng COVID-19 cùng loại (lần trước);;Có bất cứ chống chỉ định nào theo công bố của nhà sản xuất.",
+                        "Phản ứng tại chỗ tiêm: Nổi ban đỏ, chai cứng, sưng, ngứa, đỏ tại chỗ tiêm.;Một số phản ứng toàn thân khác: Sốt, mệt mỏi, ớn lạnh, đau đầu, đau cơ hoặc đau khớp, buồn ngủ, giảm cảm giác thèm ăn, nôn mửa, tiêu chảy.",
+                        2, 2,
+                        "Bảo quản ở mức nhiệt 2 – 8 độ C, trong điều kiện bảo quản lạnh thông thường với thời gian trong vòng 6 tháng.",
+                        "Tại Việt Nam, vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm phòng cho những người từ 18 tuổi trở lên.;Lịch tiêm gồm 2 mũi:;Mũi 1: Lần đầu tiên tiêm.;Mũi 2: Sau mũi đầu tiên từ 4 – 12 tuần.",
+                        "Vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm cho người lớn từ 18 tuổi trở lên để tạo miễn dịch chủ động phòng bệnh viêm đường hô hấp cấp do virus SARS-CoV-2 gây ra"));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin GCFLU Quadrivalent",
@@ -601,7 +602,7 @@ public class VaccineService {
                                            "Bệnh nhân sốt hoặc người bị suy dinh dưỡng.;Bệnh nhân bị rối loạn tim mạch, rối loạn thận hoặc bệnh gan trong khi bệnh đang trong giai đoạn cấp tính, hoặc hoạt động.;Bệnh nhân mắc bệnh hô hấp cấp tính hoặc bệnh truyền nhiễm tích cực khác.;Bệnh nhân mắc bệnh thể ẩn và trong giai đoạn dưỡng bệnh.;Người quá mẫn với các thành phần của vắc xin.;Người bị dị ứng với trứng, thịt gà, mọi sản phẩm từ thịt gà.;Người bị sốt trong vòng 2 ngày hoặc có triệu chứng dị ứng như phát ban toàn thân sau tiêm tại lần tiêm phòng trước.;Người có triệu chứng co giật trong vòng 1 năm trước khi tiêm chủng.;Người có hội chứng Guillain-Barre hoặc người bị rối loạn thần kinh trong vòng 6 tuần kể từ lần chủng ngừa cúm trước.;Người được chẩn đoán mắc bệnh suy giảm miễn dịch.",
                                            "Các phản ứng tại chỗ: đỏ, đau, sưng, cứng vị trí tiêm;Các phản ứng toàn thân: sốt, khó chịu, đầu đầu, đổ mồ hôi, chứng đau cơ, đau khớp",
                                            2, 1,
-                                           "Vắc xin cúm GC Flu Quadrivalent phải được bảo quản tại 2°C đến 8°C (trong tủ lạnh).;Không được đông băng.;Bảo quản trong bao bì gốc. Tránh tiếp xúc ánh sáng.",
+                                           "Vắc xin cúm GC Flu Quadrivalent phải được bảo quản tại 2°C đến 8°C (trong tủ lạnh). Không được đông băng. Bảo quản trong bao bì gốc. Tránh tiếp xúc ánh sáng.",
                                            "Trẻ từ 6 tháng đến 9 tuổi, có lích tiêm 2 mũi: ;Mũi 1: lần tiêm đầu tiên;Mũi 2: một tháng sau mũi 1;Trẻ từ 9 tuổi trở lên và người lớn: Lịch tiêm 01 mũi duy nhất và nhắc lại hằng năm.",
                                            "GC FLU Quadrivalent (Hàn Quốc) dành cho trẻ từ 6 tháng tuổi trở lên và người lớn."));
 
@@ -631,17 +632,18 @@ public class VaccineService {
                                            "Trẻ từ 12 tháng đến 12 tuổi có lịch tiêm 2 mũi:;– Mũi 1: lần tiêm đầu tiên.;– Mũi 2: 3 tháng sau mũi 1 (ưu tiên) hoặc hẹn mũi 2 lúc 4-6 tuổi.;Trẻ từ từ 13 tuổi trở lên và người lớn có lịch tiêm 2 mũi:;– Mũi 1: lần tiêm đầu tiên.;– Mũi 2: cách mũi 1 ít nhất 01 tháng",
                                            "Vắc xin Varicella là vắc xin dạng đông khô của virus thủy đậu (varicella) sống giảm độc lực, được chỉ định phòng thủy đậu cho trẻ từ 12 tháng tuổi trở lên và người lớn."));
 
-        vaccineCreationRequestList.add(new VaccineCreationRequest(
-                "Vắc xin Measles – Mumps – Rubella (Ấn Độ)", "MMR.jpg",
-                "Vắc xin MMR là vắc xin sống, giảm độc lực, được đông khô và có nước hồi chỉnh kèm theo. Sản phẩm có dạng viên đông khô màu trắng ánh vàng. Vắc xin đạt được các tiêu chuẩn của W.H.O khi kiểm tra bằng các phương pháp theo hướng dẫn trong tạp chí W.H.O TRS 840 (1994).",
-                "Serum Institute of India Ltd",
-                "Vắc xin được tiêm theo đường tiêm dưới da sâu ở vị trí mặt trước bên đùi đối với trẻ nhỏ và vị trí bắp tay đối với trẻ lớn hơn.",
-                "Những người đang sử dụng corticosteroids, các thuốc ức chế miễn dịch khác hoặc đang xạ trị có thể không có đáp ứng miễn dịch tối ưu.;Không được tiêm vắc xin cho những người đang sốt, có thai, mắc các bệnh truyền nhiễm cấp tính, bệnh bạch hầu, thiếu máu nghiêm trọng và các bệnh nặng khác về máu, có tổn thương chức năng thận, bệnh tim mất bù, đang sử dụng gammaglobulin hoặc truyền máu hoặc các đối tượng có khả năng dị ứng với các thành phần của vắc xin.;Vắc xin có thể còn vết của neomycin.;Chống chỉ định tuyệt đối với người có phản ứng quá mẫn hoặc dạng quá mẫn với neomycin, có tiền sử phản ứng quá mẫn hoặc dạng quá mẫn.;Không chống chỉ định với các trường hợp sốt nhẹ, viêm đường hô hấp nhẹ hoặc tiêu chảy và các triệu chứng ốm nhẹ khác.;Không có báo cáo phản ứng phụ nghiêm trọng nào ở phụ nữ có thai vô tình được tiêm vắc xin có thành phần Rubella ở giai đoạn sớm thai kỳ.",
-                "Sốt nhẹ, ngứa, nổi hạch bạch huyết, đau cơ và cảm giác khó chịu được báo cáo là phổ biến.;Ở một số trường hợp rất hiếm gặp, ở người mẫn cảm, vắc xin có thể gây dị ứng nổi mề đay, ngứa và phát ban trong vòng 24h sau tiêm.",
-                2, 0,
-                "Cả vắc xin và nước hồi chỉnh đều phải tránh ánh sáng. Cần bảo quản vắc xin ở chỗ tối, nhiệt độ từ 2-8 độ C. Nước hồi chỉnh phải bảo quản nơi mát, không để đông băng.",
-                "Ủy ban tư vấn về thực hành tiêm chủng (ACIP) khuyến cáo nên tiêm liều MMR đầu tiên khi trẻ 12-15 tháng tuổi và tiêm MMR liều thứ hai khi trẻ được 4-6 tuổi ( vì nguy cơ tái nhiễm tăng cao khi trẻ bắt đầu vào tiểu học).",
-                "Tạo miễn dịch chủ động phòng bệnh sởi, quai bị và rubella ở trẻ em từ 12 tháng tuổi đến 10 tuổi."));
+        vaccineCreationRequestList.add(
+                new VaccineCreationRequest(
+                        "Vắc xin Measles – Mumps – Rubella (Ấn Độ)", "MMR.jpg",
+                        "Vắc xin MMR là vắc xin sống, giảm độc lực, được đông khô và có nước hồi chỉnh kèm theo. Sản phẩm có dạng viên đông khô màu trắng ánh vàng. Vắc xin đạt được các tiêu chuẩn của W.H.O khi kiểm tra bằng các phương pháp theo hướng dẫn trong tạp chí W.H.O TRS 840 (1994).",
+                        "Serum Institute of India Ltd",
+                        "Vắc xin được tiêm theo đường tiêm dưới da sâu ở vị trí mặt trước bên đùi đối với trẻ nhỏ và vị trí bắp tay đối với trẻ lớn hơn.",
+                        "Những người đang sử dụng corticosteroids, các thuốc ức chế miễn dịch khác hoặc đang xạ trị có thể không có đáp ứng miễn dịch tối ưu.;Không được tiêm vắc xin cho những người đang sốt, có thai, mắc các bệnh truyền nhiễm cấp tính, bệnh bạch hầu, thiếu máu nghiêm trọng và các bệnh nặng khác về máu, có tổn thương chức năng thận, bệnh tim mất bù, đang sử dụng gammaglobulin hoặc truyền máu hoặc các đối tượng có khả năng dị ứng với các thành phần của vắc xin.;Vắc xin có thể còn vết của neomycin.;Chống chỉ định tuyệt đối với người có phản ứng quá mẫn hoặc dạng quá mẫn với neomycin, có tiền sử phản ứng quá mẫn hoặc dạng quá mẫn.;Không chống chỉ định với các trường hợp sốt nhẹ, viêm đường hô hấp nhẹ hoặc tiêu chảy và các triệu chứng ốm nhẹ khác.;Không có báo cáo phản ứng phụ nghiêm trọng nào ở phụ nữ có thai vô tình được tiêm vắc xin có thành phần Rubella ở giai đoạn sớm thai kỳ.",
+                        "Sốt nhẹ, ngứa, nổi hạch bạch huyết, đau cơ và cảm giác khó chịu được báo cáo là phổ biến.;Ở một số trường hợp rất hiếm gặp, ở người mẫn cảm, vắc xin có thể gây dị ứng nổi mề đay, ngứa và phát ban trong vòng 24h sau tiêm.",
+                        2, 0,
+                        "Cả vắc xin và nước hồi chỉnh đều phải tránh ánh sáng. Cần bảo quản vắc xin ở chỗ tối, nhiệt độ từ 2-8 độ C. Nước hồi chỉnh phải bảo quản nơi mát, không để đông băng.",
+                        "Ủy ban tư vấn về thực hành tiêm chủng (ACIP) khuyến cáo nên tiêm liều MMR đầu tiên khi trẻ 12-15 tháng tuổi và tiêm MMR liều thứ hai khi trẻ được 4-6 tuổi ( vì nguy cơ tái nhiễm tăng cao khi trẻ bắt đầu vào tiểu học).",
+                        "Tạo miễn dịch chủ động phòng bệnh sởi, quai bị và rubella ở trẻ em từ 12 tháng tuổi đến 10 tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Infranrix IPV + Hib (Bỉ)",
@@ -654,7 +656,7 @@ public class VaccineService {
                                            5, 5,
                                            "Vắc xin Infanrix IPV+Hib được bảo quản ở nhiệt độ 2-8 độ C. Không được để thành phần Infanrix IPV đông băng. Tránh ánh sáng.",
                                            "Lịch tiêm vắc xin 5 trong 1 Infanrix IPV+Hib gồm 5 mũi:;Mũi 1: Lần đầu tiên.lMũi 2: 1 tháng sau mũi 1.;Mũi 3: 1 tháng sau mũi 2.;Mũi 4: 1 năm sau mũi 3 (tối thiểu 6 tháng sau mũi 3).;Mũi nhắc: 3 năm sau mũi 4.",
-                                           "Vắc xin Infanrix IPV+Hib được chỉ định tiêm cho trẻ từ 2 tháng tuổi đến trước sinh nhật 5 tuổi phòng 5 bệnh: bạch hầu, ho gà, uốn ván, bại liệt và các bệnh do Hib."));
+                                           "Vắc xin Infanrix IPV+Hib được chỉ định tiêm cho trẻ từ 2 tháng tuổi đến trước sinh nhật 5 tuổi."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Menactra (Mỹ)",
@@ -665,9 +667,9 @@ public class VaccineService {
                                            "Người đã bị phản ứng quá mẫn toàn thân với bất cứ thành phần của vắc xin, hoặc sau một lần tiêm vắc xin này hoặc một vắc xin chứa cùng một thành phần trước đây.;Sốt hay bệnh cấp tính: thông thường, trong trường hợp sốt vừa hoặc nặng và/hoặc bệnh cấp tính nên trì hoãn tiêm chủng.",
                                            "Tại chỗ tiêm: đau, sưng, đỏ tại vị trí tiêm;Toàn thân: ngủ gà, cáu kỉnh, nhức đầu, mệt mỏi, tiêu chảy, chán ăn. Các triệu chứng thường nhẹ và thoáng qua.",
                                            2, 2,
-                                           "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không được đông băng. ",
+                                           "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không được đông băng.",
                                            "Trẻ từ 9 tháng đến dưới 24 tháng: 2 liều cách nhau ít nhất 3 tháng;2 mũi cơ bản cách nhau ít nhất 3 tháng;Mũi tiêm nhắc: cho Khách hàng từ 15 đến < 56 tuổi;Trẻ em từ 2 tuổi đến 55 tuổi (trước sinh nhật lần thứ 56): ;Mũi 1: lần đầu tiên;Mũi 2 (mũi nhắc): cách mũi 1 ít nhất 4 năm (cho người từ 15 đến 55 tuổi);Người có nguy cơ cao mắc Não mô cầu (có bệnh lý nền, dùng thuốc ức chế miễn dịch…)*:;Trẻ dưới 7 tuổi:;2 mũi cơ bản cách nhau ít nhất 2 tháng;Tiêm 1 mũi nhắc sau mũi cơ bản cuối cùng ít nhất 3 năm;Sau đó mỗi 5 năm;Người tròn 7 tuổi trở lên và người lớn:;2 mũi cơ bản cách nhau ít nhất 2 tháng;Sau đó mỗi 5 năm",
-                                           "Vắc xin Menactra (Mỹ) được chỉ định tiêm cho trẻ từ 9 tháng đến 55 tuổi (trước sinh nhật lần thứ 56) phòng bệnh viêm màng não mô cầu ACYW do các nhóm huyết thanh A,C,Y, W-135 gây ra."));
+                                           "Vắc xin Menactra (Mỹ) được chỉ định tiêm cho trẻ từ 9 tháng đến 55 tuổi (trước sinh nhật lần thứ 56)."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Engerix B (Bỉ)",
@@ -680,7 +682,7 @@ public class VaccineService {
                                            3, 3,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không để đông băng.",
                                            "Vắc xin Engerix B phòng bệnh viêm gan B có lịch tiêm 3 mũi:;Mũi 1: lần tiêm đầu tiên.;Mũi 2: 1 tháng sau mũi 1.;Mũi 3: 5 tháng sau mũi 2.",
-                                           "Vắc xin Engerix B 10mcg/0.5ml phòng ngừa viêm gan B được dùng để chủng ngừa cho trẻ sơ sinh đến dưới 20 tuổi.;Vắc xin Engerix B 20mcg/1ml phòng ngừa viêm gan B được dùng để chủng ngừa cho người từ 20 tuổi trở lên."));
+                                           "Vắc xin Engerix B 10mcg/0.5ml phòng ngừa viêm gan B được dùng để chủng ngừa cho trẻ sơ sinh đến dưới 20 tuổi. Vắc xin Engerix B 20mcg/1ml phòng ngừa viêm gan B được dùng để chủng ngừa cho người từ 20 tuổi trở lên."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Euvax B (Hàn Quốc)",
@@ -693,7 +695,7 @@ public class VaccineService {
                                            3, 3,
                                            "Vắc xin được bảo quản ở nhiệt độ từ 2 độ C đến 8 độ C. Không được để đông băng.",
                                            "Vắc xin Euvax B phòng bệnh viêm gan B có lịch tiêm 3 mũi:;Mũi 1: lần tiêm đầu tiên.;Mũi 2: 1 tháng sau mũi 1.;Mũi 3: 6 tháng sau mũi 1.",
-                                           "Vắc xin Euvax B 0.5ml phòng ngừa viêm gan B được dùng để chủng ngừa cho trẻ sơ sinh đến dưới 16 tuổi.;Vắc xin Euvax B 1ml phòng ngừa viêm gan B được dùng để chủng ngừa cho người từ 16 tuổi trở lên."));
+                                           "Vắc xin Euvax B 0.5ml phòng ngừa viêm gan B được dùng để chủng ngừa cho trẻ sơ sinh đến dưới 16 tuổi. Vắc xin Euvax B 1ml phòng ngừa viêm gan B được dùng để chủng ngừa cho người từ 16 tuổi trở lên."));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Jevax (Việt Nam)",
@@ -733,6 +735,19 @@ public class VaccineService {
                                            "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
                                            "Lịch tiêm cơ bản: Tiêm 1 mũi duy nhất vắc xin Stamaril 0.5ml (sau khi đã pha hồi chỉnh).;Lịch tiêm nhắc: Cân nhắc tiêm nhắc lại vắc xin Stamaril 0.5ml mỗi 10 năm đối với:;Người không tạo đủ đáp ứng miễn dịch sau khi tiêm mũi đầu.;Khuyến cáo chính thức của các Cơ quan Quản lý Y tế địa phương và điều kiện nhập cảnh ở một số Quốc gia.",
                                            "Vắc xin Stamaril được chỉ định tiêm cho trẻ từ 9 tháng tuổi đến người lớn 60 tuổi phòng bệnh sốt vàng."));
+
+        vaccineCreationRequestList.add(
+                new VaccineCreationRequest("Vắc xin Qdenga (Sản xuất tại Đức)",
+                                           "vaccine-qdenga.jpg",
+                                           "Vắc xin Qdenga là chế phẩm sinh học đặc biệt có khả năng phòng bệnh sốt xuất huyết do virus Dengue gây ra, có khả năng bảo vệ chống lại cả 4 nhóm huyết thanh của virus dengue, bao gồm DEN-1, DEN-2, DEN-3 và DEN-4, được chỉ định tiêm cho người từ 4 tuổi trở lên với hiệu lực bảo vệ hơn 80% nguy cơ mắc bệnh do 4 tuýp virus Dengue và trên 90% nguy cơ nhập viện, mắc bệnh nặng và biến chứng nguy hiểm do bệnh sốt xuất huyết gây ra.",
+                                           "Nghiên cứu, phát triển và sản xuất bởi Hãng vắc xin và dược phẩm Takeda – Nhật Bản, xuất xứ tại Đức",
+                                           "Sau khi hoàn nguyên hoàn toàn vắc xin đông khô với chất pha loãng (dung môi), Qdenga nên được tiêm dưới da, tốt nhất là ở cánh tay trên ở vùng cơ delta.;Qdenga không được tiêm vào mạch, không được tiêm trong da hoặc tiêm bắp.;Không nên trộn vắc xin trong cùng một ống tiêm với bất kỳ loại vắc xin hoặc sản phẩm thuốc tiêm nào khác.",
+                                           "Quá mẫn cảm với hoạt chất hoặc với bất kỳ tá dược nào hoặc quá mẫn cảm với liều Qdenga trước đó;Những người bị suy giảm miễn dịch bẩm sinh hoặc mắc phải, bao gồm sử dụng các liệu pháp ức chế miễn dịch;Những người nhiễm HIV có triệu chứng hoặc nhiễm HIV không có triệu chứng kèm theo bằng chứng suy giảm chức năng hệ miễn dịch;Phụ nữ có thai, phụ nữ cho con bú",
+                                           "Triệu chứng tại chỗ tiêm: đau tại chỗ tiêm, đau cơ, ban đỏ;Triệu chứng toàn thân: nhức đầu, khó chịu, suy nhược, sốt",
+                                           2, 2,
+                                           "Vắc xin được bảo quản ở nhiệt độ từ 2 –  8°C. Tránh tiếp xúc với chất bảo quản, thuốc sát trùng, chất tẩy rửa và các chất chống vi rút khác vì chúng có thể làm bất hoạt vắc xin. Chỉ sử dụng ống tiêm vô trùng không chứa chất bảo quản, chất khử trùng, chất tẩy rửa và các chất chống virus khác để pha và tiêm Qdenga. Qdenga phải được hoàn nguyên trước khi dùng.",
+                                           "Người từ 4 tuổi trở lên, áp dụng lịch tiêm 2 mũi:;Mũi 1: lần tiêm đầu tiên trong độ tuổi.;Mũi 2: cách mũi đầu tiên 3 tháng.",
+                                           "Vắc xin Qdenga được chỉ định phòng ngừa bệnh sốt xuất huyết cho bất kỳ loại huyết thanh virus sốt xuất huyết nào gây ra ở những người từ 4 tuổi trở lên."));
 
         try {
             for (VaccineCreationRequest vaccineCreationRequest : vaccineCreationRequestList) {

@@ -13,5 +13,9 @@ public class VaccinePackageCreationRequest {
 
     private String vaccinePackageName;
 
+    private String vaccinePackageType;
+
     private List<Long> vaccineIdList;
+
+    private List<Integer> doseCountList;
 }

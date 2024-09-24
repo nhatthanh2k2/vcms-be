@@ -35,7 +35,7 @@ public class VaccineBatch {
     private int vaccineBatchQuantity;
 
     @Column(name = "vac_batch_value")
-    private int vaccineBatchValue;
+    private Double vaccineBatchValue;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccineBatch",
             orphanRemoval = true)

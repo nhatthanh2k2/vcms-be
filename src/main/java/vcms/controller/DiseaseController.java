@@ -17,7 +17,7 @@ public class DiseaseController {
         this.diseaseService = diseaseService;
     }
 
-    @GetMapping("/get")
+    @GetMapping("/all")
     public ApiResponse<List<DiseaseResponse>> getAllDiseases() {
         return ApiResponse.<List<DiseaseResponse>>builder()
                 .result(diseaseService.getDiseases())

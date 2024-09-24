@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/batches")
+@RequestMapping("/api/vaccine-batch")
 public class VaccineBatchController {
 
     private final VaccineBatchService vaccineBatchService;
@@ -29,7 +29,7 @@ public class VaccineBatchController {
         this.vaccineBatchMapper = vaccineBatchMapper;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ApiResponse<List<VaccineBatchResponse>> getAllVaccineBatch() {
         return ApiResponse.<List<VaccineBatchResponse>>builder()
                 .result(vaccineBatchService.getVaccineBatches())
@@ -49,7 +49,7 @@ public class VaccineBatchController {
             @RequestParam("vaccineBatchNumber") String vaccineBatchNumber,
             @RequestParam("vaccineBatchImportDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate vaccineBatchImportDate,
             @RequestParam("vaccineBatchQuantity") int vaccineBatchQuantity,
-            @RequestParam("vaccineBatchValue") int vaccineBatchValue,
+            @RequestParam("vaccineBatchValue") Double vaccineBatchValue,
             @RequestParam("batchDetailFile") MultipartFile batchDetailFile) throws IOException {
 
         VaccineBatchCreationRequest vaccineBatchCreationRequest = new VaccineBatchCreationRequest();

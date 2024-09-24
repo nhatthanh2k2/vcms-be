@@ -42,4 +42,5 @@ public class VaccineResponse {
     private LocalDateTime vaccineCreateAt;
 
     private LocalDateTime vaccineUpdateAt;
+
 }

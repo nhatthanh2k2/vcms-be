@@ -2,6 +2,7 @@ package vcms.service;
 
 import org.springframework.stereotype.Service;
 import vcms.dto.request.CustomerRequest;
+import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.response.CustomerResponse;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -72,4 +74,28 @@ public class CustomerService {
     public void deleteCustomer(Long customerId) {
         customerRepository.deleteById(customerId);
     }
+
+    private boolean isValidVietnamPhoneNumber(String phoneNumber) {
+        return phoneNumber != null && phoneNumber.matches("^0[3-9]\\d{8}$");
+    }
+
+    public CustomerResponse lookupCustomer(LookupCustomerRequest request) {
+        boolean isPhoneNumber = isValidVietnamPhoneNumber(
+                request.getLookupCustomerCode());
+        Optional<Customer> optionalCustomer;
+        if (isPhoneNumber) {
+            optionalCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
+                    request.getLookupCustomerCode(),
+                    request.getLookupCustomerDob());
+        }
+        else {
+            optionalCustomer = customerRepository.findByCustomerCodeAndCustomerDob(
+                    request.getLookupCustomerCode(),
+                    request.getLookupCustomerDob());
+        }
+        if (optionalCustomer.isPresent())
+            return customerMapper.toCustomerResponse(optionalCustomer.get());
+        return new CustomerResponse();
+    }
+
 }

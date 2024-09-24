@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class IntrospectRequest {
+public class LogoutRequest {
     private String token;
 }

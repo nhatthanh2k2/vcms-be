@@ -18,7 +18,7 @@ public class VaccineController {
         this.vaccineService = vaccineService;
     }
 
-    @GetMapping("/get")
+    @GetMapping("/all")
     public ApiResponse<List<VaccineResponse>> getAllVaccines() {
         return ApiResponse.<List<VaccineResponse>>builder()
                 .result(vaccineService.getVaccines())

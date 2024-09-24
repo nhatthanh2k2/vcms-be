@@ -21,7 +21,7 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/get")
+    @GetMapping("/all")
     public ApiResponse<List<EmployeeResponse>> getAllEmployees() {
         return ApiResponse.<List<EmployeeResponse>>builder()
                 .result(employeeService.getEmployees())

@@ -30,6 +30,9 @@ public class VaccinePackage {
     @Column(name = "vac_pkg_price")
     private int vaccinePackagePrice;
 
+    @Column(name = "vac_pkg_type")
+    private String vaccinePackageType;
+
     @Column(name = "vac_pkg_createAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccinePackageCreateAt;
@@ -38,19 +41,18 @@ public class VaccinePackage {
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccinePackageUpdateAt;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "vaccinePackage", orphanRemoval = true)
+    @OneToMany(mappedBy = "vaccinePackage", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<BatchDetail> batchDetailList = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "vaccinePackage", orphanRemoval = true)
-    @JsonManagedReference
-    private List<Appointment> appointmentList = new ArrayList<>();
+    private List<VaccinePackageDetail> vaccinePackageDetailList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "vaccinePackage", orphanRemoval = true)
     @JsonManagedReference
     private List<OrderDetail> orderDetailList = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "vaccinePackage", orphanRemoval = true)
+    @JsonManagedReference
+    private List<Appointment> appointmentList = new ArrayList<>();
 
 }

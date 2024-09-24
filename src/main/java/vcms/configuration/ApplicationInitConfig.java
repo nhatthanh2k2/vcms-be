@@ -1,21 +1,26 @@
 package vcms.configuration;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
+import vcms.dto.request.VaccineBatchCreationRequest;
 import vcms.enums.Gender;
 import vcms.enums.Role;
 import vcms.model.Employee;
 import vcms.repository.EmployeeRepository;
-import vcms.service.DiseaseService;
-import vcms.service.EmployeeService;
-import vcms.service.VaccineService;
+import vcms.service.*;
 import vcms.utils.DateService;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.HashSet;
 
@@ -32,21 +37,85 @@ public class ApplicationInitConfig {
     private final VaccineService vaccineService;
     private final EmployeeService employeeService;
 
+    private final VaccinePackageService vaccinePackageService;
+
+    @Autowired
+    private VaccineBatchService vaccineBatchService;
+
     public ApplicationInitConfig(DateService dateService,
                                  EmployeeRepository employeeRepository,
                                  DiseaseService diseaseService,
                                  VaccineService vaccineService,
-                                 EmployeeService employeeService) {
+                                 EmployeeService employeeService,
+                                 VaccinePackageService vaccinePackageService) {
         this.dateService = dateService;
         this.employeeRepository = employeeRepository;
         this.diseaseService = diseaseService;
         this.vaccineService = vaccineService;
         this.employeeService = employeeService;
+        this.vaccinePackageService = vaccinePackageService;
+    }
+
+    public static MultipartFile convertToMultipartFile(
+            File file) throws IOException {
+        FileSystemResource fileSystemResource = new FileSystemResource(file);
+        return new MultipartFile() {
+            @Override
+            public String getName() {
+                return file.getName();
+            }
+
+            @Override
+            public String getOriginalFilename() {
+                return file.getName();
+            }
+
+            @Override
+            public String getContentType() {
+                return "No file";
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return file.length() == 0;
+            }
+
+            @Override
+            public long getSize() {
+                return file.length();
+            }
+
+            @Override
+            public byte[] getBytes() throws IOException {
+                return java.nio.file.Files.readAllBytes(file.toPath());
+            }
+
+            @Override
+            public InputStream getInputStream() throws IOException {
+                return fileSystemResource.getInputStream();
+            }
+
+            @Override
+            public void transferTo(File dest) throws IOException {
+                java.nio.file.Files.copy(file.toPath(), dest.toPath());
+            }
+        };
     }
 
     @Bean
     ApplicationRunner applicationRunner() {
         return args -> {
+
+            VaccineBatchCreationRequest request = new VaccineBatchCreationRequest();
+            request.setVaccineBatchNumber("B-00-2024");
+            request.setVaccineBatchImportDate(LocalDate.of(2024, 9, 1));
+            request.setVaccineBatchQuantity(49);
+            request.setVaccineBatchValue(3795000000.0);
+            String filePath = "D:\\VCMS_Data\\Vaccine_Batch.xlsx";
+            File file = new File(filePath);
+            MultipartFile multipartFile = convertToMultipartFile(file);
+            request.setBatchDetailFile(multipartFile);
+
             if (employeeRepository.findByEmployeeUsername("admin").isEmpty()) {
                 PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
                 Employee admin = new Employee();
@@ -71,8 +140,12 @@ public class ApplicationInitConfig {
                 admin.setEmployeeUpdateAt(dateService.getDateTimeNow());
                 employeeRepository.save(admin);
                 log.warn("Admin user has been created!!!");
+
+                // init data
                 diseaseService.initalDiseaseData();
                 vaccineService.initalVaccineData();
+                vaccineBatchService.addNewVaccineBatch(request);
+                vaccinePackageService.initalVaccinePackageData();
                 employeeService.initalEmployeeData();
                 employeeService.updateEmployeeAvatars();
                 diseaseService.updateDiseaseVaccineRelations();

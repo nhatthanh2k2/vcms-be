@@ -39,7 +39,7 @@ public class BatchDetail {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailExpirationDate;
 
-    @Column(name = "batch_det_vac_type")
+    @Column(name = "batch_det_vac_type", length = 2000)
     private String vaccineType;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,11 +50,6 @@ public class BatchDetail {
     @JoinColumn(name = "vaccine_id")
     @JsonIgnore
     private Vaccine vaccine;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vaccine_package_id")
-    @JsonIgnore
-    private VaccinePackage vaccinePackage;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "batchDetail", orphanRemoval = true)

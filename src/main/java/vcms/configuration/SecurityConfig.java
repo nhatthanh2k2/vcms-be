@@ -1,5 +1,6 @@
 package vcms.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +9,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,30 +16,34 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.crypto.spec.SecretKeySpec;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
     private final String[] PUBLIC_POST_ENDPOINTS = {
-            "/api/diseases/*", "/auth/token", "/auth/introspect",
-            "/api/batches/add",
-            "/api/appointments/create", "/api/appointments/create-code"
+            "/auth/token", "/auth/introspect", "/auth/logout",
+            "/auth/refresh", "/api/customers/lookup",
+            "/api/appointments/create", "/api/appointments/create-code",
+            "/api/orders/create", "/api/orders/create-code"
     };
 
     private final String[] PUBLIC_GET_ENDPOINTS = {
-            "/api/vaccines/get", "/api/vaccines/detail/*",
-            "/api/diseases/get", "/api/diseases/detail/*",
-            "/api/employees/get", "/api/employees/detail/*",
+            "/api/vaccines/all", "/api/vaccines/detail/*",
+            "/api/diseases/all", "/api/diseases/detail/*",
+            "/api/employees/all", "/api/employees/detail/*",
             "/getDoctorAndNurse",
-            "/api/batches/detail/*",
+            "/api/vaccine-batch/detail/*",
+            "/api/vaccine-package/detail/*",
+            "/api/vaccine-package/all",
             "/images/vaccines/*", "/images/avatars/*"
     };
 
     @Value("${jwt.signerKey}")
     private String signerKey;
+
+    @Autowired
+    private CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public SecurityFilterChain filterChain(
@@ -55,18 +57,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
         );
 
-//        httpSecurity.oauth2ResourceServer(
-//                oauth2 -> oauth2.jwt(
-//                        jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
-//        );
-        httpSecurity.oauth2ResourceServer(oauth2 ->
-                                                  oauth2.jwt(jwtConfigurer ->
-                                                                     jwtConfigurer.decoder(
-                                                                                     jwtDecoder())
-                                                                             .jwtAuthenticationConverter(
-                                                                                     jwtAuthenticationConverter()))
-                                                          .authenticationEntryPoint(
-                                                                  new JwtAuthenticationEntryPoint())
+        httpSecurity.oauth2ResourceServer(
+                oauth2 -> oauth2.jwt(
+                                jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
+                                        .jwtAuthenticationConverter(
+                                                jwtAuthenticationConverter()))
+                        .authenticationEntryPoint(
+                                new JwtAuthenticationEntryPoint())
         );
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
@@ -100,14 +97,5 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(),
-                                                        "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    }
 
 }

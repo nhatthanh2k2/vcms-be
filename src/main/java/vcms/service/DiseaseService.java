@@ -87,7 +87,7 @@ public class DiseaseService {
         LocalDateTime createDateTime =
                 LocalDateTime.parse(formattedDateTime, formatter);
         diseaseList.add(new Disease(
-                "Bạch hầu, ho gà, uốn ván, bại liệt và viêm màng não mủ, viêm phổi",
+                "Bạch hầu, ho gà, uốn ván, bại liệt và viêm màng não mủ, viêm phổi do Hib",
                 createDateTime,
                 createDateTime));
 
@@ -192,6 +192,14 @@ public class DiseaseService {
         diseaseList.add(new Disease("Bệnh COVID-19",
                                     createDateTime,
                                     createDateTime));
+
+        diseaseList.add(new Disease("Sốt xuất huyết",
+                                    createDateTime,
+                                    createDateTime));
+        diseaseList.add(new Disease(
+                "Bạch hầu, ho gà, uốn ván, bại liệt, viêm màng não mủ, viêm phổi do Hib, viêm gan B",
+                createDateTime,
+                createDateTime));
         try {
             diseaseRepository.saveAll(diseaseList);
             System.out.println("Disease Data Inserted Successfully!");
@@ -209,7 +217,7 @@ public class DiseaseService {
 
         Map<Long, List<Long>> diseaseVaccineMap = new HashMap<>();
 
-        diseaseVaccineMap.put(1L, Arrays.asList(1014L, 1015L, 1016L, 1044L));
+        diseaseVaccineMap.put(1L, Arrays.asList(1016L, 1044L));
         diseaseVaccineMap.put(2L, Arrays.asList(1019L, 1020L, 1021L));
         diseaseVaccineMap.put(3L, Arrays.asList(1005L, 1006L, 1013L));
         diseaseVaccineMap.put(4L, List.of(1022L));
@@ -235,7 +243,8 @@ public class DiseaseService {
         diseaseVaccineMap.put(24L, List.of(1035L));
         diseaseVaccineMap.put(25L, List.of(1050L));
         diseaseVaccineMap.put(26L, List.of(1039L));
-
+        diseaseVaccineMap.put(27L, List.of(1051L));
+        diseaseVaccineMap.put(28L, List.of(1014L, 1015L));
         for (Long diseaseId : diseaseIds) {
             // Lấy Disease từ database
             Disease disease = diseaseRepository.findById(diseaseId)

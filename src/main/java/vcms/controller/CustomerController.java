@@ -2,6 +2,7 @@ package vcms.controller;
 
 import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.CustomerRequest;
+import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.CustomerResponse;
 import vcms.service.CustomerService;
@@ -17,7 +18,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ApiResponse<List<CustomerResponse>> getAllCustomers() {
         return ApiResponse.<List<CustomerResponse>>builder()
                 .result(customerService.getCustomers())
@@ -55,6 +56,24 @@ public class CustomerController {
         customerService.deleteCustomer(customerId);
         return ApiResponse.<String>builder()
                 .result("Customer has been deleted")
+                .build();
+    }
+
+    @PostMapping("/lookup")
+    public ApiResponse<?> lookupCustomer(
+            @RequestBody LookupCustomerRequest request) {
+        CustomerResponse customerResponse = customerService.lookupCustomer(
+                request);
+
+        if (customerResponse == null || customerResponse.getCustomerFullName() == null) {
+            return ApiResponse.<String>builder()
+                    .result("Customer not found")
+                    .code(1005)
+                    .build();
+        }
+
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.lookupCustomer(request))
                 .build();
     }
 }
