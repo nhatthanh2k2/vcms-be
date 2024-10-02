@@ -64,6 +64,7 @@ public class Order {
     @Column(name = "order_cust_ward")
     private String orderCustomerWard;
 
+    // khach hang da co thong tin
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;

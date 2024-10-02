@@ -1,14 +1,14 @@
 package vcms.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.AppointmentCreationRequest;
 import vcms.dto.request.AppointmentWithCustomerCodeRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.AppointmentResponse;
 import vcms.service.AppointmentService;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -19,12 +19,22 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
+    @GetMapping("/list")
+    public ApiResponse<List<AppointmentResponse>> getAppointmentListByDate(
+            @RequestParam("selectedDate") String selectedDateStr
+    ) {
+        LocalDate selectedDate = LocalDate.parse(selectedDateStr);
+        return ApiResponse.<List<AppointmentResponse>>builder()
+                .result(appointmentService.getAppointmentListByDate(
+                        selectedDate))
+                .build();
+    }
 
     @PostMapping("/create")
     public ApiResponse<AppointmentResponse> createAppointmentWithOutCustomerCode(
             @RequestBody AppointmentCreationRequest appointmentCreationRequest) {
         return ApiResponse.<AppointmentResponse>builder()
-                .result(appointmentService.createAppointmentWithoutCustomerCode(
+                .result(appointmentService.createAppointment(
                         appointmentCreationRequest))
                 .build();
     }

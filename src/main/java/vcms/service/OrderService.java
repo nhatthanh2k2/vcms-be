@@ -1,7 +1,6 @@
 package vcms.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.OrderCreationRequest;
 import vcms.dto.request.OrderWithCustomerCodeRequest;
@@ -24,23 +23,31 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    @Autowired
-    private OrderDetailRepository orderDetailRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
-    @Autowired
-    private DateService dateService;
+    private final DateService dateService;
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    @Autowired
-    private BatchDetailRepository batchDetailRepository;
+    private final BatchDetailRepository batchDetailRepository;
 
-    @Autowired
-    private VaccineBatchMapper vaccineBatchMapper;
+    private final VaccineBatchMapper vaccineBatchMapper;
+
+    public OrderService(OrderRepository orderRepository,
+                        OrderDetailRepository orderDetailRepository,
+                        DateService dateService,
+                        CustomerRepository customerRepository,
+                        BatchDetailRepository batchDetailRepository,
+                        VaccineBatchMapper vaccineBatchMapper) {
+        this.orderRepository = orderRepository;
+        this.orderDetailRepository = orderDetailRepository;
+        this.dateService = dateService;
+        this.customerRepository = customerRepository;
+        this.batchDetailRepository = batchDetailRepository;
+        this.vaccineBatchMapper = vaccineBatchMapper;
+    }
 
 
     public List<OrderDetail> convertBatchDetailsToOrderDetails(
@@ -68,7 +75,7 @@ public class OrderService {
             order.setCustomer(customer);
 
             List<BatchDetail> batchDetailList = batchDetailRepository.findAllById(
-                    request.getOrderItemList());
+                    request.getOrderBatchDetailIdList());
 
             List<OrderDetail> orderDetails =
                     convertBatchDetailsToOrderDetails(batchDetailList, order);
@@ -120,7 +127,7 @@ public class OrderService {
             order.setOrderCustomerWard(request.getOrderCustomerWard());
             order.setOrderDate(dateService.getDateNow());
             List<BatchDetail> batchDetailList = batchDetailRepository.findAllById(
-                    request.getOrderItemIdList());
+                    request.getOrderBatchDetailIdList());
 
             List<OrderDetail> orderDetails =
                     convertBatchDetailsToOrderDetails(batchDetailList, order);

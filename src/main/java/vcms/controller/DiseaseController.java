@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.DiseaseRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.DiseaseResponse;
+import vcms.dto.response.VaccineResponse;
 import vcms.service.DiseaseService;
 
 import java.util.List;
@@ -25,10 +26,10 @@ public class DiseaseController {
     }
 
     @GetMapping("/detail/{diseaseId}")
-    public ApiResponse<DiseaseResponse> getDiseaseById(
+    public ApiResponse<List<VaccineResponse>> getVaccineOfDisease(
             @PathVariable("diseaseId") Long diseaseId) {
-        return ApiResponse.<DiseaseResponse>builder()
-                .result(diseaseService.getDisease(diseaseId))
+        return ApiResponse.<List<VaccineResponse>>builder()
+                .result(diseaseService.getVaccineOfDisease(diseaseId))
                 .build();
     }
 

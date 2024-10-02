@@ -130,6 +130,7 @@ public class ApplicationInitConfig {
                 admin.setEmployeeWard("Phú Hữu");
                 admin.setEmployeeAvatar("admin-avatar.png");
                 admin.setEmployeeQualification("Kỹ Sư");
+                admin.setEmployeePosition("Giám đốc trung tâm");
                 HashSet<String> roles = new HashSet<>();
                 roles.add(Role.ADMIN.name());
                 admin.setRoles(roles);

@@ -30,4 +30,10 @@ public class CustomerRequest {
 
     private String customerWard;
 
+    private String relativesFullName;
+
+    private String relativesPhone;
+
+    private String relativesRelationship;
+
 }

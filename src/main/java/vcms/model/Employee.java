@@ -62,6 +62,9 @@ public class Employee {
     @Column(name = "emp_qual")
     private String employeeQualification;
 
+    @Column(name = "emp_position")
+    private String employeePosition;
+
     @Column(name = "emp_role")
     private Set<String> roles;
 

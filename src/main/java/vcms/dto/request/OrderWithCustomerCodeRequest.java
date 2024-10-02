@@ -23,6 +23,8 @@ public class OrderWithCustomerCodeRequest {
 
     private int orderTotal;
 
-    private List<Long> orderItemList;
+    private List<Long> orderBatchDetailIdList;
+
+    private List<Long> orderVaccinePackageIdList;
 
 }

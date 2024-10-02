@@ -21,12 +21,14 @@ import vcms.model.Employee;
 import vcms.repository.EmployeeRepository;
 import vcms.utils.DateService;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 @Service
 public class EmployeeService {
@@ -87,7 +89,7 @@ public class EmployeeService {
             numberToString = String.format("%07d", employeeId);
         }
         String userName = generateUsername(
-                employee.getEmployeeFullName()) + numberToString;
+                employee.getEmployeeFullName()) + employeeId;
         employee.setEmployeeUsername(userName);
         employee.setEmployeePassword(passwordEncoder.encode(numberToString));
         return employeeMapper.toEmployeeResponse(
@@ -95,19 +97,28 @@ public class EmployeeService {
     }
 
     public String generateUsername(String fullName) {
-        String[] parts = fullName.split(" ");
+        String normalized = Normalizer.normalize(fullName, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{M}+");
+        String noDiacritics = pattern.matcher(normalized).replaceAll("");
 
-        // Bắt đầu với chữ cái đầu của họ
-        StringBuilder result = new StringBuilder(
-                parts[0].substring(0, 1).toLowerCase());
+        StringBuilder result = new StringBuilder();
 
-        // Lấy chữ cái đầu của tất cả các từ ở giữa (nếu có)
+        noDiacritics = noDiacritics.replace('Đ', 'd').replace('đ', 'd');
+
+        String[] parts = noDiacritics.trim().split("\\s+");
+
+        if (parts.length > 0) {
+
+            result.append(parts[0].substring(0, 1).toLowerCase());
+        }
+
         for (int i = 1; i < parts.length - 1; i++) {
             result.append(parts[i].substring(0, 1).toLowerCase());
         }
 
-        // Thêm phần tên (từ cuối cùng)
-        result.append(parts[parts.length - 1].toLowerCase());
+        if (parts.length > 0) {
+            result.append(parts[parts.length - 1].toLowerCase());
+        }
 
         return result.toString();
     }
@@ -195,7 +206,8 @@ public class EmployeeService {
                                             "nguyenvana@gmail.com",
                                             "0909123456", "An Giang",
                                             "Long Xuyên", "Mỹ Hòa",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS.CKI", "Giám đốc Y khoa",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Trần Văn Bình", Gender.MALE,
@@ -203,7 +215,8 @@ public class EmployeeService {
                                             "tranvanbinh@gmail.com",
                                             "0909345678", "Cần Thơ",
                                             "Ninh Kiều", "An Hòa",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Chuyên viên Y khoa",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Lê Văn Cường", Gender.MALE,
@@ -211,7 +224,8 @@ public class EmployeeService {
                                             "levancuong@gmail.com",
                                             "0909456789", "Đồng Tháp",
                                             "Cao Lãnh", "Phường 3",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Chuyên viên Y khoa",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Phạm Minh Dũng", Gender.MALE,
@@ -219,7 +233,8 @@ public class EmployeeService {
                                             "phamminhdung@gmail.com",
                                             "0909567890", "Vĩnh Long",
                                             "Long Hồ", "Phú Quới",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Chuyên viên Y khoa",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Ngô Văn Hải", Gender.MALE,
@@ -227,7 +242,8 @@ public class EmployeeService {
                                             "ngovanhai@gmail.com", "0909678901",
                                             "Kiên Giang", "Rạch Giá",
                                             "Vĩnh Thanh",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Chuyên viên Y khoa",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Vũ Văn Hoàng", Gender.MALE,
@@ -235,7 +251,8 @@ public class EmployeeService {
                                             "vuvanhoang@gmail.com",
                                             "0909789012", "Tiền Giang",
                                             "Mỹ Tho", "Phường 6",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Bác sĩ khám sàng lọc",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Nguyễn Thị Lan", Gender.FEMALE,
@@ -243,7 +260,8 @@ public class EmployeeService {
                                             "nguyenthlan@gmail.com",
                                             "0909890123", "Sóc Trăng",
                                             "Sóc Trăng", "Phường 1",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Bác sĩ khám sàng lọc",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Trần Thị Hương", Gender.FEMALE,
@@ -251,14 +269,16 @@ public class EmployeeService {
                                             "tranthihuong@gmail.com",
                                             "0909901234", "Bến Tre",
                                             "Châu Thành", "Tân Thạch",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Bác sĩ khám sàng lọc",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Lê Thị Nhung", Gender.FEMALE,
                                             LocalDate.of(1991, 6, 20),
                                             "lethinung@gmail.com", "0909012345",
                                             "Hậu Giang", "Vị Thanh", "Vị Tân",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Bác sĩ khám sàng lọc",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Hoàng Thị Mai", Gender.FEMALE,
@@ -266,7 +286,8 @@ public class EmployeeService {
                                             "hoangthimai@gmail.com",
                                             "0909123456", "Trà Vinh", "Trà Cú",
                                             "Ngãi Xuyên",
-                                            "Bác sĩ", Set.of("DOCTOR")));
+                                            "BS", "Chuyên viên Y khoa",
+                                            Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Nguyễn Thị Minh", Gender.FEMALE,
@@ -274,7 +295,8 @@ public class EmployeeService {
                                             "nguyenthiminh@gmail.com",
                                             "0909345678", "Cà Mau", "Cà Mau",
                                             "Phường 5",
-                                            "Điều dưỡng", Set.of("NURSE")));
+                                            "ĐD", "Chuyên viên Điều Dưỡng",
+                                            Set.of("NURSE")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Phạm Thị Tuyết", Gender.FEMALE,
@@ -282,14 +304,16 @@ public class EmployeeService {
                                             "phamthituyet@gmail.com",
                                             "0909456789", "Vĩnh Long",
                                             "Tam Bình", "Long Phú",
-                                            "Điều dưỡng", Set.of("NURSE")));
+                                            "ĐD", "Chuyên viên Điều Dưỡng",
+                                            Set.of("NURSE")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Lê Thị Bích", Gender.FEMALE,
                                             LocalDate.of(1986, 1, 30),
                                             "lethibich@gmail.com", "0909567890",
                                             "Bạc Liêu", "Giá Rai", "Phường 2",
-                                            "Điều dưỡng", Set.of("NURSE")));
+                                            "BS", "Giám Đốc Điều Dưỡng",
+                                            Set.of("NURSE")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Đặng Thị Lan", Gender.FEMALE,
@@ -297,14 +321,16 @@ public class EmployeeService {
                                             "dangthilan@gmail.com",
                                             "0909678901", "An Giang",
                                             "Châu Đốc", "Vĩnh Mỹ",
-                                            "Đại học", Set.of("RECEPTIONIST")));
+                                            "ĐH", "Nhân viên lễ tân",
+                                            Set.of("RECEPTIONIST")));
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Phan Thị Hà", Gender.FEMALE,
                                             LocalDate.of(1997, 7, 22),
                                             "phanthiha@gmail.com", "0909789012",
                                             "Cần Thơ", "Ô Môn", "Thới An",
-                                            "Đại học", Set.of("RECEPTIONIST")));
+                                            "ĐH", "Nhân viên lễ tân",
+                                            Set.of("RECEPTIONIST")));
         try {
             for (EmployeeCreationRequest request : employeeCreationRequestList) {
                 createEmployee(request);

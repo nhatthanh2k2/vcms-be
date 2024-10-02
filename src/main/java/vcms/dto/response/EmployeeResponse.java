@@ -5,7 +5,6 @@ import lombok.*;
 import vcms.enums.Gender;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -37,14 +36,10 @@ public class EmployeeResponse {
 
     private String employeeQualification;
 
+    private String employeePosition;
+
     private Set<String> roles;
 
     private String employeeUsername;
-
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime employeeCreateAt;
-
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime employeeUpdateAt;
 
 }

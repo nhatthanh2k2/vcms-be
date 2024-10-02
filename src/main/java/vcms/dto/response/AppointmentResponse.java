@@ -3,6 +3,7 @@ package vcms.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import vcms.enums.Gender;
+import vcms.enums.InjectionType;
 
 import java.time.LocalDate;
 
@@ -39,4 +40,10 @@ public class AppointmentResponse {
     private String appointmentRelativesPhone;
 
     private String appointmentRelativesRelationship;
+
+    private InjectionType apppointmentInjectionType;
+
+    private BatchDetailResponse batchDetailResponse;
+
+    private VaccinePackageResponse vaccinePackageResponse;
 }

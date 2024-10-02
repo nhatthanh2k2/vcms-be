@@ -1,5 +1,6 @@
 package vcms.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.CustomerRequest;
 import vcms.dto.request.LookupCustomerRequest;
@@ -8,7 +9,9 @@ import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
 import vcms.mapper.CustomerMapper;
 import vcms.model.Customer;
+import vcms.model.Relatives;
 import vcms.repository.CustomerRepository;
+import vcms.repository.RelativesRepository;
 import vcms.utils.DateService;
 
 import java.time.LocalDate;
@@ -24,6 +27,9 @@ public class CustomerService {
     private final CustomerMapper customerMapper;
 
     private final DateService dateService;
+
+    @Autowired
+    private RelativesRepository relativesRepository;
 
     public CustomerService(CustomerRepository customerRepository,
                            CustomerMapper customerMapper,
@@ -49,6 +55,16 @@ public class CustomerService {
             LocalDateTime createDateTime = dateService.getDateTimeNow();
             customer.setCustomerCreateAt(createDateTime);
             customer.setCustomerUpdateAt(createDateTime);
+        Relatives relatives = new Relatives();
+        relatives.setRelativesFullName(request.getRelativesFullName());
+        relatives.setRelativesPhone(request.getRelativesPhone());
+        relatives.setRelativesRelationship(request.getRelativesRelationship());
+
+        relativesRepository.save(relatives);
+        customerRepository.save(customer);
+        relatives.setCustomer(customer);
+        customer.setRelatives(relatives);
+        relativesRepository.save(relatives);
             customerRepository.save(customer);
             LocalDate now = LocalDate.now();
             String strLocalDate = now.format(
@@ -56,6 +72,8 @@ public class CustomerService {
             String strCode =
                     "C" + strLocalDate + "-" + customer.getCustomerId();
             customer.setCustomerCode(strCode);
+
+
         return customerMapper.toCustomerResponse(
                 customerRepository.save(customer));
     }

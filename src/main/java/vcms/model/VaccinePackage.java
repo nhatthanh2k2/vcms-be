@@ -55,4 +55,9 @@ public class VaccinePackage {
     @JsonManagedReference
     private List<Appointment> appointmentList = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "vaccinePackage", orphanRemoval = true)
+    @JsonManagedReference
+    private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
+
 }

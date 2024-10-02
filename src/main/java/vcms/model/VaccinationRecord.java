@@ -1,6 +1,5 @@
 package vcms.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,15 +38,18 @@ public class VaccinationRecord {
     private String vaccinationRecordNote;
 
     // Người tiêm
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
     // Vắc-xin tiêm
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_detail_id")
-    @JsonBackReference
     private BatchDetail batchDetail;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vac_pkg_id")
+    private VaccinePackage vaccinePackage;
 
     // nhân viên thực hiện
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,12 +1,15 @@
 package vcms.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.DiseaseRequest;
 import vcms.dto.response.DiseaseResponse;
+import vcms.dto.response.VaccineResponse;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
 import vcms.mapper.DiseaseMapper;
+import vcms.mapper.VaccineMapper;
 import vcms.model.Disease;
 import vcms.model.Vaccine;
 import vcms.repository.DiseaseRepository;
@@ -29,6 +32,9 @@ public class DiseaseService {
 
     private final VaccineRepository vaccineRepository;
 
+    @Autowired
+    private VaccineMapper vaccineMapper;
+
     public DiseaseService(DiseaseRepository diseaseRepository,
                           DateService dateService, DiseaseMapper diseaseMapper,
                           VaccineRepository vaccineRepository) {
@@ -43,10 +49,13 @@ public class DiseaseService {
                 .map(diseaseMapper::toDiseaseResponse).toList();
     }
 
-    public DiseaseResponse getDisease(Long diseaseId) {
-        return diseaseMapper.toDiseaseResponse(
-                diseaseRepository.findById(diseaseId).orElseThrow(
-                        () -> new AppException(ErrorCode.NOT_EXISTED)));
+    public List<VaccineResponse> getVaccineOfDisease(Long diseaseId) {
+        Disease disease = diseaseRepository.findById(diseaseId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        List<Vaccine> vaccineList = vaccineRepository.findAllByDisease(disease);
+
+        return vaccineList.stream().map(
+                vaccineMapper::toVaccineResponse).toList();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -211,7 +220,7 @@ public class DiseaseService {
 
 
     public void updateDiseaseVaccineRelations() {
-        List<Long> diseaseIds = LongStream.rangeClosed(1, 26)
+        List<Long> diseaseIds = LongStream.rangeClosed(1, 28)
                 .boxed()
                 .toList();
 

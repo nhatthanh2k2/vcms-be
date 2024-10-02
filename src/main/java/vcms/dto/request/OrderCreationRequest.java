@@ -39,5 +39,5 @@ public class OrderCreationRequest {
 
     private String orderCustomerWard;
 
-    private List<Long> orderItemIdList;
+    private List<Long> orderBatchDetailIdList;
 }

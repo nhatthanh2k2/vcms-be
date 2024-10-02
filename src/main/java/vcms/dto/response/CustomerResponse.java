@@ -5,7 +5,6 @@ import lombok.*;
 import vcms.enums.Gender;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -34,10 +33,5 @@ public class CustomerResponse {
 
     private String customerWard;
 
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime customerCreateAt;
-
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime customerUpdateAt;
 
 }

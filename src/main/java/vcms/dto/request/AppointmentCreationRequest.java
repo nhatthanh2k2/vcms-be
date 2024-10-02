@@ -3,6 +3,7 @@ package vcms.dto.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import vcms.enums.Gender;
+import vcms.enums.InjectionType;
 
 import java.time.LocalDate;
 
@@ -39,5 +40,9 @@ public class AppointmentCreationRequest {
 
     private String appointmentRelativesRelationship;
 
+    private InjectionType apppointmentInjectionType;
+
     private Long appointmentBatchDetailId;
+
+    private Long appointmentVaccinePackageId;
 }

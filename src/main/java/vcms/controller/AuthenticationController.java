@@ -35,6 +35,7 @@ public class AuthenticationController {
                 .code(1000)
                 .build();
     }
+
     @PostMapping("/introspect")
     public ApiResponse<IntrospectResponse> authenticate(
             @RequestBody IntrospectRequest request)

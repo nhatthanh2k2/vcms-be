@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vcms.enums.AppointmentStatus;
 import vcms.enums.Gender;
+import vcms.enums.InjectionType;
 
 import java.time.LocalDate;
 
@@ -53,6 +55,14 @@ public class Appointment {
     @Column(name = "appt_inj_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate appointmentInjectionDate;
+
+    @Column(name = "appt_status")
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus appointmentStatus;
+
+    @Column(name = "appt_inj_type")
+    @Enumerated(EnumType.STRING)
+    private InjectionType appointmentInjectionType;
 
     // thong tin lien he
     @Column(name = "appt_rel_full_name")

@@ -2,8 +2,6 @@ package vcms.dto.response;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,9 +36,5 @@ public class VaccineResponse {
     private String vaccineInjectionSchedule;
 
     private String vaccinePatient;
-
-    private LocalDateTime vaccineCreateAt;
-
-    private LocalDateTime vaccineUpdateAt;
 
 }

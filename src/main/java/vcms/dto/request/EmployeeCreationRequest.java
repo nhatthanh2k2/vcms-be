@@ -33,6 +33,8 @@ public class EmployeeCreationRequest {
 
     private String employeeQualification;
 
+    private String employeePosition;
+
     private Set<String> roles;
 
 
