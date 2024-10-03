@@ -21,7 +21,7 @@ public class VaccineController {
     @GetMapping("/all")
     public ApiResponse<List<VaccineResponse>> getAllVaccines() {
         return ApiResponse.<List<VaccineResponse>>builder()
-                .result(vaccineService.getVaccines())
+                .result(vaccineService.getAllVaccines())
                 .build();
     }
 
@@ -29,12 +29,12 @@ public class VaccineController {
     public ApiResponse<VaccineResponse> getVaccineById(@PathVariable(
             "vaccineId") Long vaccineId) {
         return ApiResponse.<VaccineResponse>builder()
-                .result(vaccineService.getVaccine(vaccineId))
+                .result(vaccineService.getVaccineById(vaccineId))
                 .build();
     }
 
     @PostMapping("/create")
-    public ApiResponse<VaccineResponse> createVaccine(@RequestBody VaccineCreationRequest request){
+    public ApiResponse<VaccineResponse> createVaccine(@RequestBody VaccineCreationRequest request) {
         return ApiResponse.<VaccineResponse>builder()
                 .result(vaccineService.createVaccine(request))
                 .build();

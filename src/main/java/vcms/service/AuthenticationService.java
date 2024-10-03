@@ -6,7 +6,6 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +21,6 @@ import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
 import vcms.model.Employee;
 import vcms.model.InvalidatedToken;
-import vcms.repository.EmployeeRepository;
 import vcms.repository.InvalidatedTokenRepository;
 
 import java.text.ParseException;
@@ -36,10 +34,10 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class AuthenticationService {
-    private final EmployeeRepository employeeRepository;
 
-    @Autowired
-    private InvalidatedTokenRepository invalidatedTokenRepository;
+    private final EmployeeService employeeService;
+
+    private final InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
@@ -50,8 +48,11 @@ public class AuthenticationService {
     @Value("${jwt.refreshable-duration}")
     protected long REFRESHABLE_DURATION;
 
-    public AuthenticationService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public AuthenticationService(EmployeeService employeeService,
+                                 InvalidatedTokenRepository invalidatedTokenRepository) {
+
+        this.employeeService = employeeService;
+        this.invalidatedTokenRepository = invalidatedTokenRepository;
     }
 
     public IntrospectResponse introspect(IntrospectRequest request)
@@ -75,13 +76,10 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-        var employee =
-                employeeRepository.findByEmployeeUsername(request.getUsername())
-                        .orElseThrow(() -> new AppException(
-                                ErrorCode.NOT_EXISTED));
+        var employee = employeeService.getEmployeeByUsername(request.getUsername());
 
-        boolean authenticated = passwordEncoder.matches(request.getPassword(),
-                                                          employee.getEmployeePassword());
+        boolean authenticated = passwordEncoder
+                .matches(request.getPassword(), employee.getEmployeePassword());
         if (!authenticated)
             throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
 
@@ -127,10 +125,7 @@ public class AuthenticationService {
 
         var username = signedJWT.getJWTClaimsSet().getSubject();
 
-        var employee =
-                employeeRepository.findByEmployeeUsername(username).orElseThrow(
-                        () -> new AppException(ErrorCode.UNAUTHENTICATED));
-
+        var employee = employeeService.getEmployeeByUsername(username);
         var token = generateToken(employee);
 
         return AuthenticationResponse.builder().token(token).authenticated(
@@ -185,8 +180,7 @@ public class AuthenticationService {
         if (!(verified && expiryTime.after(new Date())))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        if (invalidatedTokenRepository
-                .existsById(signedJWT.getJWTClaimsSet().getJWTID()))
+        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         return signedJWT;

@@ -12,10 +12,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VaccinePackageDetail {
+public class PackageDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vac_pkg_det_id")
+    @Column(name = "pkg_det_id")
     private Long vaccinePkgDetailId;
 
     @ManyToOne(fetch = FetchType.LAZY)

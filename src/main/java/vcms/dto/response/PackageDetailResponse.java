@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VaccinePackageDetailResponse {
+public class PackageDetailResponse {
 
     private Long vaccinePkgDetailId;
 

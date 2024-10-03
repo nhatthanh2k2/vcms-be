@@ -143,11 +143,11 @@ public class ApplicationInitConfig {
                 log.warn("Admin user has been created!!!");
 
                 // init data
-                diseaseService.initalDiseaseData();
-                vaccineService.initalVaccineData();
-                vaccineBatchService.addNewVaccineBatch(request);
-                vaccinePackageService.initalVaccinePackageData();
-                employeeService.initalEmployeeData();
+                diseaseService.insertInitialDiseaseData();
+                vaccineService.insertInitialVaccineData();
+                vaccineBatchService.insertVaccineBatch(request);
+                vaccinePackageService.insertInitialVaccinePackageData();
+                employeeService.insertInitialEmployeeData();
                 employeeService.updateEmployeeAvatars();
                 diseaseService.updateDiseaseVaccineRelations();
             }

@@ -18,11 +18,7 @@ import vcms.mapper.VaccineMapper;
 import vcms.model.BatchDetail;
 import vcms.model.Vaccine;
 import vcms.model.VaccineBatch;
-import vcms.repository.BatchDetailRepository;
-import vcms.repository.DiseaseRepository;
 import vcms.repository.VaccineBatchRepository;
-import vcms.repository.VaccineRepository;
-import vcms.utils.DateService;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -35,11 +31,9 @@ public class VaccineBatchService {
 
     private final VaccineBatchRepository vaccineBatchRepository;
 
-    private final VaccineRepository vaccineRepository;
+    private final VaccineService vaccineService;
 
-    private final DateService dateService;
-
-    private final BatchDetailRepository batchDetailRepository;
+    private final BatchDetailService batchDetailService;
 
     private final VaccineBatchMapper vaccineBatchMapper;
 
@@ -47,24 +41,18 @@ public class VaccineBatchService {
 
     private final DiseaseMapper diseaseMapper;
 
-    private final DiseaseRepository diseaseRepository;
 
     public VaccineBatchService(VaccineBatchRepository vaccineBatchRepository,
-                               DateService dateService,
-                               BatchDetailRepository batchDetailRepository,
-                               VaccineRepository vaccineRepository,
                                VaccineBatchMapper vaccineBatchMapper,
                                VaccineMapper vaccineMapper,
-                               DiseaseMapper diseaseMapper,
-                               DiseaseRepository diseaseRepository) {
+                               DiseaseMapper diseaseMapper, VaccineService vaccineService,
+                               BatchDetailService batchDetailService) {
         this.vaccineBatchRepository = vaccineBatchRepository;
-        this.dateService = dateService;
-        this.batchDetailRepository = batchDetailRepository;
-        this.vaccineRepository = vaccineRepository;
         this.vaccineBatchMapper = vaccineBatchMapper;
         this.vaccineMapper = vaccineMapper;
         this.diseaseMapper = diseaseMapper;
-        this.diseaseRepository = diseaseRepository;
+        this.vaccineService = vaccineService;
+        this.batchDetailService = batchDetailService;
     }
 
     public List<VaccineBatchResponse> getVaccineBatches() {
@@ -74,11 +62,9 @@ public class VaccineBatchService {
 
     public List<BatchDetailResponse> getDetailsOfBatch(Long batchId) {
 
-        VaccineBatch vaccineBatch = vaccineBatchRepository.findById(
-                batchId).orElseThrow(
-                () -> new AppException(ErrorCode.NOT_EXISTED));
-        List<BatchDetail> batchDetailList = batchDetailRepository.findAllByVaccineBatch(
-                vaccineBatch);
+        VaccineBatch vaccineBatch = vaccineBatchRepository.findById(batchId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        List<BatchDetail> batchDetailList = batchDetailService.getAllBatchDetailByVaccineBatch(vaccineBatch);
         List<BatchDetailResponse> batchDetailResponseList = new ArrayList<>();
         for (BatchDetail batchDetail : batchDetailList) {
             BatchDetailResponse batchDetailResponse = vaccineBatchMapper.toBatchDetailResponse(
@@ -93,27 +79,17 @@ public class VaccineBatchService {
         return batchDetailResponseList;
     }
 
-    public VaccineBatch addNewVaccineBatch(
-            VaccineBatchCreationRequest vaccineBatchCreationRequest) throws IOException {
+    public VaccineBatch insertVaccineBatch(VaccineBatchCreationRequest request) throws IOException {
 
-        VaccineBatch newVaccineBatch = new VaccineBatch();
-        newVaccineBatch.setVaccineBatchNumber(
-                vaccineBatchCreationRequest.getVaccineBatchNumber());
-        newVaccineBatch.setVaccineBatchImportDate(
-                vaccineBatchCreationRequest.getVaccineBatchImportDate());
-        newVaccineBatch.setVaccineBatchQuantity(
-                vaccineBatchCreationRequest.getVaccineBatchQuantity());
-        newVaccineBatch.setVaccineBatchValue(
-                vaccineBatchCreationRequest.getVaccineBatchValue());
-        vaccineBatchRepository.save(newVaccineBatch);
+        VaccineBatch vaccineBatch = vaccineBatchMapper.toVaccineBatch(request);
+        vaccineBatchRepository.save(vaccineBatch);
 
-        MultipartFile file = vaccineBatchCreationRequest.getBatchDetailFile();
-        List<BatchDetail> batchDetails = readBatchDetailsFromExcel(file,
-                                                                   newVaccineBatch);
+        MultipartFile file = request.getBatchDetailFile();
+        List<BatchDetail> batchDetails = readBatchDetailsFromExcel(file, vaccineBatch);
 
-        batchDetailRepository.saveAll(batchDetails);
+        batchDetailService.insertBatchDetailList(batchDetails);
 
-        return newVaccineBatch;
+        return vaccineBatch;
     }
 
     private List<BatchDetail> readBatchDetailsFromExcel(MultipartFile file,
@@ -143,7 +119,7 @@ public class VaccineBatchService {
                                                             formatter);
             String vaccineTypeStr = row.getCell(6).getStringCellValue();
 
-            Vaccine vaccine = vaccineRepository.findByVaccineCode(vaccineCode);
+            Vaccine vaccine = vaccineService.getVaccineByVaccineCode(vaccineCode);
 
             // Gán giá trị cho BatchDetail
             batchDetail.setVaccine(vaccine);

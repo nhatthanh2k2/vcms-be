@@ -8,13 +8,11 @@ import vcms.dto.response.BatchDetailResponse;
 import vcms.dto.response.VaccinePackageResponse;
 import vcms.enums.AppointmentStatus;
 import vcms.enums.InjectionType;
-import vcms.exception.AppException;
-import vcms.exception.ErrorCode;
 import vcms.mapper.AppointmentMapper;
 import vcms.mapper.VaccineBatchMapper;
 import vcms.mapper.VaccinePackageMapper;
 import vcms.model.*;
-import vcms.repository.*;
+import vcms.repository.AppointmentRepository;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -26,39 +24,38 @@ public class AppointmentService {
 
     private final AppointmentMapper appointmentMapper;
 
-    private final BatchDetailRepository batchDetailRepository;
-
-    private final CustomerRepository customerRepository;
-
-    private final RelativesRepository relativesRepository;
-
-    private final VaccinePackageRepository vaccinePackageRepository;
-
     private final VaccineBatchMapper vaccineBatchMapper;
 
     private final VaccinePackageMapper vaccinePackageMapper;
 
+    private final CustomerService customerService;
+
+    private final RelativesService relativesService;
+
+    private final BatchDetailService batchDetailService;
+
+    private final VaccinePackageService vaccinePackageService;
+
     public AppointmentService(AppointmentRepository appointmentRepository,
                               AppointmentMapper appointmentMapper,
-                              BatchDetailRepository batchDetailRepository,
-                              CustomerRepository customerRepository,
-                              RelativesRepository relativesRepository,
-                              VaccinePackageRepository vaccinePackageRepository,
                               VaccineBatchMapper vaccineBatchMapper,
-                              VaccinePackageMapper vaccinePackageMapper) {
+                              VaccinePackageMapper vaccinePackageMapper,
+                              CustomerService customerService,
+                              RelativesService relativesService,
+                              BatchDetailService batchDetailService,
+                              VaccinePackageService vaccinePackageService) {
         this.appointmentRepository = appointmentRepository;
         this.appointmentMapper = appointmentMapper;
-        this.batchDetailRepository = batchDetailRepository;
-        this.customerRepository = customerRepository;
-        this.relativesRepository = relativesRepository;
-        this.vaccinePackageRepository = vaccinePackageRepository;
         this.vaccineBatchMapper = vaccineBatchMapper;
         this.vaccinePackageMapper = vaccinePackageMapper;
+        this.customerService = customerService;
+        this.relativesService = relativesService;
+        this.batchDetailService = batchDetailService;
+        this.vaccinePackageService = vaccinePackageService;
     }
 
     public List<AppointmentResponse> getAppointmentListByDate(LocalDate date) {
-        List<Appointment> appointmentList = appointmentRepository.findAllByAppointmentInjectionDate(
-                date);
+        List<Appointment> appointmentList = appointmentRepository.findAllByAppointmentInjectionDate(date);
         if (appointmentList.isEmpty()) {
             return Collections.emptyList();
         }
@@ -66,19 +63,16 @@ public class AppointmentService {
                 .map(appointmentMapper::toAppointmentResponse).toList();
     }
 
-    public AppointmentResponse createAppointment(
-            AppointmentCreationRequest request) {
+    public AppointmentResponse createAppointment(AppointmentCreationRequest request) {
         Appointment appointment = appointmentMapper.toAppointment(request);
 
         AppointmentResponse appointmentResponse = new AppointmentResponse();
         BatchDetailResponse batchDetailResponse = new BatchDetailResponse();
-        VaccinePackageResponse vaccinePackageResponse =
-                new VaccinePackageResponse();
+        VaccinePackageResponse vaccinePackageResponse = new VaccinePackageResponse();
         if (request.getApppointmentInjectionType().equals(
                 InjectionType.SINGLE)) {
-            BatchDetail batchDetail = batchDetailRepository.findById(
-                            request.getAppointmentBatchDetailId())
-                    .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+            BatchDetail batchDetail = batchDetailService.getBatchDetailById(
+                    request.getAppointmentBatchDetailId());
             appointment.setBatchDetail(batchDetail);
             appointment.setAppointmentInjectionType(InjectionType.SINGLE);
             batchDetailResponse =
@@ -86,90 +80,70 @@ public class AppointmentService {
             vaccinePackageResponse = null;
         }
         else {
-            VaccinePackage vaccinePackage = vaccinePackageRepository.findById(
-                            request.getAppointmentVaccinePackageId())
-                    .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+            VaccinePackage vaccinePackage =
+                    vaccinePackageService.getVaccinePackageById(request.getAppointmentVaccinePackageId());
             appointment.setVaccinePackage(vaccinePackage);
             appointment.setAppointmentInjectionType(InjectionType.PACKAGE);
             vaccinePackageResponse =
-                    vaccinePackageMapper.toVaccinePackageResponse(
-                            vaccinePackage);
+                    vaccinePackageMapper.toVaccinePackageResponse(vaccinePackage);
             batchDetailResponse = null;
         }
-
         appointment.setAppointmentStatus(AppointmentStatus.PENDING);
         appointmentRepository.save(appointment);
-        appointmentResponse =
-                appointmentMapper.toAppointmentResponse(appointment);
-        appointmentResponse.setApppointmentInjectionType(
-                request.getApppointmentInjectionType());
+        appointmentResponse = appointmentMapper.toAppointmentResponse(appointment);
+        appointmentResponse.setApppointmentInjectionType(request.getApppointmentInjectionType());
         appointmentResponse.setVaccinePackageResponse(vaccinePackageResponse);
         appointmentResponse.setBatchDetailResponse(batchDetailResponse);
         return appointmentResponse;
     }
 
     public AppointmentResponse createAppointmentWithCustomerCode(
-            AppointmentWithCustomerCodeRequest request
-    ) {
+            AppointmentWithCustomerCodeRequest request) {
         Appointment appointment = new Appointment();
-        Customer customer = customerRepository.findByCustomerCode(
+        Customer customer = customerService.getCustomerByCustomerCode(
                 request.getAppointmentCustomerCode());
-        Relatives relatives = relativesRepository.findByCustomer(customer);
+        Relatives relatives = relativesService.getRelativesByCustomer(customer);
 
         BatchDetailResponse batchDetailResponse;
         VaccinePackageResponse vaccinePackageResponse;
 
         if (request.getApppointmentInjectionType().equals(
                 InjectionType.SINGLE)) {
-            BatchDetail batchDetail = batchDetailRepository.findById(
-                            request.getAppointmentBatchDetailId())
-                    .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+            BatchDetail batchDetail = batchDetailService.getBatchDetailById(
+                    request.getAppointmentBatchDetailId());
             appointment.setBatchDetail(batchDetail);
             appointment.setAppointmentInjectionType(InjectionType.SINGLE);
-            batchDetailResponse =
-                    vaccineBatchMapper.toBatchDetailResponse(batchDetail);
+            batchDetailResponse = vaccineBatchMapper.toBatchDetailResponse(batchDetail);
             vaccinePackageResponse = null;
         }
         else {
-            VaccinePackage vaccinePackage = vaccinePackageRepository.findById(
-                            request.getAppointmentVaccinePackageId())
-                    .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+            VaccinePackage vaccinePackage =
+                    vaccinePackageService.getVaccinePackageById(request.getAppointmentVaccinePackageId());
             appointment.setVaccinePackage(vaccinePackage);
             appointment.setAppointmentInjectionType(InjectionType.PACKAGE);
-            vaccinePackageResponse =
-                    vaccinePackageMapper.toVaccinePackageResponse(
-                            vaccinePackage);
+            vaccinePackageResponse = vaccinePackageMapper.toVaccinePackageResponse(vaccinePackage);
             batchDetailResponse = null;
         }
 
         appointment.setCustomer(customer);
-        appointment.setAppointmentInjectionDate(
-                request.getAppointmentInjectionDate());
+        appointment.setAppointmentInjectionDate(request.getAppointmentInjectionDate());
         appointment.setAppointmentStatus(AppointmentStatus.PENDING);
-
-        appointment.setAppointmentCustomerFullName(
-                customer.getCustomerFullName());
+        // set Customer
+        appointment.setAppointmentCustomerFullName(customer.getCustomerFullName());
         appointment.setAppointmentCustomerEmail(customer.getCustomerEmail());
         appointment.setAppointmentCustomerPhone(customer.getCustomerPhone());
         appointment.setAppointmentCustomerDob(customer.getCustomerDob());
         appointment.setAppointmentCustomerGender(customer.getCustomerGender());
-        appointment.setAppointmentCustomerProvince(
-                customer.getCustomerProvince());
-        appointment.setAppointmentCustomerDistrict(
-                customer.getCustomerDistrict());
+        appointment.setAppointmentCustomerProvince(customer.getCustomerProvince());
+        appointment.setAppointmentCustomerDistrict(customer.getCustomerDistrict());
         appointment.setAppointmentCustomerWard(customer.getCustomerWard());
-
-        appointment.setAppointmentRelativesFullName(
-                    relatives.getRelativesFullName());
-        appointment.setAppointmentRelativesPhone(
-                    relatives.getRelativesPhone());
-        appointment.setAppointmentRelativesRelationship(
-                    relatives.getRelativesRelationship());
+        // set Relatives
+        appointment.setAppointmentRelativesFullName(relatives.getRelativesFullName());
+        appointment.setAppointmentRelativesPhone(relatives.getRelativesPhone());
+        appointment.setAppointmentRelativesRelationship(relatives.getRelativesRelationship());
         appointmentRepository.save(appointment);
-        AppointmentResponse appointmentResponse =
-                appointmentMapper.toAppointmentResponse(appointment);
-        appointmentResponse.setApppointmentInjectionType(
-                request.getApppointmentInjectionType());
+        AppointmentResponse appointmentResponse = appointmentMapper.toAppointmentResponse(appointment);
+        appointmentResponse.setApppointmentInjectionType(request.getApppointmentInjectionType());
         appointmentResponse.setVaccinePackageResponse(vaccinePackageResponse);
         appointmentResponse.setBatchDetailResponse(batchDetailResponse);
         return appointmentResponse;

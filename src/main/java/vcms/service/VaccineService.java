@@ -7,6 +7,7 @@ import vcms.dto.response.VaccineResponse;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
 import vcms.mapper.VaccineMapper;
+import vcms.model.Disease;
 import vcms.model.Vaccine;
 import vcms.repository.VaccineRepository;
 import vcms.utils.DateService;
@@ -31,15 +32,36 @@ public class VaccineService {
         this.dateService = dateService;
     }
 
-    public List<VaccineResponse> getVaccines() {
+    public List<VaccineResponse> getAllVaccines() {
         return vaccineRepository.findAll().stream()
                 .map(vaccineMapper::toVaccineResponse).toList();
     }
 
-    public VaccineResponse getVaccine(Long vaccineId) {
+    public VaccineResponse getVaccineById(Long vaccineId) {
         return vaccineMapper.toVaccineResponse(
                 vaccineRepository.findById(vaccineId).orElseThrow(
                         () -> new AppException(ErrorCode.NOT_EXISTED)));
+    }
+
+    public Vaccine getVaccineByVaccineId(Long vaccineId) {
+        return vaccineRepository.findById(vaccineId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXISTED));
+    }
+
+    public List<Vaccine> getAllVaccinesByDisease(Disease disease) {
+        return vaccineRepository.findAllByDisease(disease);
+    }
+
+    public Vaccine getVaccineByVaccineCode(String vaccineCode) {
+        return vaccineRepository.findByVaccineCode(vaccineCode);
+    }
+
+    public void insertAllVaccines(List<Vaccine> vaccineList) {
+        vaccineRepository.saveAll(vaccineList);
+    }
+
+    public List<Vaccine> getAllVaccinesByListId(List<Long> vaccineIdList) {
+        return vaccineRepository.findAllById(vaccineIdList);
     }
 
     public VaccineResponse createVaccine(VaccineCreationRequest request) {
@@ -67,7 +89,7 @@ public class VaccineService {
         vaccineRepository.deleteById(vaccineId);
     }
 
-    public void initalVaccineData() {
+    public void insertInitialVaccineData() {
         LocalDateTime createDateTime = dateService.getDateTimeNow();
         List<VaccineCreationRequest> vaccineCreationRequestList = new ArrayList<>();
 

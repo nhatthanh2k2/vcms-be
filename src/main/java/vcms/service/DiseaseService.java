@@ -1,6 +1,5 @@
 package vcms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.DiseaseRequest;
@@ -13,7 +12,6 @@ import vcms.mapper.VaccineMapper;
 import vcms.model.Disease;
 import vcms.model.Vaccine;
 import vcms.repository.DiseaseRepository;
-import vcms.repository.VaccineRepository;
 import vcms.utils.DateService;
 
 import java.time.LocalDateTime;
@@ -30,18 +28,18 @@ public class DiseaseService {
 
     private final DateService dateService;
 
-    private final VaccineRepository vaccineRepository;
+    private final VaccineService vaccineService;
 
-    @Autowired
-    private VaccineMapper vaccineMapper;
+    private final VaccineMapper vaccineMapper;
 
     public DiseaseService(DiseaseRepository diseaseRepository,
                           DateService dateService, DiseaseMapper diseaseMapper,
-                          VaccineRepository vaccineRepository) {
+                          VaccineService vaccineService, VaccineMapper vaccineMapper) {
         this.diseaseRepository = diseaseRepository;
         this.dateService = dateService;
         this.diseaseMapper = diseaseMapper;
-        this.vaccineRepository = vaccineRepository;
+        this.vaccineService = vaccineService;
+        this.vaccineMapper = vaccineMapper;
     }
 
     public List<DiseaseResponse> getDiseases() {
@@ -52,33 +50,27 @@ public class DiseaseService {
     public List<VaccineResponse> getVaccineOfDisease(Long diseaseId) {
         Disease disease = diseaseRepository.findById(diseaseId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
-        List<Vaccine> vaccineList = vaccineRepository.findAllByDisease(disease);
-
-        return vaccineList.stream().map(
-                vaccineMapper::toVaccineResponse).toList();
+        List<Vaccine> vaccineList = vaccineService.getAllVaccinesByDisease(disease);
+        return vaccineList.stream().map(vaccineMapper::toVaccineResponse).toList();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public DiseaseResponse createDisease(DiseaseRequest request) {
-            Disease disease = diseaseMapper.toDisease(request);
-            LocalDateTime createDateTime =
-                    dateService.getDateTimeNow();
-            disease.setDiseaseCreateAt(createDateTime);
-            disease.setDiseaseUpdateAt(createDateTime);
+        Disease disease = diseaseMapper.toDisease(request);
+        LocalDateTime createDateTime = dateService.getDateTimeNow();
+        disease.setDiseaseCreateAt(createDateTime);
+        disease.setDiseaseUpdateAt(createDateTime);
         return diseaseMapper.toDiseaseResponse(diseaseRepository.save(disease));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public DiseaseResponse updateDisease(Long diseaseId,
-                                         DiseaseRequest request) {
+    public DiseaseResponse updateDisease(Long diseaseId, DiseaseRequest request) {
 
         Disease disease = diseaseRepository.findById(diseaseId)
-                    .orElseThrow(
-                            () -> new AppException(ErrorCode.NOT_EXISTED));
-            diseaseMapper.updateDisease(disease, request);
-            LocalDateTime updateDateTime =
-                    dateService.getDateTimeNow();
-            disease.setDiseaseUpdateAt(updateDateTime);
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        diseaseMapper.updateDisease(disease, request);
+        LocalDateTime updateDateTime = dateService.getDateTimeNow();
+        disease.setDiseaseUpdateAt(updateDateTime);
         return diseaseMapper.toDiseaseResponse(diseaseRepository.save(disease));
     }
 
@@ -87,7 +79,7 @@ public class DiseaseService {
         diseaseRepository.deleteById(diseaseId);
     }
 
-    public void initalDiseaseData() {
+    public void insertInitialDiseaseData() {
         List<Disease> diseaseList = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
@@ -126,8 +118,8 @@ public class DiseaseService {
 
         diseaseList.add(
                 new Disease("Viêm màng não do não mô cầu nhóm A, C, Y, W-135",
-                                    createDateTime,
-                                    createDateTime));
+                            createDateTime,
+                            createDateTime));
 
         diseaseList.add(new Disease("Bệnh Sởi",
                                     createDateTime,
@@ -147,8 +139,8 @@ public class DiseaseService {
 
         diseaseList.add(new Disease(
                 "Ung thư cổ tử cung, ung thư hầu họng, sùi mào gà... do HPV",
-                                    createDateTime,
-                                    createDateTime));
+                createDateTime,
+                createDateTime));
 
         diseaseList.add(new Disease("Uốn ván",
                                     createDateTime,
@@ -220,12 +212,8 @@ public class DiseaseService {
 
 
     public void updateDiseaseVaccineRelations() {
-        List<Long> diseaseIds = LongStream.rangeClosed(1, 28)
-                .boxed()
-                .toList();
-
+        List<Long> diseaseIds = LongStream.rangeClosed(1, 28).boxed().toList();
         Map<Long, List<Long>> diseaseVaccineMap = new HashMap<>();
-
         diseaseVaccineMap.put(1L, Arrays.asList(1016L, 1044L));
         diseaseVaccineMap.put(2L, Arrays.asList(1019L, 1020L, 1021L));
         diseaseVaccineMap.put(3L, Arrays.asList(1005L, 1006L, 1013L));
@@ -255,22 +243,12 @@ public class DiseaseService {
         diseaseVaccineMap.put(27L, List.of(1051L));
         diseaseVaccineMap.put(28L, List.of(1014L, 1015L));
         for (Long diseaseId : diseaseIds) {
-            // Lấy Disease từ database
             Disease disease = diseaseRepository.findById(diseaseId)
-                    .orElseThrow(() -> new RuntimeException(
-                            "Disease not found with id: " + diseaseId));
-
-            // Lấy danh sách các Vaccine tương ứng từ Map
+                    .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
             List<Long> vaccineIds = diseaseVaccineMap.get(diseaseId);
-
-            // Lấy tất cả Vaccine theo danh sách id
-            List<Vaccine> vaccines = vaccineRepository.findAllById(vaccineIds);
-
-            // Thiết lập mối quan hệ giữa Vaccine và Disease
+            List<Vaccine> vaccines = vaccineService.getAllVaccinesByListId(vaccineIds);
             vaccines.forEach(vaccine -> vaccine.setDisease(disease));
-
-            // Lưu tất cả Vaccine trong một lần
-            vaccineRepository.saveAll(vaccines);
+            vaccineService.insertAllVaccines(vaccines);
         }
     }
 

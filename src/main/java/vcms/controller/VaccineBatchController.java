@@ -61,8 +61,7 @@ public class VaccineBatchController {
         vaccineBatchCreationRequest.setVaccineBatchValue(vaccineBatchValue);
         vaccineBatchCreationRequest.setBatchDetailFile(batchDetailFile);
 
-        VaccineBatch savedBatch = vaccineBatchService.addNewVaccineBatch(
-                vaccineBatchCreationRequest);
+        VaccineBatch savedBatch = vaccineBatchService.insertVaccineBatch(vaccineBatchCreationRequest);
 
         return ApiResponse.<VaccineBatchResponse>builder()
                 .result(vaccineBatchMapper.toVaccineBatchResponse(savedBatch))

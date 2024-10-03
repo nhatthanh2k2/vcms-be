@@ -11,9 +11,6 @@ import vcms.model.BatchDetail;
 import vcms.model.Customer;
 import vcms.model.Order;
 import vcms.model.OrderDetail;
-import vcms.repository.BatchDetailRepository;
-import vcms.repository.CustomerRepository;
-import vcms.repository.OrderDetailRepository;
 import vcms.repository.OrderRepository;
 import vcms.utils.DateService;
 
@@ -25,28 +22,25 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
 
-    private final OrderDetailRepository orderDetailRepository;
-
     private final DateService dateService;
-
-    private final CustomerRepository customerRepository;
-
-    private final BatchDetailRepository batchDetailRepository;
 
     private final VaccineBatchMapper vaccineBatchMapper;
 
-    public OrderService(OrderRepository orderRepository,
-                        OrderDetailRepository orderDetailRepository,
-                        DateService dateService,
-                        CustomerRepository customerRepository,
-                        BatchDetailRepository batchDetailRepository,
-                        VaccineBatchMapper vaccineBatchMapper) {
+    private final CustomerService customerService;
+
+    private final OrderDetailService orderDetailService;
+
+    private final BatchDetailService batchDetailService;
+
+    public OrderService(OrderRepository orderRepository, DateService dateService,
+                        VaccineBatchMapper vaccineBatchMapper, CustomerService customerService,
+                        OrderDetailService orderDetailService, BatchDetailService batchDetailService) {
         this.orderRepository = orderRepository;
-        this.orderDetailRepository = orderDetailRepository;
         this.dateService = dateService;
-        this.customerRepository = customerRepository;
-        this.batchDetailRepository = batchDetailRepository;
         this.vaccineBatchMapper = vaccineBatchMapper;
+        this.customerService = customerService;
+        this.orderDetailService = orderDetailService;
+        this.batchDetailService = batchDetailService;
     }
 
 
@@ -62,28 +56,25 @@ public class OrderService {
                 }).collect(Collectors.toList());
     }
 
-    public OrderResponse createOrderWithCustomerCode(
-            OrderWithCustomerCodeRequest request) {
+    public OrderResponse createOrderWithCustomerCode(OrderWithCustomerCodeRequest request) {
         try {
             Order order = new Order();
             order.setOrderTotal(request.getOrderTotal());
             order.setOrderPayment(request.getOrderPayment());
             order.setOrderDate(dateService.getDateNow());
             order.setOrderInjectionDate(request.getInjectionDate());
-            Customer customer = customerRepository.findByCustomerCode(
-                    request.getCustomerCode());
+            Customer customer = customerService.getCustomerByCustomerCode(request.getCustomerCode());
             order.setCustomer(customer);
 
-            List<BatchDetail> batchDetailList = batchDetailRepository.findAllById(
-                    request.getOrderBatchDetailIdList());
+            List<BatchDetail> batchDetailList =
+                    batchDetailService.getAllBatchDetailByBatchDetailIdList(request.getOrderBatchDetailIdList());
 
-            List<OrderDetail> orderDetails =
-                    convertBatchDetailsToOrderDetails(batchDetailList, order);
+            List<OrderDetail> orderDetails = convertBatchDetailsToOrderDetails(batchDetailList, order);
 
             order.setOrderDetailList(orderDetails);
 
             orderRepository.save(order);
-            orderDetailRepository.saveAll(orderDetails);
+            orderDetailService.insertAllOrderDetail(orderDetails);
 
             OrderResponse orderResponse = new OrderResponse();
             orderResponse.setOrderTotal(request.getOrderTotal());
@@ -100,9 +91,10 @@ public class OrderService {
             orderResponse.setOrderCustomerDistrict(
                     customer.getCustomerDistrict());
             orderResponse.setOrderCustomerWard(customer.getCustomerWard());
-            List<BatchDetailResponse> batchDetailResponseList = batchDetailList.stream()
-                    .map(vaccineBatchMapper::toBatchDetailResponse)
-                    .toList();
+            List<BatchDetailResponse> batchDetailResponseList =
+                    batchDetailList.stream()
+                            .map(vaccineBatchMapper::toBatchDetailResponse)
+                            .toList();
             orderResponse.setBatchDetailResponse(batchDetailResponseList);
             return orderResponse;
         }
@@ -126,8 +118,8 @@ public class OrderService {
             order.setOrderCustomerDistrict(request.getOrderCustomerDistrict());
             order.setOrderCustomerWard(request.getOrderCustomerWard());
             order.setOrderDate(dateService.getDateNow());
-            List<BatchDetail> batchDetailList = batchDetailRepository.findAllById(
-                    request.getOrderBatchDetailIdList());
+            List<BatchDetail> batchDetailList =
+                    batchDetailService.getAllBatchDetailByBatchDetailIdList(request.getOrderBatchDetailIdList());
 
             List<OrderDetail> orderDetails =
                     convertBatchDetailsToOrderDetails(batchDetailList, order);
@@ -135,7 +127,7 @@ public class OrderService {
             order.setOrderDetailList(orderDetails);
 
             orderRepository.save(order);
-            orderDetailRepository.saveAll(orderDetails);
+            orderDetailService.insertAllOrderDetail(orderDetails);
             OrderResponse orderResponse = new OrderResponse();
             orderResponse.setOrderTotal(request.getOrderTotal());
             orderResponse.setOrderPayment(request.getOrderPayment());

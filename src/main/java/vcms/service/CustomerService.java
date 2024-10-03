@@ -1,6 +1,5 @@
 package vcms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.CustomerRequest;
 import vcms.dto.request.LookupCustomerRequest;
@@ -11,7 +10,6 @@ import vcms.mapper.CustomerMapper;
 import vcms.model.Customer;
 import vcms.model.Relatives;
 import vcms.repository.CustomerRepository;
-import vcms.repository.RelativesRepository;
 import vcms.utils.DateService;
 
 import java.time.LocalDate;
@@ -28,15 +26,15 @@ public class CustomerService {
 
     private final DateService dateService;
 
-    @Autowired
-    private RelativesRepository relativesRepository;
+    private final RelativesService relativesService;
 
     public CustomerService(CustomerRepository customerRepository,
                            CustomerMapper customerMapper,
-                           DateService dateService) {
+                           DateService dateService, RelativesService relativesService) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
         this.dateService = dateService;
+        this.relativesService = relativesService;
     }
 
     public List<CustomerResponse> getCustomers() {
@@ -50,41 +48,41 @@ public class CustomerService {
                         () -> new AppException(ErrorCode.NOT_EXISTED)));
     }
 
+    public Customer getCustomerByCustomerCode(String code) {
+        return customerRepository.findByCustomerCode(code);
+    }
+
     public CustomerResponse createCustomer(CustomerRequest request) {
-            Customer customer = customerMapper.toCustomer(request);
-            LocalDateTime createDateTime = dateService.getDateTimeNow();
-            customer.setCustomerCreateAt(createDateTime);
-            customer.setCustomerUpdateAt(createDateTime);
+        Customer customer = customerMapper.toCustomer(request);
+        LocalDateTime createDateTime = dateService.getDateTimeNow();
+        customer.setCustomerCreateAt(createDateTime);
+        customer.setCustomerUpdateAt(createDateTime);
         Relatives relatives = new Relatives();
         relatives.setRelativesFullName(request.getRelativesFullName());
         relatives.setRelativesPhone(request.getRelativesPhone());
         relatives.setRelativesRelationship(request.getRelativesRelationship());
 
-        relativesRepository.save(relatives);
+        relativesService.addRelatives(relatives);
         customerRepository.save(customer);
         relatives.setCustomer(customer);
         customer.setRelatives(relatives);
-        relativesRepository.save(relatives);
-            customerRepository.save(customer);
-            LocalDate now = LocalDate.now();
-            String strLocalDate = now.format(
-                    DateTimeFormatter.ofPattern("ddMMyyyy"));
-            String strCode =
-                    "C" + strLocalDate + "-" + customer.getCustomerId();
-            customer.setCustomerCode(strCode);
-
-
-        return customerMapper.toCustomerResponse(
-                customerRepository.save(customer));
+        relativesService.addRelatives(relatives);
+        customerRepository.save(customer);
+        LocalDate now = LocalDate.now();
+        String strLocalDate = now.format(
+                DateTimeFormatter.ofPattern("ddMMyyyy"));
+        String strCode =
+                "C" + strLocalDate + "-" + customer.getCustomerId();
+        customer.setCustomerCode(strCode);
+        return customerMapper.toCustomerResponse(customerRepository.save(customer));
     }
 
-    public CustomerResponse updateCustomer(Long customerId,
-                                                CustomerRequest request) {
+    public CustomerResponse updateCustomer(Long customerId, CustomerRequest request) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXISTED));
-            customerMapper.updateCustomer(customer, request);
-            LocalDateTime updateDateTime = dateService.getDateTimeNow();
-            customer.setCustomerUpdateAt(updateDateTime);
+        customerMapper.updateCustomer(customer, request);
+        LocalDateTime updateDateTime = dateService.getDateTimeNow();
+        customer.setCustomerUpdateAt(updateDateTime);
         return customerMapper.toCustomerResponse(
                 customerRepository.save(customer));
     }

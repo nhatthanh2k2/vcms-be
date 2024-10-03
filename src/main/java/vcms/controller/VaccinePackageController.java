@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vcms.dto.response.ApiResponse;
-import vcms.dto.response.VaccinePackageDetailResponse;
+import vcms.dto.response.PackageDetailResponse;
 import vcms.dto.response.VaccinePackageResponse;
 import vcms.service.VaccinePackageService;
 
@@ -29,9 +29,9 @@ public class VaccinePackageController {
     }
 
     @GetMapping("/detail/{packageId}")
-    public ApiResponse<List<VaccinePackageDetailResponse>> getDetailsOfPackage(
+    public ApiResponse<List<PackageDetailResponse>> getDetailsOfPackage(
             @PathVariable("packageId") Long packageId) {
-        return ApiResponse.<List<VaccinePackageDetailResponse>>builder()
+        return ApiResponse.<List<PackageDetailResponse>>builder()
                 .result(vaccinePackageService.getDetailsOfPackage(packageId))
                 .build();
     }

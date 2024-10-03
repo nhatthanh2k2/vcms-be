@@ -43,7 +43,7 @@ public class VaccinePackage {
 
     @OneToMany(mappedBy = "vaccinePackage", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<VaccinePackageDetail> vaccinePackageDetailList = new ArrayList<>();
+    private List<PackageDetail> packageDetailList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "vaccinePackage", orphanRemoval = true)

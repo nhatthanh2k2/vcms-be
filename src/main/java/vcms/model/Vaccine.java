@@ -101,5 +101,5 @@ public class Vaccine {
     private List<BatchDetail> batchDetailList = new ArrayList<>();
 
     @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VaccinePackageDetail> vaccinePackageDetails = new ArrayList<>();
+    private List<PackageDetail> packageDetails = new ArrayList<>();
 }

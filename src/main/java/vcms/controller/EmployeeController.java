@@ -39,7 +39,7 @@ public class EmployeeController {
     public ApiResponse<EmployeeResponse> getEmployeeById(
             @PathVariable("employeeId") Long employeeId) {
         return ApiResponse.<EmployeeResponse>builder()
-                .result(employeeService.getEmployee(employeeId))
+                .result(employeeService.getEmployeeById(employeeId))
                 .build();
     }
 
