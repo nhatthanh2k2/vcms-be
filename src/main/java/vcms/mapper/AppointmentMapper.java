@@ -8,6 +8,7 @@ import vcms.model.Appointment;
 
 @Mapper(componentModel = "spring")
 public interface AppointmentMapper {
+
     Appointment toAppointment(AppointmentCreationRequest request);
 
     AppointmentResponse toAppointmentResponse(Appointment appointment);

@@ -2,6 +2,7 @@ package vcms.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import vcms.enums.AppointmentStatus;
 import vcms.enums.Gender;
 import vcms.enums.InjectionType;
 
@@ -35,13 +36,15 @@ public class AppointmentResponse {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate appointmentInjectionDate;
 
+    private AppointmentStatus appointmentStatus;
+
+    private InjectionType appointmentInjectionType;
+
     private String appointmentRelativesFullName;
 
     private String appointmentRelativesPhone;
 
     private String appointmentRelativesRelationship;
-
-    private InjectionType apppointmentInjectionType;
 
     private BatchDetailResponse batchDetailResponse;
 

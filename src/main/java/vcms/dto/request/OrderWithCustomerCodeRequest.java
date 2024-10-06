@@ -17,7 +17,7 @@ public class OrderWithCustomerCodeRequest {
     private String customerPhone;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate injectionDate;
+    private LocalDate orderInjectionDate;
 
     private String orderPayment;
 

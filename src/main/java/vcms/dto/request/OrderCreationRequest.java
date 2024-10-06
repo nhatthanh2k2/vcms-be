@@ -14,13 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderCreationRequest {
-    private int orderTotal;
 
-    @Column(name = "order_payment")
-    private String orderPayment;
-
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate orderInjectionDate;
 
     private String orderCustomerFullName;
 
@@ -39,5 +33,15 @@ public class OrderCreationRequest {
 
     private String orderCustomerWard;
 
+    private int orderTotal;
+
+    @Column(name = "order_payment")
+    private String orderPayment;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate orderInjectionDate;
+
     private List<Long> orderBatchDetailIdList;
+
+    private List<Long> orderVaccinePackageIdList;
 }

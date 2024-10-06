@@ -1,7 +1,6 @@
 package vcms.configuration;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,25 +38,29 @@ public class ApplicationInitConfig {
 
     private final VaccinePackageService vaccinePackageService;
 
-    @Autowired
-    private VaccineBatchService vaccineBatchService;
+    private final VaccineBatchService vaccineBatchService;
+
+    private final CustomerService customerService;
 
     public ApplicationInitConfig(DateService dateService,
                                  EmployeeRepository employeeRepository,
                                  DiseaseService diseaseService,
                                  VaccineService vaccineService,
                                  EmployeeService employeeService,
-                                 VaccinePackageService vaccinePackageService) {
+                                 VaccinePackageService vaccinePackageService,
+                                 VaccineBatchService vaccineBatchService,
+                                 CustomerService customerService) {
         this.dateService = dateService;
         this.employeeRepository = employeeRepository;
         this.diseaseService = diseaseService;
         this.vaccineService = vaccineService;
         this.employeeService = employeeService;
         this.vaccinePackageService = vaccinePackageService;
+        this.vaccineBatchService = vaccineBatchService;
+        this.customerService = customerService;
     }
 
-    public static MultipartFile convertToMultipartFile(
-            File file) throws IOException {
+    public static MultipartFile convertToMultipartFile(File file) throws IOException {
         FileSystemResource fileSystemResource = new FileSystemResource(file);
         return new MultipartFile() {
             @Override
@@ -148,6 +151,7 @@ public class ApplicationInitConfig {
                 vaccineBatchService.insertVaccineBatch(request);
                 vaccinePackageService.insertInitialVaccinePackageData();
                 employeeService.insertInitialEmployeeData();
+                customerService.insertInitialCustomerData();
                 employeeService.updateEmployeeAvatars();
                 diseaseService.updateDiseaseVaccineRelations();
             }

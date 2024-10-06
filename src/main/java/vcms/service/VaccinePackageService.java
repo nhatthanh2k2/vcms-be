@@ -60,9 +60,22 @@ public class VaccinePackageService {
                 .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
     }
 
+    public List<VaccinePackageResponse> getDefaultPackage() {
+        return vaccinePackageRepository.findAll().stream().limit(8)
+                .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
+    }
+
     public VaccinePackage getVaccinePackageById(Long packageId) {
         return vaccinePackageRepository.findById(packageId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+    }
+
+    public List<VaccinePackage> getAllByVaccinePackageIdList(List<Long> packageIdList) {
+        return vaccinePackageRepository.findAllById(packageIdList);
+    }
+
+    public void saveVaccinePackage(VaccinePackage vaccinePackage) {
+        vaccinePackageRepository.save(vaccinePackage);
     }
 
     public List<PackageDetailResponse> getDetailsOfPackage(Long vaccinePackageId) {
@@ -224,10 +237,10 @@ public class VaccinePackageService {
             for (VaccinePackageCreationRequest request : creationRequestList) {
                 insertPackageToDB(request);
             }
-            System.out.println("Insert Vaccine Package Data Successfully");
+            System.out.println("Vaccine Package Inserted Data Successfully");
         }
         catch (Exception exception) {
-            System.out.println("Insert Vaccine Package Data Failed");
+            System.out.println("Vaccine Package Inserted Data Failed");
         }
     }
 

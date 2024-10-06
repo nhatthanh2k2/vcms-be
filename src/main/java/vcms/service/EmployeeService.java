@@ -1,7 +1,6 @@
 package vcms.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -137,22 +136,7 @@ public class EmployeeService {
                                                EmployeeUpdateRequest request) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
-        //String avatar = employee.getEmployeeAvatar();
         employeeMapper.updateEmployee(employee, request);
-
-//            if (file != null && !file.isEmpty()) {
-//                String fileExtension = getFileExtension(
-//                        file.getOriginalFilename());
-//                String newFileName =
-//                        employee.getEmployeeId().toString() + "." + fileExtension;
-//                Path copyLocation = Paths.get(
-//                        UPLOAD_AVATAR_FOLDER + File.separator + newFileName);
-//                Files.copy(file.getInputStream(), copyLocation,
-//                           StandardCopyOption.REPLACE_EXISTING);
-//                employee.setEmployeeAvatar(newFileName);
-//            }
-//            else employee.setEmployeeAvatar(avatar);
-
         LocalDateTime updateDateTime = dateService.getDateTimeNow();
         employee.setEmployeeUpdateAt(updateDateTime);
 
@@ -166,10 +150,9 @@ public class EmployeeService {
         employeeRepository.deleteById(employeeId);
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PreAuthorize("#request.employeeUsername == authentication.name")
     public boolean changePassword(ChangePasswordRequest request) {
-        var employee = employeeRepository.findByEmployeeUsername(
-                        request.getEmployeeUsername())
+        var employee = employeeRepository.findByEmployeeUsername(request.getEmployeeUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -187,10 +170,8 @@ public class EmployeeService {
 
     public boolean forgotPassword(ForgotPasswordRequest request) {
 
-        Employee employee = employeeRepository.findByEmployeeEmail(
-                        request.getEmployeeEmail())
-                .orElseThrow(
-                        () -> new AppException(ErrorCode.NOT_EXISTED));
+        Employee employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         employee.setEmployeePassword(

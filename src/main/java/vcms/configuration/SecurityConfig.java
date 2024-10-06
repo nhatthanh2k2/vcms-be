@@ -1,6 +1,5 @@
 package vcms.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,18 +31,21 @@ public class SecurityConfig {
             "/api/vaccines/all", "/api/vaccines/detail/*",
             "/api/diseases/all", "/api/diseases/detail/*",
             "/api/employees/all", "/api/employees/detail/*",
-            "/getDoctorAndNurse",
             "/api/vaccine-batch/detail/*",
+            "/api/vaccine-batch/all",
             "/api/vaccine-package/detail/*",
-            "/api/vaccine-package/all",
+            "/api/vaccine-package/default",
             "/images/vaccines/*", "/images/avatars/*"
     };
 
     @Value("${jwt.signerKey}")
     private String signerKey;
 
-    @Autowired
-    private CustomJwtDecoder customJwtDecoder;
+    private final CustomJwtDecoder customJwtDecoder;
+
+    public SecurityConfig(CustomJwtDecoder customJwtDecoder) {
+        this.customJwtDecoder = customJwtDecoder;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(
@@ -85,6 +87,7 @@ public class SecurityConfig {
 
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
+
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();

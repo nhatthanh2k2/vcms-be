@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import vcms.dto.request.CustomerRequest;
 import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.response.CustomerResponse;
+import vcms.enums.Gender;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
 import vcms.mapper.CustomerMapper;
@@ -15,6 +16,7 @@ import vcms.utils.DateService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,20 +93,15 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
-    private boolean isValidVietnamPhoneNumber(String phoneNumber) {
-        return phoneNumber != null && phoneNumber.matches("^0[3-9]\\d{8}$");
-    }
-
     public CustomerResponse lookupCustomer(LookupCustomerRequest request) {
-        boolean isPhoneNumber = isValidVietnamPhoneNumber(
-                request.getLookupCustomerCode());
-        Optional<Customer> optionalCustomer;
-        if (isPhoneNumber) {
+
+        Optional<Customer> optionalCustomer = Optional.empty();
+        if (request.getLookupCustomerCode().startsWith("0")) {
             optionalCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
                     request.getLookupCustomerCode(),
                     request.getLookupCustomerDob());
         }
-        else {
+        else if (request.getLookupCustomerCode().startsWith("C")) {
             optionalCustomer = customerRepository.findByCustomerCodeAndCustomerDob(
                     request.getLookupCustomerCode(),
                     request.getLookupCustomerDob());
@@ -112,6 +109,73 @@ public class CustomerService {
         if (optionalCustomer.isPresent())
             return customerMapper.toCustomerResponse(optionalCustomer.get());
         return new CustomerResponse();
+    }
+
+    public Optional<Customer> getByCustomerCodeAndDob(String customerCode, LocalDate dob) {
+        return customerRepository.findByCustomerCodeAndCustomerDob(customerCode, dob);
+    }
+
+    public Optional<Customer> getByCustomerPhoneAndDob(String phone, LocalDate dob) {
+        return customerRepository.findByCustomerPhoneAndCustomerDob(phone, dob);
+    }
+
+    public Customer getCustomerByCode(String code) {
+        return customerRepository.findByCustomerCode(code);
+    }
+
+    public Customer getCustomerByPhone(String phone) {
+        return customerRepository.findByCustomerPhone(phone);
+    }
+
+    public void insertInitialCustomerData() {
+        List<CustomerRequest> customerRequestList = new ArrayList<>();
+
+        CustomerRequest customer1 = new CustomerRequest(
+                "Đỗ Nhật Thanh", Gender.MALE, LocalDate.of(2002, 8, 19), "dothanhst2002@gmail.com", "0391234567",
+                "Thành phố Cần Thơ", "Quận Ninh Kiều", "Phường Xuân Khánh",
+                "Nguyễn Văn An", "0393683686", "Họ hàng"
+        );
+
+        CustomerRequest customer2 = new CustomerRequest(
+                "Nguyễn Thị Bích", Gender.FEMALE, LocalDate.of(1995, 10, 10), "bichnguyen1995@gmail.com", "0376543210",
+                "Thành phố Cần Thơ", "Quận Bình Thủy", "Phường Long Hòa",
+                "Nguyễn Văn Tâm", "0356789123", "Anh"
+        );
+
+        CustomerRequest customer3 = new CustomerRequest(
+                "Trần Văn Hải", Gender.MALE, LocalDate.of(1988, 5, 15), "tranvanhai88@gmail.com", "0389876543",
+                "Thành phố Cần Thơ", "Quận Cái Răng", "Phường Ba Láng",
+                "Trần Văn Phú", "0385432176", "Anh"
+        );
+
+        CustomerRequest customer4 = new CustomerRequest(
+                "Lê Thị Hồng", Gender.FEMALE, LocalDate.of(1990, 3, 20), "lethihong90@gmail.com", "0364321987",
+                "Tỉnh Hậu Giang", "Thành phố Vị Thanh", "Phường 4",
+                "Lê Văn Minh", "0354321987", "Em"
+        );
+
+
+        CustomerRequest customer5 = new CustomerRequest(
+                "Phạm Văn Hùng", Gender.MALE, LocalDate.of(1992, 12, 24), "phamvanhung92@gmail.com", "0343219876",
+                "Tỉnh An Giang", "Thành phố Long Xuyên", "Phường Mỹ Xuyên",
+                "Phạm Thị Lan", "0346547890", "Chị"
+        );
+
+        customerRequestList.add(customer1);
+        customerRequestList.add(customer2);
+        customerRequestList.add(customer3);
+        customerRequestList.add(customer4);
+        customerRequestList.add(customer5);
+        try {
+            for (CustomerRequest request : customerRequestList) {
+                createCustomer(request);
+            }
+            System.out.println("Customer Data Inserted Successfully!");
+        }
+        catch (Exception exception) {
+            System.out.println("Customer Data Inserted Failed!");
+        }
+
     }
 
 }

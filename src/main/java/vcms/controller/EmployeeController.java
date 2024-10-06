@@ -1,13 +1,14 @@
 package vcms.controller;
 
 import org.springframework.web.bind.annotation.*;
-import vcms.dto.request.ChangePasswordRequest;
-import vcms.dto.request.EmployeeCreationRequest;
-import vcms.dto.request.EmployeeUpdateRequest;
-import vcms.dto.request.ForgotPasswordRequest;
+import vcms.dto.request.*;
 import vcms.dto.response.ApiResponse;
+import vcms.dto.response.AppointmentResponse;
 import vcms.dto.response.EmployeeResponse;
+import vcms.dto.response.OrderResponse;
+import vcms.service.AppointmentService;
 import vcms.service.EmployeeService;
+import vcms.service.OrderService;
 
 import java.util.List;
 
@@ -16,8 +17,15 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    private final AppointmentService appointmentService;
+
+    private final OrderService orderService;
+
+    public EmployeeController(EmployeeService employeeService, AppointmentService appointmentService,
+                              OrderService orderService) {
         this.employeeService = employeeService;
+        this.appointmentService = appointmentService;
+        this.orderService = orderService;
     }
 
 
@@ -48,6 +56,25 @@ public class EmployeeController {
                                                         EmployeeCreationRequest request) {
         return ApiResponse.<EmployeeResponse>builder()
                 .result(employeeService.createEmployee(request))
+                .build();
+    }
+
+    @PostMapping("/book/vaccination")
+    public ApiResponse<?> bookVaccineByEmployee(@RequestBody BookVaccinationRequest request) {
+        if (request.getActionType().equalsIgnoreCase("APPT")) {
+            return ApiResponse.<AppointmentResponse>builder()
+                    .result(appointmentService.createAppointmentFromEmployee(request))
+                    .build();
+        }
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.createOrderFromEmployee(request))
+                .build();
+    }
+
+    @PostMapping("/book/custom-package")
+    public ApiResponse<?> bookCustomPackage(@RequestBody CustomPackageOrderRequest request) {
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.createCustomPackageOrder(request))
                 .build();
     }
 

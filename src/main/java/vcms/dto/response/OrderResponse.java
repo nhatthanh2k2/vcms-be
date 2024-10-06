@@ -40,5 +40,7 @@ public class OrderResponse {
 
     private String orderCustomerWard;
 
-    private List<BatchDetailResponse> batchDetailResponse;
+    private List<BatchDetailResponse> batchDetailResponseList;
+
+    private List<VaccinePackageResponse> vaccinePackageResponseList;
 }

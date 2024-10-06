@@ -28,6 +28,13 @@ public class VaccinePackageController {
                 .build();
     }
 
+    @GetMapping("/default")
+    public ApiResponse<List<VaccinePackageResponse>> getDefaultPackage() {
+        return ApiResponse.<List<VaccinePackageResponse>>builder()
+                .result(vaccinePackageService.getDefaultPackage())
+                .build();
+    }
+
     @GetMapping("/detail/{packageId}")
     public ApiResponse<List<PackageDetailResponse>> getDetailsOfPackage(
             @PathVariable("packageId") Long packageId) {

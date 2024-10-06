@@ -41,7 +41,6 @@ public class VaccineBatchService {
 
     private final DiseaseMapper diseaseMapper;
 
-
     public VaccineBatchService(VaccineBatchRepository vaccineBatchRepository,
                                VaccineBatchMapper vaccineBatchMapper,
                                VaccineMapper vaccineMapper,

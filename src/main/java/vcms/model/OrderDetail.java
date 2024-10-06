@@ -1,6 +1,5 @@
 package vcms.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,12 +24,10 @@ public class OrderDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_detail_id")
-    @JsonBackReference
     private BatchDetail batchDetail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccine_package_id")
-    @JsonBackReference
     private VaccinePackage vaccinePackage;
 
 }
