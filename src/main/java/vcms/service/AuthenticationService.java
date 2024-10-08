@@ -19,6 +19,7 @@ import vcms.dto.response.AuthenticationResponse;
 import vcms.dto.response.IntrospectResponse;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
+import vcms.mapper.EmployeeMapper;
 import vcms.model.Employee;
 import vcms.model.InvalidatedToken;
 import vcms.repository.InvalidatedTokenRepository;
@@ -37,6 +38,8 @@ public class AuthenticationService {
 
     private final EmployeeService employeeService;
 
+    private final EmployeeMapper employeeMapper;
+
     private final InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Value("${jwt.signerKey}")
@@ -49,10 +52,11 @@ public class AuthenticationService {
     protected long REFRESHABLE_DURATION;
 
     public AuthenticationService(EmployeeService employeeService,
-                                 InvalidatedTokenRepository invalidatedTokenRepository) {
+                                 InvalidatedTokenRepository invalidatedTokenRepository, EmployeeMapper employeeMapper) {
 
         this.employeeService = employeeService;
         this.invalidatedTokenRepository = invalidatedTokenRepository;
+        this.employeeMapper = employeeMapper;
     }
 
     public IntrospectResponse introspect(IntrospectRequest request)
@@ -88,6 +92,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(true)
+                .employeeResponse(employeeMapper.toEmployeeResponse(employee))
                 .build();
     }
 

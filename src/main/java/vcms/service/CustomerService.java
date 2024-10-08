@@ -93,6 +93,23 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
+    public Customer findCustomerByIdentifierAndDob(String customerIdentifier, LocalDate dob) {
+        Optional<Customer> optionalCustomer = Optional.empty();
+
+        if (customerIdentifier.startsWith("0")) {
+            optionalCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
+                    customerIdentifier, dob);
+        }
+        else if (customerIdentifier.startsWith("C")) {
+            optionalCustomer = customerRepository.findByCustomerCodeAndCustomerDob(
+                    customerIdentifier, dob);
+        }
+        if (optionalCustomer.isPresent()) {
+            return optionalCustomer.get();
+        }
+        throw new AppException(ErrorCode.NOT_EXISTED);
+    }
+
     public CustomerResponse lookupCustomer(LookupCustomerRequest request) {
 
         Optional<Customer> optionalCustomer = Optional.empty();
@@ -108,7 +125,7 @@ public class CustomerService {
         }
         if (optionalCustomer.isPresent())
             return customerMapper.toCustomerResponse(optionalCustomer.get());
-        return new CustomerResponse();
+        throw new AppException(ErrorCode.NOT_EXISTED);
     }
 
     public Optional<Customer> getByCustomerCodeAndDob(String customerCode, LocalDate dob) {

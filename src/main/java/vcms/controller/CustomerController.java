@@ -60,18 +60,8 @@ public class CustomerController {
     }
 
     @PostMapping("/lookup")
-    public ApiResponse<?> lookupCustomer(
+    public ApiResponse<CustomerResponse> lookupCustomer(
             @RequestBody LookupCustomerRequest request) {
-        CustomerResponse customerResponse = customerService.lookupCustomer(
-                request);
-
-        if (customerResponse == null || customerResponse.getCustomerFullName() == null) {
-            return ApiResponse.<String>builder()
-                    .result("Customer not found")
-                    .code(1005)
-                    .build();
-        }
-
         return ApiResponse.<CustomerResponse>builder()
                 .result(customerService.lookupCustomer(request))
                 .build();

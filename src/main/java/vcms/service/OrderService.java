@@ -19,7 +19,6 @@ import vcms.utils.DateService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -144,72 +143,53 @@ public class OrderService {
         packageDetailService.insertAllPackageDetail(packageDetailList);
         // tao order
         Order order = new Order();
-        Optional<Customer> optionalCustomer = Optional.empty();
-        List<OrderDetail> orderDetailList = new ArrayList<>();
-        OrderDetail orderDetail = new OrderDetail();
-        if (request.getCustomerIdentifier().startsWith("0")) {
-            optionalCustomer = customerService.getByCustomerPhoneAndDob(
-                    request.getCustomerIdentifier(), request.getCustomerDob());
-        }
-        else if (request.getCustomerIdentifier().startsWith("C")) {
-            optionalCustomer = customerService.getByCustomerCodeAndDob(
-                    request.getCustomerIdentifier(), request.getCustomerDob());
-        }
+        Customer customer = customerService.
+                findCustomerByIdentifierAndDob(request.getCustomerIdentifier(),
+                                               request.getCustomerDob());
         order.setOrderDate(dateService.getDateNow());
         order.setOrderInjectionDate(request.getInjectionDate());
         order.setOrderPayment(request.getPayment());
         order.setOrderTotal(customVaccinepackage.getVaccinePackagePrice());
-        if (optionalCustomer.isPresent()) {
-            order.setCustomer(optionalCustomer.get());
-            order.setOrderCustomerFullName(optionalCustomer.get().getCustomerFullName());
-            order.setOrderCustomerPhone(optionalCustomer.get().getCustomerPhone());
-            order.setOrderCustomerEmail(optionalCustomer.get().getCustomerEmail());
-            order.setOrderCustomerDob(optionalCustomer.get().getCustomerDob());
-            order.setOrderCustomerGender(optionalCustomer.get().getCustomerGender());
-            order.setOrderCustomerProvince(optionalCustomer.get().getCustomerProvince());
-            order.setOrderCustomerDistrict(optionalCustomer.get().getCustomerDistrict());
-            order.setOrderCustomerWard(optionalCustomer.get().getCustomerWard());
-        }
+        order.setCustomer(customer);
+        order.setOrderCustomerFullName(customer.getCustomerFullName());
+        order.setOrderCustomerPhone(customer.getCustomerPhone());
+        order.setOrderCustomerEmail(customer.getCustomerEmail());
+        order.setOrderCustomerDob(customer.getCustomerDob());
+        order.setOrderCustomerGender(customer.getCustomerGender());
+        order.setOrderCustomerProvince(customer.getCustomerProvince());
+        order.setOrderCustomerDistrict(customer.getCustomerDistrict());
+        order.setOrderCustomerWard(customer.getCustomerWard());
+        // tao order detail
+        List<OrderDetail> orderDetailList = new ArrayList<>();
+        OrderDetail orderDetail = new OrderDetail();
         orderDetail.setVaccinePackage(customVaccinepackage);
         orderDetail.setBatchDetail(null);
         orderDetailList.add(orderDetail);
-        orderDetailService.insertAllOrderDetail(orderDetailList);
-        order.setOrderDetailList(orderDetailList);
         orderRepository.save(order);
+        orderDetail.setOrder(order);
+        orderDetailService.insertAllOrderDetail(orderDetailList);
 
         return orderMapper.toOrderResponse(order);
     }
 
     public OrderResponse createOrderFromEmployee(BookVaccinationRequest request) {
         Order order = new Order();
-
+        Customer customer = customerService.findCustomerByIdentifierAndDob(request.getCustomerIdentifier(),
+                                                                           request.getCustomerDob());
         BatchDetail batchDetail = new BatchDetail();
         VaccinePackage vaccinePackage = new VaccinePackage();
         int total = 0;
         List<OrderDetail> orderDetailList = new ArrayList<>();
         OrderDetail orderDetail = new OrderDetail();
-        Optional<Customer> optionalCustomer = Optional.empty();
-        if (request.getCustomerCode().startsWith("0")) {
-            optionalCustomer = customerService.getByCustomerPhoneAndDob(
-                    request.getCustomerCode(), request.getCustomerDob());
-        }
-        else if (request.getCustomerCode().startsWith("C")) {
-            optionalCustomer = customerService.getByCustomerCodeAndDob(
-                    request.getCustomerCode(), request.getCustomerDob());
-        }
-
-        if (optionalCustomer.isPresent()) {
-            order.setCustomer(optionalCustomer.get());
-            order.setOrderCustomerFullName(optionalCustomer.get().getCustomerFullName());
-            order.setOrderCustomerPhone(optionalCustomer.get().getCustomerPhone());
-            order.setOrderCustomerEmail(optionalCustomer.get().getCustomerEmail());
-            order.setOrderCustomerDob(optionalCustomer.get().getCustomerDob());
-            order.setOrderCustomerGender(optionalCustomer.get().getCustomerGender());
-            order.setOrderCustomerProvince(optionalCustomer.get().getCustomerProvince());
-            order.setOrderCustomerDistrict(optionalCustomer.get().getCustomerDistrict());
-            order.setOrderCustomerWard(optionalCustomer.get().getCustomerWard());
-
-        }
+        order.setCustomer(customer);
+        order.setOrderCustomerFullName(customer.getCustomerFullName());
+        order.setOrderCustomerPhone(customer.getCustomerPhone());
+        order.setOrderCustomerEmail(customer.getCustomerEmail());
+        order.setOrderCustomerDob(customer.getCustomerDob());
+        order.setOrderCustomerGender(customer.getCustomerGender());
+        order.setOrderCustomerProvince(customer.getCustomerProvince());
+        order.setOrderCustomerDistrict(customer.getCustomerDistrict());
+        order.setOrderCustomerWard(customer.getCustomerWard());
 
         if (request.getInjectionType().equals(InjectionType.SINGLE)) {
             batchDetail = batchDetailService.getBatchDetailById(request.getBatchDetailSelected());
@@ -233,7 +213,6 @@ public class OrderService {
         order.setOrderDetailList(orderDetailList);
         orderRepository.save(order);
         orderDetailService.insertAllOrderDetail(orderDetailList);
-
         return orderMapper.toOrderResponse(order);
     }
 

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookVaccinationRequest {
-    private String customerCode;
+    private String customerIdentifier;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate customerDob;

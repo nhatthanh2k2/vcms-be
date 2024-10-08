@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -88,36 +87,28 @@ public class AppointmentService {
 
     public AppointmentResponse createAppointmentFromEmployee(BookVaccinationRequest request) {
         Appointment appointment = new Appointment();
-        Optional<Customer> optionalCustomer = Optional.empty();
-        if (request.getCustomerCode().startsWith("0")) {
-            optionalCustomer = customerService.getByCustomerPhoneAndDob(
-                    request.getCustomerCode(), request.getCustomerDob());
-        }
-        else if (request.getCustomerCode().startsWith("C")) {
-            optionalCustomer = customerService.getByCustomerCodeAndDob(
-                    request.getCustomerCode(), request.getCustomerDob());
-        }
-        if (optionalCustomer.isPresent()) {
-            appointment.setCustomer(optionalCustomer.get());
-            appointment.setAppointmentInjectionDate(request.getInjectionDate());
-            appointment.setAppointmentStatus(AppointmentStatus.PENDING);
-            // set Customer
-            appointment.setAppointmentCustomerFullName(optionalCustomer.get().getCustomerFullName());
-            appointment.setAppointmentCustomerEmail(optionalCustomer.get().getCustomerEmail());
-            appointment.setAppointmentCustomerPhone(optionalCustomer.get().getCustomerPhone());
-            appointment.setAppointmentCustomerDob(optionalCustomer.get().getCustomerDob());
-            appointment.setAppointmentCustomerGender(optionalCustomer.get().getCustomerGender());
-            appointment.setAppointmentCustomerProvince(optionalCustomer.get().getCustomerProvince());
-            appointment.setAppointmentCustomerDistrict(optionalCustomer.get().getCustomerDistrict());
-            appointment.setAppointmentCustomerWard(optionalCustomer.get().getCustomerWard());
-            // set Relatives
-            appointment.setAppointmentRelativesFullName(
-                    optionalCustomer.get().getRelatives().getRelativesFullName());
-            appointment.setAppointmentRelativesPhone(
-                    optionalCustomer.get().getRelatives().getRelativesPhone());
-            appointment.setAppointmentRelativesRelationship(
-                    optionalCustomer.get().getRelatives().getRelativesRelationship());
-        }
+        Customer customer = customerService.findCustomerByIdentifierAndDob(
+                request.getCustomerIdentifier(), request.getCustomerDob());
+        appointment.setCustomer(customer);
+        appointment.setAppointmentInjectionDate(request.getInjectionDate());
+        appointment.setAppointmentStatus(AppointmentStatus.PENDING);
+        // set Customer
+        appointment.setAppointmentCustomerFullName(customer.getCustomerFullName());
+        appointment.setAppointmentCustomerEmail(customer.getCustomerEmail());
+        appointment.setAppointmentCustomerPhone(customer.getCustomerPhone());
+        appointment.setAppointmentCustomerDob(customer.getCustomerDob());
+        appointment.setAppointmentCustomerGender(customer.getCustomerGender());
+        appointment.setAppointmentCustomerProvince(customer.getCustomerProvince());
+        appointment.setAppointmentCustomerDistrict(customer.getCustomerDistrict());
+        appointment.setAppointmentCustomerWard(customer.getCustomerWard());
+        // set Relatives
+        appointment.setAppointmentRelativesFullName(
+                customer.getRelatives().getRelativesFullName());
+        appointment.setAppointmentRelativesPhone(
+                customer.getRelatives().getRelativesPhone());
+        appointment.setAppointmentRelativesRelationship(
+                customer.getRelatives().getRelativesRelationship());
+
         BatchDetailResponse batchDetailResponse = new BatchDetailResponse();
         VaccinePackageResponse vaccinePackageResponse = new VaccinePackageResponse();
         if (request.getInjectionType().equals(InjectionType.SINGLE)) {
