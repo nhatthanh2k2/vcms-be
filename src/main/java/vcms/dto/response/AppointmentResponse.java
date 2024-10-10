@@ -16,6 +16,8 @@ import java.time.LocalDate;
 public class AppointmentResponse {
     private Long appointmentId;
 
+    private String customerCode;
+
     private String appointmentCustomerFullName;
 
     @JsonFormat(pattern = "dd-MM-yyyy")

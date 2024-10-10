@@ -31,6 +31,7 @@ public class SecurityConfig {
             "/api/vaccines/all", "/api/vaccines/detail/*",
             "/api/diseases/all", "/api/diseases/detail/*",
             "/api/employees/all", "/api/employees/detail/*",
+            "/api/employees/getDoctorAndNurse",
             "/api/vaccine-batch/detail/*",
             "/api/vaccine-batch/all",
             "/api/vaccine-package/detail/*",

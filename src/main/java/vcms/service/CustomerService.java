@@ -113,15 +113,15 @@ public class CustomerService {
     public CustomerResponse lookupCustomer(LookupCustomerRequest request) {
 
         Optional<Customer> optionalCustomer = Optional.empty();
-        if (request.getLookupCustomerCode().startsWith("0")) {
+        if (request.getCustomerIdentifier().startsWith("0")) {
             optionalCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
-                    request.getLookupCustomerCode(),
-                    request.getLookupCustomerDob());
+                    request.getCustomerIdentifier(),
+                    request.getCustomerDob());
         }
-        else if (request.getLookupCustomerCode().startsWith("C")) {
+        else if (request.getCustomerIdentifier().startsWith("C")) {
             optionalCustomer = customerRepository.findByCustomerCodeAndCustomerDob(
-                    request.getLookupCustomerCode(),
-                    request.getLookupCustomerDob());
+                    request.getCustomerIdentifier(),
+                    request.getCustomerDob());
         }
         if (optionalCustomer.isPresent())
             return customerMapper.toCustomerResponse(optionalCustomer.get());

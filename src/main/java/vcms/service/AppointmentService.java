@@ -68,6 +68,13 @@ public class AppointmentService {
         List<AppointmentResponse> appointmentResponseList = new ArrayList<>();
         for (Appointment appointment : appointmentList) {
             AppointmentResponse response = appointmentMapper.toAppointmentResponse(appointment);
+            Customer customer = appointment.getCustomer();
+            if (customer != null) {
+                response.setCustomerCode(customer.getCustomerCode());
+            }
+            else {
+                response.setCustomerCode("Chưa có thông tin");
+            }
             if (appointment.getBatchDetail() != null) {
                 BatchDetailResponse batchDetailResponse =
                         vaccineBatchMapper.toBatchDetailResponse(appointment.getBatchDetail());
@@ -146,6 +153,7 @@ public class AppointmentService {
         if (request.getApppointmentInjectionType().equals(InjectionType.SINGLE)) {
             BatchDetail batchDetail = batchDetailService.getBatchDetailById(
                     request.getAppointmentBatchDetailId());
+            appointment.setBatchDetail(batchDetail);
             appointment.setAppointmentInjectionType(InjectionType.SINGLE);
             batchDetailResponse =
                     vaccineBatchMapper.toBatchDetailResponse(batchDetail);

@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LookupCustomerRequest {
-    private String lookupCustomerCode;
+    private String customerIdentifier;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate lookupCustomerDob;
+    private LocalDate customerDob;
 }

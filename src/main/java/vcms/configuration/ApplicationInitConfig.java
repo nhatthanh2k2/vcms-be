@@ -108,7 +108,6 @@ public class ApplicationInitConfig {
     @Bean
     ApplicationRunner applicationRunner() {
         return args -> {
-
             VaccineBatchCreationRequest request = new VaccineBatchCreationRequest();
             request.setVaccineBatchNumber("B-00-2024");
             request.setVaccineBatchImportDate(LocalDate.of(2024, 9, 1));

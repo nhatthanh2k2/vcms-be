@@ -58,7 +58,8 @@ public class EmployeeService {
         roles.add(Role.DOCTOR.name());
         roles.add(Role.NURSE.name());
         return employeeRepository.findByRolesIn(roles).stream()
-                .map(employeeMapper::toEmployeeResponse).toList();
+                .map(employeeMapper::toEmployeeResponse)
+                .toList();
     }
 
     public EmployeeResponse getEmployeeById(Long employeeId) {
@@ -278,7 +279,7 @@ public class EmployeeService {
                                             "nguyenthiminh@gmail.com",
                                             "0909345678", "Cà Mau", "Cà Mau",
                                             "Phường 5",
-                                            "ĐD", "Chuyên viên Điều Dưỡng",
+                                            "BS", "Giám Đốc Điều Dưỡng",
                                             Set.of("NURSE")));
 
         employeeCreationRequestList.add(
@@ -295,7 +296,7 @@ public class EmployeeService {
                                             LocalDate.of(1986, 1, 30),
                                             "lethibich@gmail.com", "0909567890",
                                             "Bạc Liêu", "Giá Rai", "Phường 2",
-                                            "BS", "Giám Đốc Điều Dưỡng",
+                                            "ĐD", "Chuyên viên Điều Dưỡng",
                                             Set.of("NURSE")));
 
         employeeCreationRequestList.add(
