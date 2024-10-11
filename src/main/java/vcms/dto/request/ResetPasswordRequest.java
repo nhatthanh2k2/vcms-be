@@ -7,7 +7,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ForgotPasswordRequest {
+public class ResetPasswordRequest {
+    private String employeeUsername;
+
     private String employeeEmail;
+
     private String newPassword;
 }

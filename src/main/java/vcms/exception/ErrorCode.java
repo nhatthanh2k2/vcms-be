@@ -17,8 +17,8 @@ public enum ErrorCode {
     NOT_EXISTED(1005, "Not existed", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
-    UNDONE(1008, "Service Failed", HttpStatus.BAD_REQUEST)
-    ;
+    UNDONE(1008, "Service Failed", HttpStatus.BAD_REQUEST),
+    PASSWORDS_NOT_MATCH(1009, "Passwords do not match", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

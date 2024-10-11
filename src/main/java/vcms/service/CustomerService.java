@@ -128,22 +128,6 @@ public class CustomerService {
         throw new AppException(ErrorCode.NOT_EXISTED);
     }
 
-    public Optional<Customer> getByCustomerCodeAndDob(String customerCode, LocalDate dob) {
-        return customerRepository.findByCustomerCodeAndCustomerDob(customerCode, dob);
-    }
-
-    public Optional<Customer> getByCustomerPhoneAndDob(String phone, LocalDate dob) {
-        return customerRepository.findByCustomerPhoneAndCustomerDob(phone, dob);
-    }
-
-    public Customer getCustomerByCode(String code) {
-        return customerRepository.findByCustomerCode(code);
-    }
-
-    public Customer getCustomerByPhone(String phone) {
-        return customerRepository.findByCustomerPhone(phone);
-    }
-
     public void insertInitialCustomerData() {
         List<CustomerRequest> customerRequestList = new ArrayList<>();
 

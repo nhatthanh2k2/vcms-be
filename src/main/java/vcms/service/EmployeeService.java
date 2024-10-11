@@ -2,6 +2,7 @@ package vcms.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import vcms.dto.request.ChangePasswordRequest;
 import vcms.dto.request.EmployeeCreationRequest;
 import vcms.dto.request.EmployeeUpdateRequest;
-import vcms.dto.request.ForgotPasswordRequest;
+import vcms.dto.request.ResetPasswordRequest;
 import vcms.dto.response.EmployeeResponse;
 import vcms.enums.Gender;
 import vcms.enums.Role;
@@ -152,25 +153,26 @@ public class EmployeeService {
     }
 
     @PreAuthorize("#request.employeeUsername == authentication.name")
-    public boolean changePassword(ChangePasswordRequest request) {
-        var employee = employeeRepository.findByEmployeeUsername(request.getEmployeeUsername())
+    public String changePassword(ChangePasswordRequest request) {
+        String employeeUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        var employee = employeeRepository.findByEmployeeUsername(employeeUsername)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean isMatch = passwordEncoder.matches(request.getEmployeePassword(),
                                                   employee.getEmployeePassword());
-
-        if (isMatch) {
-            employee.setEmployeePassword(
-                    passwordEncoder.encode(request.getNewPassword()));
-            employeeRepository.save(employee);
-            return true;
+        if (!isMatch) {
+            throw new AppException(ErrorCode.PASSWORDS_NOT_MATCH);
         }
-        return false;
+        employee.setEmployeePassword(
+                passwordEncoder.encode(request.getNewPassword()));
+        employeeRepository.save(employee);
+
+        return "Change password successfully";
+
     }
 
-    public boolean forgotPassword(ForgotPasswordRequest request) {
-
+    public String resetPassword(ResetPasswordRequest request) {
         Employee employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
 
@@ -178,7 +180,7 @@ public class EmployeeService {
         employee.setEmployeePassword(
                 passwordEncoder.encode(request.getNewPassword()));
         employeeRepository.save(employee);
-        return true;
+        return "Reset Password Successfully";
     }
 
     public void insertInitialEmployeeData() {

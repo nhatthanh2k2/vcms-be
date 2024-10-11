@@ -24,7 +24,9 @@ public class SecurityConfig {
             "/auth/token", "/auth/introspect", "/auth/logout",
             "/auth/refresh", "/api/customers/lookup",
             "/api/appointments/create", "/api/appointments/create-code",
-            "/api/orders/create", "/api/orders/create-code"
+            "/api/orders/create", "/api/orders/create-code",
+            "/api/employees/reset-password",
+            "/api/vaccination-record/getMyHistory"
     };
 
     private final String[] PUBLIC_GET_ENDPOINTS = {

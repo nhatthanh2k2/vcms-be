@@ -99,26 +99,16 @@ public class EmployeeController {
     @PostMapping("/change-password")
     public ApiResponse<String> changePassword(@RequestBody
                                               ChangePasswordRequest request) {
-        if (employeeService.changePassword(request)) {
-            return ApiResponse.<String>builder()
-                    .result("Password changed successfully")
-                    .build();
-        }
         return ApiResponse.<String>builder()
-                .result("Password changed failed")
+                .result(employeeService.changePassword(request))
                 .build();
     }
 
-    @PostMapping("/forgot-password")
+    @PostMapping("/reset-password")
     public ApiResponse<String> forgotPassword(@RequestBody
-                                              ForgotPasswordRequest request) {
-        if (employeeService.forgotPassword(request)) {
-            return ApiResponse.<String>builder()
-                    .result("Password reset successfully")
-                    .build();
-        }
+                                              ResetPasswordRequest request) {
         return ApiResponse.<String>builder()
-                .result("Password reset failed")
+                .result(employeeService.resetPassword(request))
                 .build();
     }
 }
