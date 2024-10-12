@@ -7,24 +7,32 @@ import vcms.dto.request.CustomPackageOrderRequest;
 import vcms.dto.request.OrderCreationRequest;
 import vcms.dto.request.OrderWithCustomerCodeRequest;
 import vcms.dto.response.BatchDetailResponse;
+import vcms.dto.response.OrderDetailResponse;
 import vcms.dto.response.OrderResponse;
 import vcms.dto.response.VaccinePackageResponse;
 import vcms.enums.InjectionType;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
 import vcms.mapper.OrderMapper;
 import vcms.mapper.VaccineBatchMapper;
+import vcms.mapper.VaccineMapper;
 import vcms.mapper.VaccinePackageMapper;
 import vcms.model.*;
+import vcms.repository.OrderDetailRepository;
 import vcms.repository.OrderRepository;
 import vcms.utils.DateService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+
+    private final OrderDetailRepository orderDetailRepository;
 
     private final DateService dateService;
 
@@ -44,6 +52,8 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
+    private final VaccineMapper vaccineMapper;
+
     private final PackageDetailService packageDetailService;
 
     public OrderService(OrderRepository orderRepository, DateService dateService,
@@ -51,7 +61,8 @@ public class OrderService {
                         OrderDetailService orderDetailService, BatchDetailService batchDetailService,
                         VaccinePackageService vaccinePackageService, VaccinePackageMapper vaccinePackageMapper,
                         VaccineService vaccineService, OrderMapper orderMapper,
-                        PackageDetailService packageDetailService) {
+                        PackageDetailService packageDetailService, OrderDetailRepository orderDetailRepository,
+                        VaccineMapper vaccineMapper) {
         this.orderRepository = orderRepository;
         this.dateService = dateService;
         this.vaccineBatchMapper = vaccineBatchMapper;
@@ -63,36 +74,60 @@ public class OrderService {
         this.vaccineService = vaccineService;
         this.orderMapper = orderMapper;
         this.packageDetailService = packageDetailService;
+        this.orderDetailRepository = orderDetailRepository;
+        this.vaccineMapper = vaccineMapper;
     }
 
+    public List<OrderDetailResponse> getDetailByOrderId(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXISTED));
+        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrder(order);
+        List<OrderDetailResponse> orderDetailResponseList = new ArrayList<>();
+        for (OrderDetail detail : orderDetailList) {
+            OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
+            orderDetailResponse.setOrderDetailId(detail.getOrderDetailId());
+            if (detail.getBatchDetail() != null) {
+                BatchDetailResponse batchDetailResponse = vaccineBatchMapper.toBatchDetailResponse(
+                        detail.getBatchDetail());
+                batchDetailResponse.setVaccineResponse(
+                        vaccineMapper.toVaccineResponse(detail.getBatchDetail().getVaccine()));
+                orderDetailResponse.setBatchDetailResponse(batchDetailResponse);
+                orderDetailResponse.setVaccinePackageResponse(null);
+            }
+            else {
+                VaccinePackageResponse vaccinePackageResponse =
+                        vaccinePackageMapper.toVaccinePackageResponse(detail.getVaccinePackage());
+                orderDetailResponse.setVaccinePackageResponse(vaccinePackageResponse);
+                orderDetailResponse.setBatchDetailResponse(null);
+            }
+            orderDetailResponseList.add(orderDetailResponse);
+        }
 
-    public List<OrderDetail> convertBatchDetailsToOrderDetails(
-            List<BatchDetail> batchDetailList, Order order) {
-        return batchDetailList.stream()
-                .map(batchDetail -> {
-                    OrderDetail orderDetail = new OrderDetail();
-                    orderDetail.setOrder(order);
-                    orderDetail.setBatchDetail(batchDetail);
-                    return orderDetail;
-                }).collect(Collectors.toList());
+        return orderDetailResponseList;
     }
 
-    public List<OrderDetail> convertPackageToOrderDetails(
-            List<VaccinePackage> vaccinePackageList, Order order) {
-        return vaccinePackageList.stream()
-                .map(vaccinePackage -> {
-                    OrderDetail orderDetail = new OrderDetail();
-                    orderDetail.setOrder(order);
-                    orderDetail.setVaccinePackage(vaccinePackage);
-                    return orderDetail;
-                }).collect(Collectors.toList());
+    public List<OrderResponse> getOrderListByInjectionDate(LocalDate injectionDate) {
+        List<Order> orderList = orderRepository.findAllByOrderInjectionDate(injectionDate);
+        if ((orderList.isEmpty()))
+            return Collections.emptyList();
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+        for (Order order : orderList) {
+            OrderResponse orderResponse = orderMapper.toOrderResponse(order);
+            Customer customer = order.getCustomer();
+            if (customer != null) {
+                orderResponse.setCustomerCode(order.getCustomer().getCustomerCode());
+            }
+            else orderResponse.setCustomerCode("Chưa có thông tin");
+            orderResponseList.add(orderResponse);
+        }
+        return orderResponseList;
     }
 
     public OrderResponse createCustomPackageOrder(CustomPackageOrderRequest request) {
         // tao custom package moi tu package co ban
         VaccinePackage vaccinePackage = vaccinePackageService.getVaccinePackageById(request.getVaccinePackageId());
         VaccinePackage customVaccinepackage = new VaccinePackage();
-        customVaccinepackage.setVaccinePackageName(vaccinePackage.getVaccinePackageName());
+        customVaccinepackage.setVaccinePackageName("Custom " + vaccinePackage.getVaccinePackageName());
         customVaccinepackage.setVaccinePackageType(vaccinePackage.getVaccinePackageType());
         vaccinePackageService.saveVaccinePackage(customVaccinepackage);
 
@@ -223,9 +258,17 @@ public class OrderService {
             order.setOrderPayment(request.getOrderPayment());
             order.setOrderDate(dateService.getDateNow());
             order.setOrderInjectionDate(request.getOrderInjectionDate());
-            Customer customer = customerService.getCustomerByCustomerCode(request.getCustomerCode());
+            Customer customer = customerService.findCustomerByIdentifierAndDob(
+                    request.getCustomerIdentifier(), request.getCustomerDob());
             order.setCustomer(customer);
-
+            order.setOrderCustomerFullName(customer.getCustomerFullName());
+            order.setOrderCustomerDob(customer.getCustomerDob());
+            order.setOrderCustomerGender(customer.getCustomerGender());
+            order.setOrderCustomerPhone(customer.getCustomerPhone());
+            order.setOrderCustomerEmail(customer.getCustomerEmail());
+            order.setOrderCustomerProvince(customer.getCustomerProvince());
+            order.setOrderCustomerDistrict(customer.getCustomerDistrict());
+            order.setOrderCustomerWard(customer.getCustomerWard());
             List<BatchDetail> batchDetailList =
                     batchDetailService.getAllBatchDetailByBatchDetailIdList(request.getOrderBatchDetailIdList());
             List<VaccinePackage> vaccinePackageList = vaccinePackageService.getAllByVaccinePackageIdList(
@@ -235,42 +278,20 @@ public class OrderService {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
                 orderDetail.setBatchDetail(batchDetail);
+                orderDetail.setVaccinePackage(null);
                 orderDetailList.add(orderDetail);
             }
             for (VaccinePackage vaccinePackage : vaccinePackageList) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
                 orderDetail.setVaccinePackage(vaccinePackage);
+                orderDetail.setBatchDetail(null);
                 orderDetailList.add(orderDetail);
             }
             order.setOrderDetailList(orderDetailList);
             orderRepository.save(order);
             orderDetailService.insertAllOrderDetail(orderDetailList);
-
-            OrderResponse orderResponse = new OrderResponse();
-            orderResponse.setOrderTotal(request.getOrderTotal());
-            orderResponse.setOrderPayment(request.getOrderPayment());
-            orderResponse.setOrderDate(dateService.getDateNow());
-            orderResponse.setOrderInjectionDate(request.getOrderInjectionDate());
-            orderResponse.setOrderCustomerFullName(
-                    customer.getCustomerFullName());
-            orderResponse.setOrderCustomerPhone(customer.getCustomerPhone());
-            orderResponse.setOrderCustomerEmail(customer.getCustomerEmail());
-            orderResponse.setOrderCustomerDob(customer.getCustomerDob());
-            orderResponse.setOrderCustomerProvince(
-                    customer.getCustomerProvince());
-            orderResponse.setOrderCustomerDistrict(
-                    customer.getCustomerDistrict());
-            orderResponse.setOrderCustomerWard(customer.getCustomerWard());
-            List<BatchDetailResponse> batchDetailResponseList =
-                    batchDetailList.stream()
-                            .map(vaccineBatchMapper::toBatchDetailResponse)
-                            .toList();
-            List<VaccinePackageResponse> vaccinePackageResponseList = vaccinePackageList.stream()
-                    .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
-            orderResponse.setBatchDetailResponseList(batchDetailResponseList);
-            orderResponse.setVaccinePackageResponseList(vaccinePackageResponseList);
-            return orderResponse;
+            return orderMapper.toOrderResponse(order);
         }
         catch (Exception exception) {
             return new OrderResponse();
@@ -301,48 +322,23 @@ public class OrderService {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
                 orderDetail.setBatchDetail(batchDetail);
+                orderDetail.setVaccinePackage(null);
                 orderDetailList.add(orderDetail);
             }
             for (VaccinePackage vaccinePackage : vaccinePackageList) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
                 orderDetail.setVaccinePackage(vaccinePackage);
+                orderDetail.setBatchDetail(null);
                 orderDetailList.add(orderDetail);
             }
             order.setOrderDetailList(orderDetailList);
-
-
             orderRepository.save(order);
             orderDetailService.insertAllOrderDetail(orderDetailList);
-
-            OrderResponse orderResponse = new OrderResponse();
-            orderResponse.setOrderTotal(request.getOrderTotal());
-            orderResponse.setOrderPayment(request.getOrderPayment());
-            orderResponse.setOrderDate(dateService.getDateNow());
-            orderResponse.setOrderInjectionDate(
-                    request.getOrderInjectionDate());
-            orderResponse.setOrderCustomerFullName(
-                    request.getOrderCustomerFullName());
-            orderResponse.setOrderCustomerPhone(
-                    request.getOrderCustomerPhone());
-            orderResponse.setOrderCustomerEmail(
-                    request.getOrderCustomerEmail());
-            orderResponse.setOrderCustomerDob(request.getOrderCustomerDob());
-            orderResponse.setOrderCustomerProvince(
-                    request.getOrderCustomerProvince());
-            orderResponse.setOrderCustomerDistrict(
-                    request.getOrderCustomerDistrict());
-            orderResponse.setOrderCustomerWard(request.getOrderCustomerWard());
-            List<BatchDetailResponse> batchDetailResponseList = batchDetailList.stream()
-                    .map(vaccineBatchMapper::toBatchDetailResponse)
-                    .toList();
-            List<VaccinePackageResponse> vaccinePackageResponseList = vaccinePackageList.stream()
-                    .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
-            orderResponse.setBatchDetailResponseList(batchDetailResponseList);
-            return orderResponse;
+            return orderMapper.toOrderResponse(order);
         }
         catch (Exception exception) {
-            return new OrderResponse();
+            throw new AppException(ErrorCode.CREATE_FAILED);
         }
     }
 }

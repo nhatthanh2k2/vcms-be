@@ -5,7 +5,6 @@ import lombok.*;
 import vcms.enums.Gender;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Getter
@@ -13,12 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponse {
+    private Long orderId;
+
     private int orderTotal;
 
     private String orderPayment;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate orderDate;
+
+    private String customerCode;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate orderInjectionDate;
@@ -39,8 +42,4 @@ public class OrderResponse {
     private String orderCustomerDistrict;
 
     private String orderCustomerWard;
-
-    private List<BatchDetailResponse> batchDetailResponseList;
-
-    private List<VaccinePackageResponse> vaccinePackageResponseList;
 }

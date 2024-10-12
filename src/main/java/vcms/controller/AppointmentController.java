@@ -3,6 +3,7 @@ package vcms.controller;
 import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.AppointmentCreationRequest;
 import vcms.dto.request.AppointmentWithCustomerCodeRequest;
+import vcms.dto.request.UpdateAppointmentStatusRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.AppointmentResponse;
 import vcms.service.AppointmentService;
@@ -19,23 +20,21 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("/list")
-    public ApiResponse<List<AppointmentResponse>> getAppointmentListByDate(
+    @GetMapping("/list/injection-date")
+    public ApiResponse<List<AppointmentResponse>> getAppointmentListByInjectionDate(
             @RequestParam("selectedDate") String selectedDateStr
     ) {
         LocalDate selectedDate = LocalDate.parse(selectedDateStr);
         return ApiResponse.<List<AppointmentResponse>>builder()
-                .result(appointmentService.getAppointmentListByDate(
-                        selectedDate))
+                .result(appointmentService.getAppointmentListByInjectionDate(selectedDate))
                 .build();
     }
 
     @PostMapping("/create")
     public ApiResponse<AppointmentResponse> createAppointmentWithOutCustomerCode(
-            @RequestBody AppointmentCreationRequest appointmentCreationRequest) {
+            @RequestBody AppointmentCreationRequest request) {
         return ApiResponse.<AppointmentResponse>builder()
-                .result(appointmentService.createAppointment(
-                        appointmentCreationRequest))
+                .result(appointmentService.createAppointment(request))
                 .build();
     }
 
@@ -43,8 +42,14 @@ public class AppointmentController {
     public ApiResponse<AppointmentResponse> createAppointmentWithCustomerCode(
             @RequestBody AppointmentWithCustomerCodeRequest request) {
         return ApiResponse.<AppointmentResponse>builder()
-                .result(appointmentService.createAppointmentWithCustomerCode(
-                        request))
+                .result(appointmentService.createAppointmentWithCustomerCode(request))
+                .build();
+    }
+
+    @PutMapping("/update/appointment-status")
+    public ApiResponse<String> updateAppointmentStatus(@RequestBody UpdateAppointmentStatusRequest request) {
+        return ApiResponse.<String>builder()
+                .result(appointmentService.updateAppointmentStatus(request))
                 .build();
     }
 }

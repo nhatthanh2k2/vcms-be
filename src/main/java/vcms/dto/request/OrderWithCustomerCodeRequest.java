@@ -12,9 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderWithCustomerCodeRequest {
-    private String customerCode;
+    private String customerIdentifier;
 
-    private String customerPhone;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate customerDob;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate orderInjectionDate;

@@ -132,32 +132,37 @@ public class CustomerService {
         List<CustomerRequest> customerRequestList = new ArrayList<>();
 
         CustomerRequest customer1 = new CustomerRequest(
-                "Đỗ Nhật Thanh", Gender.MALE, LocalDate.of(2002, 8, 19), "dothanhst2002@gmail.com", "0391234567",
+                "Đỗ Nhật Thanh", Gender.MALE, LocalDate.of(2002, 8, 19),
+                "dothanhst2002@gmail.com", "0391234567",
                 "Thành phố Cần Thơ", "Quận Ninh Kiều", "Phường Xuân Khánh",
                 "Nguyễn Văn An", "0393683686", "Họ hàng"
         );
 
         CustomerRequest customer2 = new CustomerRequest(
-                "Nguyễn Thị Bích", Gender.FEMALE, LocalDate.of(1995, 10, 10), "bichnguyen1995@gmail.com", "0376543210",
+                "Nguyễn Thị Bích", Gender.FEMALE, LocalDate.of(1995, 10, 10),
+                "bichnguyen1995@gmail.com", "0376543210",
                 "Thành phố Cần Thơ", "Quận Bình Thủy", "Phường Long Hòa",
                 "Nguyễn Văn Tâm", "0356789123", "Anh"
         );
 
         CustomerRequest customer3 = new CustomerRequest(
-                "Trần Văn Hải", Gender.MALE, LocalDate.of(1988, 5, 15), "tranvanhai88@gmail.com", "0389876543",
+                "Trần Văn Hải", Gender.MALE, LocalDate.of(1988, 5, 15),
+                "tranvanhai88@gmail.com", "0389876543",
                 "Thành phố Cần Thơ", "Quận Cái Răng", "Phường Ba Láng",
                 "Trần Văn Phú", "0385432176", "Anh"
         );
 
         CustomerRequest customer4 = new CustomerRequest(
-                "Lê Thị Hồng", Gender.FEMALE, LocalDate.of(1990, 3, 20), "lethihong90@gmail.com", "0364321987",
+                "Lê Thị Hồng", Gender.FEMALE, LocalDate.of(1990, 3, 20),
+                "lethihong90@gmail.com", "0364321987",
                 "Tỉnh Hậu Giang", "Thành phố Vị Thanh", "Phường 4",
                 "Lê Văn Minh", "0354321987", "Em"
         );
 
 
         CustomerRequest customer5 = new CustomerRequest(
-                "Phạm Văn Hùng", Gender.MALE, LocalDate.of(1992, 12, 24), "phamvanhung92@gmail.com", "0343219876",
+                "Phạm Văn Hùng", Gender.MALE, LocalDate.of(1992, 12, 24),
+                "phamvanhung92@gmail.com", "0343219876",
                 "Tỉnh An Giang", "Thành phố Long Xuyên", "Phường Mỹ Xuyên",
                 "Phạm Thị Lan", "0346547890", "Chị"
         );

@@ -4,11 +4,14 @@ import org.springframework.stereotype.Service;
 import vcms.dto.request.AppointmentCreationRequest;
 import vcms.dto.request.AppointmentWithCustomerCodeRequest;
 import vcms.dto.request.BookVaccinationRequest;
+import vcms.dto.request.UpdateAppointmentStatusRequest;
 import vcms.dto.response.AppointmentResponse;
 import vcms.dto.response.BatchDetailResponse;
 import vcms.dto.response.VaccinePackageResponse;
 import vcms.enums.AppointmentStatus;
 import vcms.enums.InjectionType;
+import vcms.exception.AppException;
+import vcms.exception.ErrorCode;
 import vcms.mapper.AppointmentMapper;
 import vcms.mapper.VaccineBatchMapper;
 import vcms.mapper.VaccineMapper;
@@ -60,8 +63,8 @@ public class AppointmentService {
         this.vaccineMapper = vaccineMapper;
     }
 
-    public List<AppointmentResponse> getAppointmentListByDate(LocalDate date) {
-        List<Appointment> appointmentList = appointmentRepository.findAllByAppointmentInjectionDate(date);
+    public List<AppointmentResponse> getAppointmentListByInjectionDate(LocalDate injectionDate) {
+        List<Appointment> appointmentList = appointmentRepository.findAllByAppointmentInjectionDate(injectionDate);
         if (appointmentList.isEmpty()) {
             return Collections.emptyList();
         }
@@ -226,5 +229,20 @@ public class AppointmentService {
         appointmentResponse.setVaccinePackageResponse(vaccinePackageResponse);
         appointmentResponse.setBatchDetailResponse(batchDetailResponse);
         return appointmentResponse;
+    }
+
+    public String updateAppointmentStatus(UpdateAppointmentStatusRequest request) {
+        try {
+            Appointment appointment = appointmentRepository.findById(request.getAppointmentId())
+                    .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+            appointment.setAppointmentStatus(request.getAppointmentStatus());
+            appointmentRepository.save(appointment);
+            return "Update Appointment Status Successfully!";
+        }
+        catch (Exception exception) {
+            throw new AppException(ErrorCode.UPDATE_FAILED);
+        }
+
+
     }
 }

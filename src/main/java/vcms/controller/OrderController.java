@@ -1,14 +1,15 @@
 package vcms.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.OrderCreationRequest;
 import vcms.dto.request.OrderWithCustomerCodeRequest;
 import vcms.dto.response.ApiResponse;
+import vcms.dto.response.OrderDetailResponse;
 import vcms.dto.response.OrderResponse;
 import vcms.service.OrderService;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -20,7 +21,13 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("create-code")
+    @GetMapping("/detail/{orderId}")
+    public ApiResponse<List<OrderDetailResponse>> getDetailByOrderId(@PathVariable("orderId") Long orderId) {
+        return ApiResponse.<List<OrderDetailResponse>>builder().result(
+                orderService.getDetailByOrderId(orderId)).build();
+    }
+
+    @PostMapping("/create-code")
     public ApiResponse<?> createOrderWithCustomerCode(
             @RequestBody OrderWithCustomerCodeRequest request) {
         OrderResponse orderResponse = orderService.createOrderWithCustomerCode(
@@ -36,7 +43,7 @@ public class OrderController {
                 .build();
     }
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public ApiResponse<?> createOrder(
             @RequestBody OrderCreationRequest request) {
         OrderResponse orderResponse = orderService.createOrder(request);
@@ -48,6 +55,17 @@ public class OrderController {
         }
         return ApiResponse.<OrderResponse>builder()
                 .result(orderResponse)
+                .build();
+    }
+
+    @GetMapping("/list/injection-date")
+    public ApiResponse<List<OrderResponse>> getOrderListByDate(
+            @RequestParam("selectedDate") String selectedDateStr
+    ) {
+        LocalDate selectedDate = LocalDate.parse(selectedDateStr);
+        return ApiResponse.<List<OrderResponse>>builder()
+                .result(orderService.getOrderListByInjectionDate(
+                        selectedDate))
                 .build();
     }
 }
