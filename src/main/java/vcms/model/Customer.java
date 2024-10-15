@@ -71,6 +71,9 @@ public class Customer {
             mappedBy = "customer", orphanRemoval = true)
     private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ScreeningRecord> screeningRecordList = new ArrayList<>();
+
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "customer", orphanRemoval = true)
     private List<Order> orderList = new ArrayList<>();

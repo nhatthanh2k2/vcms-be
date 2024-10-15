@@ -86,4 +86,6 @@ public class Employee {
             mappedBy = "employee", orphanRemoval = true)
     private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ScreeningRecord> screeningRecordList = new ArrayList<>();
 }

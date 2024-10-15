@@ -13,14 +13,17 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AppointmentWithCustomerCodeRequest {
 
-    private String appointmentCustomerCode;
+    private String customerIdentifier;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate appointmentInjectionDate;
+    private LocalDate customerDob;
 
-    private InjectionType apppointmentInjectionType;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate injectionDate;
 
-    private Long appointmentBatchDetailId;
+    private InjectionType injectionType;
 
-    private Long appointmentVaccinePackageId;
+    private Long batchDetailId;
+
+    private Long vaccinePackageId;
 }

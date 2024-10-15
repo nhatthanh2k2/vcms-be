@@ -55,6 +55,11 @@ public class CustomerService {
     }
 
     public CustomerResponse createCustomer(CustomerRequest request) {
+        Optional<Customer> existingCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
+                request.getCustomerPhone(), request.getCustomerDob());
+        if (existingCustomer.isPresent()) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
         Customer customer = customerMapper.toCustomer(request);
         LocalDateTime createDateTime = dateService.getDateTimeNow();
         customer.setCustomerCreateAt(createDateTime);

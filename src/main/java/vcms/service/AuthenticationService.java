@@ -133,8 +133,9 @@ public class AuthenticationService {
         var employee = employeeService.getEmployeeByUsername(username);
         var token = generateToken(employee);
 
-        return AuthenticationResponse.builder().token(token).authenticated(
-                true).build();
+        return AuthenticationResponse.builder()
+                .token(token)
+                .authenticated(true).build();
     }
 
     public String generateToken(Employee employee) {
@@ -145,7 +146,7 @@ public class AuthenticationService {
                 .issuer("dnthanh.dev")
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                        Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()
                 ))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("email", employee.getEmployeeEmail())
