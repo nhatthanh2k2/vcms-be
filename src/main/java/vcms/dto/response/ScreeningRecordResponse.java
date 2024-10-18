@@ -14,6 +14,8 @@ import java.time.LocalDate;
 public class ScreeningRecordResponse {
     private Long screeningRecordId;
 
+    private String screeningRecordCode;
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate screeningRecordDate;
 

@@ -190,8 +190,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Nguyễn Văn An", Gender.MALE,
                                             LocalDate.of(1985, 5, 12),
                                             "nguyenvana@gmail.com",
-                                            "0909123456", "An Giang",
-                                            "Long Xuyên", "Mỹ Hòa",
+                                            "0909123456", "Tỉnh An Giang",
+                                            "Thành phố Long Xuyên", "Phường Mỹ Hòa",
                                             "BS.CKI", "Giám đốc Y khoa",
                                             Set.of("DOCTOR")));
 
@@ -199,8 +199,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Trần Văn Bình", Gender.MALE,
                                             LocalDate.of(1979, 3, 22),
                                             "tranvanbinh@gmail.com",
-                                            "0909345678", "Cần Thơ",
-                                            "Ninh Kiều", "An Hòa",
+                                            "0909345678", "Thành phố Cần Thơ",
+                                            "Quận Ninh Kiều", "Phường An Hòa",
                                             "BS", "Chuyên viên Y khoa",
                                             Set.of("DOCTOR")));
 
@@ -208,8 +208,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Lê Văn Cường", Gender.MALE,
                                             LocalDate.of(1988, 10, 10),
                                             "levancuong@gmail.com",
-                                            "0909456789", "Đồng Tháp",
-                                            "Cao Lãnh", "Phường 3",
+                                            "0909456789", "Tỉnh Đồng Tháp",
+                                            "Thành phố Cao Lãnh", "Phường 3",
                                             "BS", "Chuyên viên Y khoa",
                                             Set.of("DOCTOR")));
 
@@ -217,8 +217,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Phạm Minh Dũng", Gender.MALE,
                                             LocalDate.of(1982, 7, 5),
                                             "phamminhdung@gmail.com",
-                                            "0909567890", "Vĩnh Long",
-                                            "Long Hồ", "Phú Quới",
+                                            "0909567890", "Tỉnh Vĩnh Long",
+                                            "Huyện Long Hồ", "Xã Đông Phú",
                                             "BS", "Chuyên viên Y khoa",
                                             Set.of("DOCTOR")));
 
@@ -226,8 +226,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Ngô Văn Hải", Gender.MALE,
                                             LocalDate.of(1990, 4, 15),
                                             "ngovanhai@gmail.com", "0909678901",
-                                            "Kiên Giang", "Rạch Giá",
-                                            "Vĩnh Thanh",
+                                            "Tỉnh Kiên Giang", "Thành phố Rạch Giá",
+                                            "Xã Vĩnh Thanh",
                                             "BS", "Chuyên viên Y khoa",
                                             Set.of("DOCTOR")));
 
@@ -235,8 +235,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Vũ Văn Hoàng", Gender.MALE,
                                             LocalDate.of(1993, 11, 25),
                                             "vuvanhoang@gmail.com",
-                                            "0909789012", "Tiền Giang",
-                                            "Mỹ Tho", "Phường 6",
+                                            "0909789012", "Tỉnh Tiền Giang",
+                                            "Thành phố Mỹ Tho", "Phường 6",
                                             "BS", "Bác sĩ khám sàng lọc",
                                             Set.of("DOCTOR")));
 
@@ -244,8 +244,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Nguyễn Thị Lan", Gender.FEMALE,
                                             LocalDate.of(1987, 2, 8),
                                             "nguyenthlan@gmail.com",
-                                            "0909890123", "Sóc Trăng",
-                                            "Sóc Trăng", "Phường 1",
+                                            "0909890123", "Tỉnh Sóc Trăng",
+                                            "Thành phố Sóc Trăng", "Phường 1",
                                             "BS", "Bác sĩ khám sàng lọc",
                                             Set.of("DOCTOR")));
 
@@ -253,8 +253,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Trần Thị Hương", Gender.FEMALE,
                                             LocalDate.of(1984, 8, 16),
                                             "tranthihuong@gmail.com",
-                                            "0909901234", "Bến Tre",
-                                            "Châu Thành", "Tân Thạch",
+                                            "0909901234", "Tỉnh Bến Tre",
+                                            "Huyện Châu Thành", "Xã Tân Thạch",
                                             "BS", "Bác sĩ khám sàng lọc",
                                             Set.of("DOCTOR")));
 
@@ -262,7 +262,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Lê Thị Nhung", Gender.FEMALE,
                                             LocalDate.of(1991, 6, 20),
                                             "lethinung@gmail.com", "0909012345",
-                                            "Hậu Giang", "Vị Thanh", "Vị Tân",
+                                            "Tỉnh Hậu Giang",
+                                            "Thành phố Vị Thanh", "Xã Vị Tân",
                                             "BS", "Bác sĩ khám sàng lọc",
                                             Set.of("DOCTOR")));
 
@@ -270,8 +271,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Hoàng Thị Mai", Gender.FEMALE,
                                             LocalDate.of(1995, 9, 9),
                                             "hoangthimai@gmail.com",
-                                            "0909123456", "Trà Vinh", "Trà Cú",
-                                            "Ngãi Xuyên",
+                                            "0909123456", "Tỉnh Trà Vinh",
+                                            "Huyện Trà Cú", "Xã Ngãi Xuyên",
                                             "BS", "Chuyên viên Y khoa",
                                             Set.of("DOCTOR")));
 
@@ -279,8 +280,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Nguyễn Thị Minh", Gender.FEMALE,
                                             LocalDate.of(1992, 3, 15),
                                             "nguyenthiminh@gmail.com",
-                                            "0909345678", "Cà Mau", "Cà Mau",
-                                            "Phường 5",
+                                            "0909345678", "Tỉnh Cà Mau",
+                                            "Thành phố Cà Mau", "Phường 5",
                                             "BS", "Giám Đốc Điều Dưỡng",
                                             Set.of("NURSE")));
 
@@ -288,8 +289,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Phạm Thị Tuyết", Gender.FEMALE,
                                             LocalDate.of(1990, 12, 27),
                                             "phamthituyet@gmail.com",
-                                            "0909456789", "Vĩnh Long",
-                                            "Tam Bình", "Long Phú",
+                                            "0909456789", "Tỉnh Vĩnh Long",
+                                            "Huyện Tam Bình", "Xã Long Phú",
                                             "ĐD", "Chuyên viên Điều Dưỡng",
                                             Set.of("NURSE")));
 
@@ -297,7 +298,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Lê Thị Bích", Gender.FEMALE,
                                             LocalDate.of(1986, 1, 30),
                                             "lethibich@gmail.com", "0909567890",
-                                            "Bạc Liêu", "Giá Rai", "Phường 2",
+                                            "Tỉnh Bạc Liêu", "Thị xã Giá Rai",
+                                            "Phường 1",
                                             "ĐD", "Chuyên viên Điều Dưỡng",
                                             Set.of("NURSE")));
 
@@ -305,8 +307,8 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Đặng Thị Lan", Gender.FEMALE,
                                             LocalDate.of(1994, 4, 3),
                                             "dangthilan@gmail.com",
-                                            "0909678901", "An Giang",
-                                            "Châu Đốc", "Vĩnh Mỹ",
+                                            "0909678901", "Tỉnh An Giang",
+                                            "Thành phố Châu Đốc", "Phường Vĩnh Mỹ",
                                             "ĐH", "Nhân viên lễ tân",
                                             Set.of("RECEPTIONIST")));
 
@@ -314,9 +316,10 @@ public class EmployeeService {
                 new EmployeeCreationRequest("Phan Thị Hà", Gender.FEMALE,
                                             LocalDate.of(1997, 7, 22),
                                             "phanthiha@gmail.com", "0909789012",
-                                            "Cần Thơ", "Ô Môn", "Thới An",
+                                            "Thành phố Cần Thơ", "Quận Ninh Kiều", "Phường Cái Khế",
                                             "ĐH", "Nhân viên lễ tân",
                                             Set.of("RECEPTIONIST")));
+
         try {
             for (EmployeeCreationRequest request : employeeCreationRequestList) {
                 createEmployee(request);
@@ -324,9 +327,10 @@ public class EmployeeService {
             System.out.println("Employee Data Inserted Successfully!");
         }
         catch (Exception exception) {
-            System.out.println("Employee Data Inserted Failed!");
+            System.out.println("Employee Data Insertion Failed!");
         }
     }
+
 
     @Transactional
     public void updateEmployeeAvatars() {

@@ -24,6 +24,8 @@ public class ScreeningRecord {
     @Column(name = "screen_rec_id")
     private Long screeningRecordId;
 
+    private String screeningRecordCode;
+
     @Column(name = "screen_rec_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate screeningRecordDate;
