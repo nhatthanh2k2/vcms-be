@@ -1,20 +1,30 @@
-package vcms.dto.response;
+package vcms.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDate;
 
+
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VaccinationRecordResponse {
-    private Long vaccinationRecordId;
+public class VaccinationRecordCreationRequest {
+
+    private String customerPhone;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate vaccinationRecordDate;
+    private LocalDate customerDob;
+
+    private String employeeUsername;
+
+    private Long vaccineId;
+
+    private Long vaccinePackageId;
+
+    private Long vaccineBatchId;
 
     private String vaccinationRecordType;
 
@@ -25,14 +35,4 @@ public class VaccinationRecordResponse {
     private int vaccinationRecordTotal;
 
     private String vaccinationRecordPayment;
-
-    private CustomerResponse customerResponse;
-
-    private VaccineResponse vaccineResponse;
-
-    private VaccinePackageResponse vaccinePackageResponse;
-
-    private VaccineBatchResponse vaccineBatchResponse;
-
-    private EmployeeResponse employeeResponse;
 }

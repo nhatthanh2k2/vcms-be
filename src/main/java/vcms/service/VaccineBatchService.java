@@ -59,6 +59,17 @@ public class VaccineBatchService {
                 .map(vaccineBatchMapper::toVaccineBatchResponse).toList();
     }
 
+    public VaccineBatch getBatchById(Long batchId) {
+        return vaccineBatchRepository.findById(batchId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+    }
+
+    public List<BatchDetail> getBatchDetailListByBatchId(Long batchId) {
+        VaccineBatch vaccineBatch = vaccineBatchRepository.findById(batchId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        return batchDetailService.getAllBatchDetailByVaccineBatch(vaccineBatch);
+    }
+
     public List<BatchDetailResponse> getDetailsOfBatch(Long batchId) {
 
         VaccineBatch vaccineBatch = vaccineBatchRepository.findById(batchId)

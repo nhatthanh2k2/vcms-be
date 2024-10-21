@@ -94,7 +94,6 @@ public class AppointmentService {
         return appointmentResponseList;
     }
 
-
     public AppointmentResponse createAppointmentFromEmployee(BookVaccinationRequest request) {
         Appointment appointment = new Appointment();
         Customer customer = customerService.findCustomerByIdentifierAndDob(
@@ -240,7 +239,5 @@ public class AppointmentService {
         catch (Exception exception) {
             throw new AppException(ErrorCode.UPDATE_FAILED);
         }
-
-
     }
 }

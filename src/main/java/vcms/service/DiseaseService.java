@@ -65,7 +65,6 @@ public class DiseaseService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public DiseaseResponse updateDisease(Long diseaseId, DiseaseRequest request) {
-
         Disease disease = diseaseRepository.findById(diseaseId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
         diseaseMapper.updateDisease(disease, request);

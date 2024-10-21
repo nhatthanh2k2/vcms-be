@@ -38,4 +38,8 @@ public class BatchDetailService {
     public void insertBatchDetailList(List<BatchDetail> batchDetailList) {
         batchDetailRepository.saveAll(batchDetailList);
     }
+
+    public void saveBatchDetail(BatchDetail batchDetail) {
+        batchDetailRepository.save(batchDetail);
+    }
 }

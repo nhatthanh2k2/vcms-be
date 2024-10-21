@@ -47,7 +47,7 @@ public class CustomerService {
     public CustomerResponse getCustomer(long customerId) {
         return customerMapper.toCustomerResponse(
                 customerRepository.findById(customerId).orElseThrow(
-                        () -> new AppException(ErrorCode.NOT_EXISTED)));
+                        () -> new AppException(ErrorCode.CUSTOMER_NOT_EXISTED)));
     }
 
     public Customer getCustomerByCustomerCode(String code) {
@@ -55,43 +55,53 @@ public class CustomerService {
     }
 
     public CustomerResponse createCustomer(CustomerRequest request) {
-        Optional<Customer> existingCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
-                request.getCustomerPhone(), request.getCustomerDob());
-        if (existingCustomer.isPresent()) {
-            throw new AppException(ErrorCode.USER_EXISTED);
-        }
-        Customer customer = customerMapper.toCustomer(request);
-        LocalDateTime createDateTime = dateService.getDateTimeNow();
-        customer.setCustomerCreateAt(createDateTime);
-        customer.setCustomerUpdateAt(createDateTime);
-        Relatives relatives = new Relatives();
-        relatives.setRelativesFullName(request.getRelativesFullName());
-        relatives.setRelativesPhone(request.getRelativesPhone());
-        relatives.setRelativesRelationship(request.getRelativesRelationship());
+        try {
+            Optional<Customer> existingCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
+                    request.getCustomerPhone(), request.getCustomerDob());
+            if (existingCustomer.isPresent()) {
+                throw new AppException(ErrorCode.CUSTOMER_EXISTED);
+            }
+            Customer customer = customerMapper.toCustomer(request);
+            LocalDateTime createDateTime = dateService.getDateTimeNow();
+            customer.setCustomerCreateAt(createDateTime);
+            customer.setCustomerUpdateAt(createDateTime);
+            Relatives relatives = new Relatives();
+            relatives.setRelativesFullName(request.getRelativesFullName());
+            relatives.setRelativesPhone(request.getRelativesPhone());
+            relatives.setRelativesRelationship(request.getRelativesRelationship());
 
-        relativesService.addRelatives(relatives);
-        customerRepository.save(customer);
-        relatives.setCustomer(customer);
-        customer.setRelatives(relatives);
-        relativesService.addRelatives(relatives);
-        customerRepository.save(customer);
-        LocalDate now = LocalDate.now();
-        String strLocalDate = now.format(
-                DateTimeFormatter.ofPattern("ddMMyyyy"));
-        String strCode =
-                "C" + strLocalDate + "-" + customer.getCustomerId();
-        customer.setCustomerCode(strCode);
-        return customerMapper.toCustomerResponse(customerRepository.save(customer));
+            relativesService.addRelatives(relatives);
+            customerRepository.save(customer);
+            relatives.setCustomer(customer);
+            customer.setRelatives(relatives);
+            relativesService.addRelatives(relatives);
+            customerRepository.save(customer);
+            LocalDate now = LocalDate.now();
+            String strLocalDate = now.format(
+                    DateTimeFormatter.ofPattern("ddMMyyyy"));
+            String strCode =
+                    "C" + strLocalDate + "-" + customer.getCustomerId();
+            customer.setCustomerCode(strCode);
+            return customerMapper.toCustomerResponse(customerRepository.save(customer));
+        }
+        catch (Exception exception) {
+            throw new AppException(ErrorCode.CREATE_FAILED);
+        }
     }
 
     public CustomerResponse updateCustomer(Long customerId, CustomerRequest request) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(
-                () -> new AppException(ErrorCode.NOT_EXISTED));
-        customerMapper.updateCustomer(customer, request);
-        LocalDateTime updateDateTime = dateService.getDateTimeNow();
-        customer.setCustomerUpdateAt(updateDateTime);
-        return customerMapper.toCustomerResponse(
-                customerRepository.save(customer));
+        try {
+            Customer customer = customerRepository.findById(customerId).orElseThrow(
+                    () -> new AppException(ErrorCode.CUSTOMER_NOT_EXISTED));
+            customerMapper.updateCustomer(customer, request);
+            LocalDateTime updateDateTime = dateService.getDateTimeNow();
+            customer.setCustomerUpdateAt(updateDateTime);
+            return customerMapper.toCustomerResponse(
+                    customerRepository.save(customer));
+        }
+        catch (Exception exception) {
+            throw new AppException(ErrorCode.UPDATE_FAILED);
+        }
     }
 
     public void deleteCustomer(Long customerId) {
@@ -100,7 +110,6 @@ public class CustomerService {
 
     public Customer findCustomerByIdentifierAndDob(String customerIdentifier, LocalDate dob) {
         Optional<Customer> optionalCustomer = Optional.empty();
-
         if (customerIdentifier.startsWith("0")) {
             optionalCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
                     customerIdentifier, dob);
@@ -112,11 +121,10 @@ public class CustomerService {
         if (optionalCustomer.isPresent()) {
             return optionalCustomer.get();
         }
-        throw new AppException(ErrorCode.NOT_EXISTED);
+        throw new AppException(ErrorCode.CUSTOMER_NOT_EXISTED);
     }
 
     public CustomerResponse lookupCustomer(LookupCustomerRequest request) {
-
         Optional<Customer> optionalCustomer = Optional.empty();
         if (request.getCustomerIdentifier().startsWith("0")) {
             optionalCustomer = customerRepository.findByCustomerPhoneAndCustomerDob(
@@ -130,7 +138,7 @@ public class CustomerService {
         }
         if (optionalCustomer.isPresent())
             return customerMapper.toCustomerResponse(optionalCustomer.get());
-        throw new AppException(ErrorCode.NOT_EXISTED);
+        throw new AppException(ErrorCode.CUSTOMER_NOT_EXISTED);
     }
 
     public void insertInitialCustomerData() {

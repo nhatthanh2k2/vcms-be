@@ -135,6 +135,7 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .token(token)
+                .employeeResponse(employeeMapper.toEmployeeResponse(employee))
                 .authenticated(true).build();
     }
 

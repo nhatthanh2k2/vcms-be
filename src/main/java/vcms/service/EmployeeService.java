@@ -1,5 +1,6 @@
 package vcms.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,15 +21,14 @@ import vcms.mapper.EmployeeMapper;
 import vcms.model.Employee;
 import vcms.repository.EmployeeRepository;
 import vcms.utils.DateService;
+import vcms.utils.GenerateService;
 
-import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 @Service
 public class EmployeeService {
@@ -37,6 +37,9 @@ public class EmployeeService {
     private final EmployeeMapper employeeMapper;
 
     private final DateService dateService;
+
+    @Autowired
+    private GenerateService generateService;
 
     @Value("${upload.avatarFolder}")
     private String UPLOAD_AVATAR_FOLDER;
@@ -64,67 +67,45 @@ public class EmployeeService {
     }
 
     public EmployeeResponse getEmployeeById(Long employeeId) {
-        return employeeMapper.toEmployeeResponse(employeeRepository.findById(employeeId)
-                                                         .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED)));
+        return employeeMapper.toEmployeeResponse(
+                employeeRepository.findById(employeeId)
+                        .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED)));
     }
 
     public Employee getEmployeeByUsername(String username) {
         return employeeRepository.findByEmployeeUsername(username)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public EmployeeResponse createEmployee(EmployeeCreationRequest request) {
-
-        Employee employee = employeeMapper.toEmployee(request);
-        LocalDateTime createDateTime = dateService.getDateTimeNow();
-        employee.setEmployeeCreateAt(createDateTime);
-        employee.setEmployeeUpdateAt(createDateTime);
-        employee.setEmployeeAvatar("default-avatar.png");
-        Set<String> roles = request.getRoles();
-        employee.setRoles(roles);
-        employeeRepository.save(employee);
-
-        String numberToString = employee.getEmployeeId().toString();
-        Long employeeId = employee.getEmployeeId();
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        if (numberToString.length() < 7) {
-            numberToString = String.format("%07d", employeeId);
+        try {
+            Employee employee = employeeMapper.toEmployee(request);
+            LocalDateTime createDateTime = dateService.getDateTimeNow();
+            employee.setEmployeeCreateAt(createDateTime);
+            employee.setEmployeeUpdateAt(createDateTime);
+            employee.setEmployeeAvatar("default-avatar.png");
+            Set<String> roles = request.getRoles();
+            employee.setRoles(roles);
+            employeeRepository.save(employee);
+            String numberToString = employee.getEmployeeId().toString();
+            Long employeeId = employee.getEmployeeId();
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            if (numberToString.length() < 7) {
+                numberToString = String.format("%07d", employeeId);
+            }
+            String userName = generateService.generateUsername(
+                    employee.getEmployeeFullName()) + employeeId;
+            employee.setEmployeeUsername(userName);
+            employee.setEmployeePassword(passwordEncoder.encode(numberToString));
+            return employeeMapper.toEmployeeResponse(
+                    employeeRepository.save(employee));
         }
-        String userName = generateUsername(
-                employee.getEmployeeFullName()) + employeeId;
-        employee.setEmployeeUsername(userName);
-        employee.setEmployeePassword(passwordEncoder.encode(numberToString));
-        return employeeMapper.toEmployeeResponse(
-                employeeRepository.save(employee));
+        catch (Exception exception) {
+            throw new AppException(ErrorCode.CREATE_FAILED);
+        }
     }
 
-    public String generateUsername(String fullName) {
-        String normalized = Normalizer.normalize(fullName, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{M}+");
-        String noDiacritics = pattern.matcher(normalized).replaceAll("");
-
-        StringBuilder result = new StringBuilder();
-
-        noDiacritics = noDiacritics.replace('Đ', 'd').replace('đ', 'd');
-
-        String[] parts = noDiacritics.trim().split("\\s+");
-
-        if (parts.length > 0) {
-
-            result.append(parts[0].substring(0, 1).toLowerCase());
-        }
-
-        for (int i = 1; i < parts.length - 1; i++) {
-            result.append(parts[i].substring(0, 1).toLowerCase());
-        }
-
-        if (parts.length > 0) {
-            result.append(parts[parts.length - 1].toLowerCase());
-        }
-
-        return result.toString();
-    }
 
     private String getFileExtension(String fileName) {
         if (fileName == null || fileName.lastIndexOf(".") == -1) {
@@ -134,17 +115,14 @@ public class EmployeeService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public EmployeeResponse updateEmployeeInfo(Long employeeId,
-                                               EmployeeUpdateRequest request) {
+    public EmployeeResponse updateEmployeeInfo(Long employeeId, EmployeeUpdateRequest request) {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
         employeeMapper.updateEmployee(employee, request);
         LocalDateTime updateDateTime = dateService.getDateTimeNow();
         employee.setEmployeeUpdateAt(updateDateTime);
-
         return employeeMapper.toEmployeeResponse(
                 employeeRepository.save(employee));
-
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -156,7 +134,7 @@ public class EmployeeService {
     public String changePassword(ChangePasswordRequest request) {
         String employeeUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         var employee = employeeRepository.findByEmployeeUsername(employeeUsername)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean isMatch = passwordEncoder.matches(request.getEmployeePassword(),
@@ -174,11 +152,9 @@ public class EmployeeService {
 
     public String resetPassword(ResetPasswordRequest request) {
         Employee employee = employeeRepository.findByEmployeeEmail(request.getEmployeeEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
-
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        employee.setEmployeePassword(
-                passwordEncoder.encode(request.getNewPassword()));
+        employee.setEmployeePassword(passwordEncoder.encode(request.getNewPassword()));
         employeeRepository.save(employee);
         return "Reset Password Successfully";
     }
@@ -330,7 +306,6 @@ public class EmployeeService {
             System.out.println("Employee Data Insertion Failed!");
         }
     }
-
 
     @Transactional
     public void updateEmployeeAvatars() {

@@ -127,12 +127,12 @@ public class ApplicationInitConfig {
                 admin.setEmployeeDob(dob);
                 admin.setEmployeeEmail("thanh2002@gmail.com");
                 admin.setEmployeePhone("0399686868");
-                admin.setEmployeeProvince("Sóc Trăng");
-                admin.setEmployeeDistrict("Long Phú");
-                admin.setEmployeeWard("Phú Hữu");
+                admin.setEmployeeProvince("Tỉnh Sóc Trăng");
+                admin.setEmployeeDistrict("Huyện Long Phú");
+                admin.setEmployeeWard("Xã Phú Hữu");
                 admin.setEmployeeAvatar("admin-avatar.png");
                 admin.setEmployeeQualification("Kỹ Sư");
-                admin.setEmployeePosition("Giám đốc trung tâm");
+                admin.setEmployeePosition("Admin trung tâm");
                 HashSet<String> roles = new HashSet<>();
                 roles.add(Role.ADMIN.name());
                 admin.setRoles(roles);

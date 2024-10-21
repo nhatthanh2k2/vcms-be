@@ -24,6 +24,7 @@ public class ScreeningRecord {
     @Column(name = "screen_rec_id")
     private Long screeningRecordId;
 
+    @Column(name = "screen_rec_code")
     private String screeningRecordCode;
 
     @Column(name = "screen_rec_date")

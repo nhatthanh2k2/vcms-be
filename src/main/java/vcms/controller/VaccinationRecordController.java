@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vcms.dto.request.LookupCustomerRequest;
+import vcms.dto.request.VaccinationRecordCreationRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.VaccinationRecordResponse;
 import vcms.service.VaccinationRecordService;
@@ -25,5 +26,13 @@ public class VaccinationRecordController {
             @RequestBody LookupCustomerRequest customerRequest) {
         return ApiResponse.<List<VaccinationRecordResponse>>builder().result(
                 vaccinationRecordService.getAllRecordOfCustomer(customerRequest)).build();
+    }
+
+    @PostMapping("/create")
+    public ApiResponse<VaccinationRecordResponse> createVaccinationRecord(
+            @RequestBody VaccinationRecordCreationRequest request) {
+        return ApiResponse.<VaccinationRecordResponse>builder()
+                .result(vaccinationRecordService.createVaccinationRecord(request))
+                .build();
     }
 }

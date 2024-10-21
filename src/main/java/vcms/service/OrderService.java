@@ -127,7 +127,7 @@ public class OrderService {
         // tao custom package moi tu package co ban
         VaccinePackage vaccinePackage = vaccinePackageService.getVaccinePackageById(request.getVaccinePackageId());
         VaccinePackage customVaccinepackage = new VaccinePackage();
-        customVaccinepackage.setVaccinePackageName("Custom " + vaccinePackage.getVaccinePackageName());
+        customVaccinepackage.setVaccinePackageName(vaccinePackage.getVaccinePackageName());
         customVaccinepackage.setVaccinePackageType(vaccinePackage.getVaccinePackageType());
         vaccinePackageService.saveVaccinePackage(customVaccinepackage);
 

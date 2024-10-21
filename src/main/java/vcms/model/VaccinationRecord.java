@@ -21,10 +21,16 @@ public class VaccinationRecord {
     @Column(name = "vac_rec_id")
     private Long vaccinationRecordId;
 
+    @Column(name = "vac_rec_code")
+    private String vaccinationRecordCode;
+
     // Ngày tiêm
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "vac_rec_date")
     private LocalDate vaccinationRecordDate;
+
+    @Column(name = "vac_rec_type")
+    private String vaccinationRecordType;
 
     // Liều lượng tiêm
     @Column(name = "vac_rec_dosage")
@@ -34,22 +40,28 @@ public class VaccinationRecord {
     @Column(name = "vac_rec_dose")
     private String vaccinationRecordDose;
 
-    @Column(name = "vac_rec_note")
-    private String vaccinationRecordNote;
+    @Column(name = "vac_rec_total")
+    private int vaccinationRecordTotal;
+
+    @Column(name = "vac_rec_payment")
+    private String vaccinationRecordPayment;
 
     // Người tiêm
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    // Vắc-xin tiêm
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "batch_detail_id")
-    private BatchDetail batchDetail;
+    @JoinColumn(name = "vaccine_id")
+    private Vaccine vaccine;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vac_pkg_id")
     private VaccinePackage vaccinePackage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vac_batch_id")
+    private VaccineBatch vaccineBatch;
 
     // nhân viên thực hiện
     @ManyToOne(fetch = FetchType.LAZY)

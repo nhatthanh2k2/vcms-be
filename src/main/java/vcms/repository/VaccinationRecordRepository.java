@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface VaccinationRecordRepository extends JpaRepository<VaccinationRecord, Long> {
     List<VaccinationRecord> findAllByCustomer(Customer customer);
+
+    boolean existsByVaccinationRecordCode(String code);
 }

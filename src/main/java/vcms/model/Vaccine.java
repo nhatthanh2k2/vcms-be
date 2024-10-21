@@ -97,9 +97,12 @@ public class Vaccine {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "vaccine", orphanRemoval = true)
-    @JsonIgnore
     private List<BatchDetail> batchDetailList = new ArrayList<>();
 
     @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PackageDetail> packageDetails = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "vaccine", orphanRemoval = true)
+    private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
 }

@@ -54,11 +54,6 @@ public class BatchDetail {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "batchDetail", orphanRemoval = true)
     @JsonIgnore
-    private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "batchDetail", orphanRemoval = true)
-    @JsonIgnore
     private List<Appointment> appointmentList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
