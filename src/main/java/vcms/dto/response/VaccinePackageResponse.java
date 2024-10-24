@@ -1,6 +1,9 @@
 package vcms.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -16,5 +19,10 @@ public class VaccinePackageResponse {
     private int vaccinePackagePrice;
 
     private String vaccinePackageType;
+
+    private int isCustomPackage;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime vaccinePackageCreateAt;
 
 }

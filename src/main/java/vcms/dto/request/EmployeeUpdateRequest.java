@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeUpdateRequest {
+    private String employeeUsername;
+
     private String employeeFullName;
 
     private Gender employeeGender;

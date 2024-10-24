@@ -37,7 +37,7 @@ public class SecurityConfig {
             "/api/vaccine-batch/detail/*",
             "/api/vaccine-batch/all",
             "/api/vaccine-package/detail/*",
-            "/api/vaccine-package/default",
+            "/api/vaccine-package/list-default",
             "/images/vaccines/*", "/images/avatars/*"
     };
 

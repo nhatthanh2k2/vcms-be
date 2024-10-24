@@ -33,6 +33,9 @@ public class VaccinePackage {
     @Column(name = "vac_pkg_type")
     private String vaccinePackageType;
 
+    @Column(name = "is_cus_pack")
+    private int isCustomPackage;
+
     @Column(name = "vac_pkg_createAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccinePackageCreateAt;

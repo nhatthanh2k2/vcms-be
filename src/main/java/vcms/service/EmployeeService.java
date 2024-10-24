@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import vcms.dto.request.ChangePasswordRequest;
 import vcms.dto.request.EmployeeCreationRequest;
 import vcms.dto.request.EmployeeUpdateRequest;
@@ -23,6 +24,9 @@ import vcms.repository.EmployeeRepository;
 import vcms.utils.DateService;
 import vcms.utils.GenerateService;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -106,17 +110,9 @@ public class EmployeeService {
         }
     }
 
-
-    private String getFileExtension(String fileName) {
-        if (fileName == null || fileName.lastIndexOf(".") == -1) {
-            return "";
-        }
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    public EmployeeResponse updateEmployeeInfo(Long employeeId, EmployeeUpdateRequest request) {
-        Employee employee = employeeRepository.findById(employeeId)
+    @PreAuthorize("#request.employeeUsername == authentication.name || hasRole('ADMIN')")
+    public EmployeeResponse updateEmployeeInfo(EmployeeUpdateRequest request) {
+        Employee employee = employeeRepository.findByEmployeeUsername(request.getEmployeeUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
         employeeMapper.updateEmployee(employee, request);
         LocalDateTime updateDateTime = dateService.getDateTimeNow();
@@ -127,7 +123,12 @@ public class EmployeeService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteEmployee(Long employeeId) {
-        employeeRepository.deleteById(employeeId);
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
+        if (!employee.getScreeningRecordList().isEmpty() || !employee.getVaccinationRecordList().isEmpty()) {
+            throw new AppException(ErrorCode.DELETE_FAILED);
+        }
+        employeeRepository.delete(employee);
     }
 
     @PreAuthorize("#request.employeeUsername == authentication.name")
@@ -146,7 +147,7 @@ public class EmployeeService {
                 passwordEncoder.encode(request.getNewPassword()));
         employeeRepository.save(employee);
 
-        return "Change password successfully";
+        return "Change password successfully!";
 
     }
 
@@ -156,7 +157,36 @@ public class EmployeeService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         employee.setEmployeePassword(passwordEncoder.encode(request.getNewPassword()));
         employeeRepository.save(employee);
-        return "Reset Password Successfully";
+        return "Reset Password Successfully!";
+    }
+
+    public EmployeeResponse updateAvatar(String employeeUsername, MultipartFile avatarFile) {
+        Employee employee = employeeRepository.findByEmployeeUsername(employeeUsername)
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
+
+        String contentType = avatarFile.getContentType();
+        String fileExtension = "";
+        if ("image/jpeg".equals(contentType)) {
+            fileExtension = ".jpg";
+        }
+        else if ("image/png".equals(contentType)) {
+            fileExtension = ".png";
+        }
+        else {
+            throw new AppException(ErrorCode.UPDATE_FAILED);
+        }
+        String newAvatarFileName = employee.getEmployeeId() + fileExtension;
+        Path avatarFolderPath = Paths.get(UPLOAD_AVATAR_FOLDER).toAbsolutePath().normalize();
+        String newFilePath = avatarFolderPath.resolve(newAvatarFileName).toString();
+        try {
+            avatarFile.transferTo(new File(newFilePath));
+            employee.setEmployeeAvatar(newAvatarFileName);
+            employeeRepository.save(employee);
+            return employeeMapper.toEmployeeResponse(employee);
+        }
+        catch (Exception ex) {
+            throw new AppException(ErrorCode.UPDATE_FAILED);
+        }
     }
 
     public void insertInitialEmployeeData() {

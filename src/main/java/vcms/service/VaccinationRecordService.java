@@ -13,6 +13,7 @@ import vcms.repository.VaccinationRecordRepository;
 import vcms.utils.DateService;
 import vcms.utils.GenerateService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,9 @@ public class VaccinationRecordService {
     private final VaccinationRecordRepository vaccinationRecordRepository;
 
     private final CustomerService customerService;
+
+    @Autowired
+    private CustomerMapper customerMapper;
 
     private final VaccineBatchService vaccineBatchService;
 
@@ -77,8 +81,6 @@ public class VaccinationRecordService {
         List<VaccinationRecordResponse> vaccinationRecordResponseList = new ArrayList<>();
         for (VaccinationRecord record : vaccinationRecordList) {
             VaccinationRecordResponse recordResponse = vaccinationRecordMapper.toVaccinationRecordResponse(record);
-            recordResponse.setVaccinePackageResponse(vaccinePackageMapper.toVaccinePackageResponse(
-                    record.getVaccinePackage()));
             vaccinationRecordResponseList.add(recordResponse);
         }
         return vaccinationRecordResponseList;
@@ -133,6 +135,26 @@ public class VaccinationRecordService {
         catch (Exception exception) {
             throw new AppException(ErrorCode.CREATE_FAILED);
         }
+    }
+
+    public List<VaccinationRecordResponse> getAllVaccinationRecordByCreateDate(LocalDate createDate) {
+        List<VaccinationRecord> vaccinationRecordList = vaccinationRecordRepository
+                .findAllByVaccinationRecordDate(createDate);
+        List<VaccinationRecordResponse> vaccinationRecordResponseList = new ArrayList<>();
+        for (VaccinationRecord record : vaccinationRecordList) {
+            VaccinationRecordResponse response = vaccinationRecordMapper.toVaccinationRecordResponse(record);
+            response.setCustomerResponse(customerMapper.toCustomerResponse(record.getCustomer()));
+            response.setEmployeeFullName(record.getEmployee().getEmployeeFullName());
+            response.setVaccineName(record.getVaccine().getVaccineName());
+            VaccinePackage vaccinePackage = record.getVaccinePackage();
+            if (vaccinePackage == null) {
+                response.setVaccinePackageName("Không có");
+            }
+            else response.setVaccinePackageName(record.getVaccinePackage().getVaccinePackageName());
+            response.setVaccineBatchNumber(record.getVaccineBatch().getVaccineBatchNumber());
+            vaccinationRecordResponseList.add(response);
+        }
+        return vaccinationRecordResponseList;
     }
 
 }

@@ -1,6 +1,7 @@
 package vcms.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import vcms.dto.request.*;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.AppointmentResponse;
@@ -78,12 +79,20 @@ public class EmployeeController {
                 .build();
     }
 
-    @PutMapping("/update/{employeeId}")
+    @PutMapping("/update/update-profile")
     public ApiResponse<EmployeeResponse> updateEmployeeInfo(
-            @PathVariable("employeeId") Long employeeId,
             @RequestBody EmployeeUpdateRequest request) {
         return ApiResponse.<EmployeeResponse>builder()
-                .result(employeeService.updateEmployeeInfo(employeeId, request))
+                .result(employeeService.updateEmployeeInfo(request))
+                .build();
+    }
+
+    @PutMapping("/update/update-avatar")
+    public ApiResponse<EmployeeResponse> updateEmployeeAvatar(
+            @RequestParam("username") String username,
+            @RequestParam("avatar") MultipartFile avatarFile) {
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(employeeService.updateAvatar(username, avatarFile))
                 .build();
     }
 

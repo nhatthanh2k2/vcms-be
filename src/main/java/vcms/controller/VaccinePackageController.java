@@ -28,7 +28,7 @@ public class VaccinePackageController {
                 .build();
     }
 
-    @GetMapping("/default")
+    @GetMapping("/list-default")
     public ApiResponse<List<VaccinePackageResponse>> getDefaultPackage() {
         return ApiResponse.<List<VaccinePackageResponse>>builder()
                 .result(vaccinePackageService.getDefaultPackage())

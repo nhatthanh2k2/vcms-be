@@ -13,6 +13,8 @@ import java.time.LocalDate;
 public class VaccinationRecordResponse {
     private Long vaccinationRecordId;
 
+    private String vaccinationRecordCode;
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate vaccinationRecordDate;
 
@@ -28,11 +30,11 @@ public class VaccinationRecordResponse {
 
     private CustomerResponse customerResponse;
 
-    private VaccineResponse vaccineResponse;
+    private String vaccineName;
 
-    private VaccinePackageResponse vaccinePackageResponse;
+    private String vaccinePackageName;
 
-    private VaccineBatchResponse vaccineBatchResponse;
+    private String vaccineBatchNumber;
 
-    private EmployeeResponse employeeResponse;
+    private String employeeFullName;
 }

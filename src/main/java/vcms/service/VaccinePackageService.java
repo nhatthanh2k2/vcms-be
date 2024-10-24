@@ -60,8 +60,13 @@ public class VaccinePackageService {
                 .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
     }
 
+//    public List<VaccinePackageResponse> getDefaultPackage() {
+//        return vaccinePackageRepository.findAll().stream().limit(8)
+//                .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
+//    }
+
     public List<VaccinePackageResponse> getDefaultPackage() {
-        return vaccinePackageRepository.findAll().stream().limit(8)
+        return vaccinePackageRepository.findAllByIsCustomPackage(0).stream().limit(8)
                 .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
     }
 
@@ -103,7 +108,7 @@ public class VaccinePackageService {
         VaccinePackage vaccinePackage = new VaccinePackage();
         vaccinePackage.setVaccinePackageName(request.getVaccinePackageName());
         vaccinePackage.setVaccinePackageType(request.getVaccinePackageType());
-
+        vaccinePackage.setIsCustomPackage(0);
         vaccinePackageRepository.save(vaccinePackage);
 
         List<Long> vaccineIds = request.getVaccineIdList();
@@ -128,12 +133,7 @@ public class VaccinePackageService {
                 int childPrice = Math.min(
                         batchDetailList.get(0).getBatchDetailVaccinePrice(),
                         batchDetailList.get(1).getBatchDetailVaccinePrice());
-                ;
-                if ("ADULT".equals(vaccinePackage.getVaccinePackageType()) ||
-                        "B-PREGNANCY".equals(
-                                vaccinePackage.getVaccinePackageType()) ||
-                        "9-18Y".equals(
-                                vaccinePackage.getVaccinePackageType())) {
+                if ("ADULT".equals(vaccinePackage.getVaccinePackageType())) {
                     vaccinePrice = adultPrice;
                 }
                 else {
@@ -167,7 +167,7 @@ public class VaccinePackageService {
         VaccinePackageCreationRequest package2 = new VaccinePackageCreationRequest();
         package2.setVaccinePackageName(
                 "Gói vắc xin cho phụ nữ chuẩn bị trước mang thai");
-        package2.setVaccinePackageType("B-PREGNANCY");
+        package2.setVaccinePackageType("ADULT");
         package2.setVaccineIdList(
                 Arrays.asList(1008L, 1026L, 1007L, 1033L, 1006L, 1000L, 1045L,
                               1002L, 1029L, 1005L));
@@ -176,7 +176,7 @@ public class VaccinePackageService {
         VaccinePackageCreationRequest package3 = new VaccinePackageCreationRequest();
         package3.setVaccinePackageName(
                 "Gói vắc xin cho tuổi vị thành niên và thanh niên (Từ 9 tuổi - 18 tuổi)");
-        package3.setVaccinePackageType("9-18Y");
+        package3.setVaccinePackageType("ADOLESCENT");
         package3.setVaccineIdList(
                 Arrays.asList(1001L, 1007L, 1006L, 1000L, 1012L, 1029L, 1045L,
                               1002L, 1008L, 1026L, 1032L, 1049L));
@@ -184,8 +184,8 @@ public class VaccinePackageService {
                 Arrays.asList(3, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1));
 
         VaccinePackageCreationRequest package4 = new VaccinePackageCreationRequest();
-        package4.setVaccinePackageName("Gói vắc xin cho trẻ tiền học đường");
-        package4.setVaccinePackageType("PRE-SCHOOL");
+        package4.setVaccinePackageName("Gói vắc xin cho trẻ tiền học đường (Từ 4 tuổi - 6 tuổi)");
+        package4.setVaccinePackageType("CHILD");
         package4.setVaccineIdList(
                 Arrays.asList(1027L, 1006L, 1000L, 1012L, 1029L, 1045L, 1002L,
                               1008L, 1026L, 1032L, 1049L, 1035L));
@@ -193,23 +193,23 @@ public class VaccinePackageService {
                                                 1, 2));
 
         VaccinePackageCreationRequest package5 = new VaccinePackageCreationRequest();
-        package5.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi");
-        package5.setVaccinePackageType("6-MONTH");
+        package5.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi (Gói 6 tháng)");
+        package5.setVaccinePackageType("CHILD");
         package5.setVaccineIdList(
                 Arrays.asList(1019L, 1015L, 1013L, 1002L, 1005L));
         package5.setDoseCountList(Arrays.asList(2, 3, 3, 2, 1));
 
         VaccinePackageCreationRequest package6 = new VaccinePackageCreationRequest();
-        package6.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi");
-        package6.setVaccinePackageType("9-MONTH");
+        package6.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi (Gói 9 tháng)");
+        package6.setVaccinePackageType("CHILD");
         package6.setVaccineIdList(
                 Arrays.asList(1019L, 1015L, 1013L, 1002L, 1005L, 1025L, 1029L,
                               1045L, 1008L));
         package6.setDoseCountList(Arrays.asList(2, 3, 3, 2, 2, 1, 1, 1, 1));
 
         VaccinePackageCreationRequest package7 = new VaccinePackageCreationRequest();
-        package7.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi");
-        package7.setVaccinePackageType("12-MONTH");
+        package7.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi (Gói 12 tháng)");
+        package7.setVaccinePackageType("CHILD");
         package7.setVaccineIdList(
                 Arrays.asList(1019L, 1015L, 1013L, 1002L, 1005L, 1025L, 1029L,
                               1045L, 1008L, 1026L, 1032L));
@@ -217,8 +217,8 @@ public class VaccinePackageService {
                 Arrays.asList(2, 3, 4, 3, 2, 1, 1, 2, 2, 1, 1));
 
         VaccinePackageCreationRequest package8 = new VaccinePackageCreationRequest();
-        package8.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi");
-        package8.setVaccinePackageType("24-MONTH");
+        package8.setVaccinePackageName("Gói vắc xin cho trẻ em 0-2 tuổi (Gói 24 tháng)");
+        package8.setVaccinePackageType("CHILD");
         package8.setVaccineIdList(
                 Arrays.asList(1019L, 1015L, 1013L, 1002L, 1005L, 1025L, 1029L,
                               1045L, 1008L, 1026L, 1032L, 1049L, 1035L));

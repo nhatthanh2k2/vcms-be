@@ -14,6 +14,8 @@ import vcms.utils.DateService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -96,6 +98,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Pneumovax 23 (Mỹ)",
                                            "Pneumovax-23.jpg",
+                                           new HashSet<>(Arrays.asList("4-6", "9-18")),
                                            "Pneumovax 23, hay còn được biết đến với tên gọi vắc xin Polysaccharide phế cầu 23-valent, là vắc xin được chỉ định để ngăn ngừa các bệnh nhiễm trùng do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu)…",
                                            "Merck Sharp & Dohme (MSD)",
                                            "Pneumovax 23 được tiêm dưới dạng dung dịch trong lọ đơn liều 0,5ml, qua đường tiêm bắp hoặc tiêm dưới da, thường là vào bắp tay (cơ delta) ở người lớn.;Không được tiêm vào mạch máu và phải thận trọng để đảm bảo kim không đi vào mạch máu.;Không được tiêm vắc xin trong da vì có liên quan đến tăng các phản ứng tại chỗ.",
@@ -109,6 +112,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Gardasil 9 (Mỹ)",
                                            "vac-xin-gardasil-9.jpg",
+                                           new HashSet<>(List.of("9-18")),
                                            "Vắc xin thế hệ mới Gardasil 9 được xem là vắc xin bình đẳng giới vì mở rộng cả đối tượng và phạm vi phòng bệnh rộng hơn ở nam và nữ giới, bảo vệ khỏi 9 tuýp virus HPV phổ biến 6, 11, 16, 18, 31, 33, 45, 52 và 58 gây bệnh ung thư cổ tử cung, ung thư âm hộ, ung thư âm đạo, ung thư hậu môn, ung thư hầu họng, mụn cóc sinh dục, các tổn thương tiền ung thư hoặc loạn sản…, với hiệu quả bảo vệ lên đến trên 90%.",
                                            "Merck Sharp & Dohme (MSD – Mỹ)",
                                            "Vắc xin Gardasil 9 được chỉ định tiêm bắp. Vị trí phù hợp là vùng cơ delta của phần trên cánh tay hoặc ở vùng trước phía trên đùi.;Không được tiêm Gardasil 9 vào mạch máu, tiêm dưới da hoặc tiêm trong da.;Không được trộn lẫn vắc xin trong cùng một ống tiêm với bất kỳ loại vắc xin và dung dịch nào khác.;",
@@ -122,6 +126,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Bexsero (Ý)",
                                            "vac-xin-bexsero-1.jpg",
+                                           new HashSet<>(List.of("9-18")),
                                            "Vắc xin Bexsero được chỉ định để chủng ngừa cho trẻ và người lớn từ 2 tháng tuổi đến 50 tuổi (chưa đến sinh nhật 51 tuổi) chống lại bệnh não mô cầu xâm lấn do Neisseria meningitidis nhóm B gây ra với hiệu quả lên đến 95%.",
                                            "Glaxosmithkline – GSK",
                                            "Vắc xin Bexsero được dùng dưới dạng tiêm bắp sâu, nên ưu tiên tiêm ở mặt trước bên cơ đùi của nhũ nhi hoặc vùng cơ delta cánh tay trên ở những đối tượng lớn hơn.;Nếu phải tiêm đồng thời nhiều loại vắc xin khác thì phải tiêm ở nhiều vị trí riêng biệt.",
@@ -135,6 +140,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Abhayrab (Ấn Độ)",
                                            "vac-xin-abhayrab.jpg",
+                                           new HashSet<>(List.of("Chưa có cụ thể")),
                                            "Vắc xin Abhayrab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
                                            "Human Biological Institute (Ấn Độ) ",
                                            "Tiêm bắp (IM): người lớn tiêm ở vùng cơ Delta cánh tay, trẻ em tiêm ở mặt trước bên đùi. Không tiêm vào vùng mông.;Trong một số trường hợp có thể áp dụng tiêm trong da (ID), tiêm ở cẳng tay hoặc cánh tay.",
@@ -148,6 +154,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Verorab (Pháp)",
                                            "vac-xin-verorab.jpg",
+                                           new HashSet<>(List.of("Chưa có cụ thể")),
                                            "Vắc xin Verorab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp: với liều 0.5ml vắc xin đã hoàn nguyên, ở người lớn vào vùng cơ Delta ở cánh tay, trẻ nhỏ tiêm ở mặt trước – bên đùi. Không tiêm ở vùng mông.;Tiêm trong da: với liều 0.1ml vắc xin đã hoàn nguyên (bằng 1/5 liều tiêm bắp).",
@@ -161,6 +168,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Vaxigrip Tetra (Pháp)",
                                            "vac-xin-vaxigrip-tetra.jpg",
+                                           new HashSet<>(
+                                                   Arrays.asList("2-6 tháng", "4-6", "9-18", "Người trưởng thành")),
                                            "Vắc xin cúm Tứ giá Vaxigrip Tetra phòng được 4 chủng tuýp virus cúm gồm: 2 chủng cúm A (H1N1, H3N2) và 2 chủng cúm B (Yamagata, Victoria).",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp hoặc tiêm dưới da.",
@@ -174,6 +183,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Prevenar 13 (Bỉ)",
                                            "vac-xin-prevenar-13.jpg",
+                                           new HashSet<>(
+                                                   Arrays.asList("2-6 tháng", "4-6", "9-18", "Người trưởng thành")),
                                            "Vắc xin Prevenar 13 là vắc xin phế cầu, phòng các bệnh phế cầu khuẩn xâm lấn gây nguy hiểm cho trẻ em và người lớn như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu), viêm tai giữa cấp tính,… do 13 chủng phế cầu khuẩn Streptococcus Pneumoniae gây ra (type 1, 3, 4, 5, 6A, 6B, 7F, 9V, 14, 18C, 19A, 19F và 23F). ",
                                            "Nghiên cứu và phát triển bởi Pfizer (Mỹ). Prevenar-13 được sản xuất tại Bỉ.",
                                            "Vắc xin Prevenar-13 được chỉ định tiêm bắp (vùng cơ delta) với liều 0.5ml",
@@ -187,6 +198,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Boostrix (Bỉ)",
                                            "vac-xin-boostrix.jpg",
+                                           new HashSet<>(Arrays.asList("9-18", "Phụ nữ trước mang thai",
+                                                                       "Người trưởng thành")),
                                            "Vắc xin Boostrix (Bỉ) tạo đáp ứng kháng thể chống 3 bệnh ho gà – bạch hầu – uốn ván.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Boostrix được chỉ định tiêm bắp với liều 0.5ml. Không được tiêm dưới da hoặc tĩnh mạch. Ở trẻ lớn và người lớn, thường tiêm vào cơ delta còn trẻ nhỏ thường vào mặt trước – bên đùi.",
@@ -200,6 +213,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Varilrix (Bỉ)",
                                            "vac-xin-varilrix.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "9-18", "Phụ nữ trước mang thai",
+                                                                       "Người trưởng thành")),
                                            "Vắc xin Varilrix (Bỉ) là vắc xin sống giảm độc lực phòng bệnh thủy đậu do virus Varicella Zoster cho trẻ từ 9 tháng tuổi và người lớn chưa có miễn dịch.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Varilrix được chỉ định tiêm dưới da ở vùng cơ delta hoặc vùng má ngoài đùi với liều 0.5ml.",
@@ -213,6 +228,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Jeev (Ấn Độ)",
                                            "vac-xin-jeev.jpg",
+                                           new HashSet<>(List.of("1-49")),
                                            "Vắc xin JEEV là loại vắc xin tinh khiết, bất hoạt qua nuôi cấy từ tế bào Vero, giúp cơ thể tạo ra miễn dịch chủ động nhằm dự phòng bệnh viêm não Nhật Bản.",
                                            "Biological E. Limited – Ấn Độ ",
                                            "Vắc xin JEEV được chỉ định tiêm bắp;Tuyệt đối không tiêm vắc xin JEEV vào tĩnh mạch trong mọi trường hợp;Không được trộn lẫn vắc xin JEEV trong cùng một lọ hoặc ống tiêm với bất kỳ dung dịch hoặc loại vắc xin nào khác.",
@@ -226,6 +242,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Gene Hbvax (Việt Nam)",
                                            "vac-xin-Gene-HBvax.jpg",
+                                           new HashSet<>(List.of("Chưa có cụ thể")),
                                            "Vắc xin phòng viêm gan B tái tổ hợp Gene-HBvax phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền qua đường máu, qua quan hệ tình dục và từ mẹ truyền sang con với khả năng lây nhiễm cao gấp 10 lần so với virus HIV. Một khi nhiễm virus viêm gan B người bệnh phải chấp nhận sống chung với bệnh suốt đời. 25% trong bệnh nhân viêm gan siêu vi B sẽ phát sinh những vấn đề nghiêm trọng về gan, kể cả ung thư gan.",
                                            "VABIOTECH (Việt Nam)",
                                            "Không được tiêm đường tĩnh mạch hoặc trong da, vắc xin Gene-HBvax được chỉ định tiêm bắp. Ở người lớn thì tiêm vắc xin vào vùng cơ delta, song ở trẻ sơ sinh và trẻ nhỏ thì nên tiêm vào vùng đùi ngoài thì tốt hơn vì cơ delta còn nhỏ. Ngoại lệ có thể tiêm vắc xin theo đường dưới da cho những bệnh nhân ưa chảy máu. Lắc kỹ lọ vắc xin trước khi tiêm.",
@@ -239,6 +256,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Gardasil (Mỹ)",
                                            "vac-xin-gardasil.jpg",
+                                           new HashSet<>(List.of("9-18")),
                                            "Vắc xin Gardasil (Mỹ) phòng bệnh ung thư cổ tử cung, âm hộ, âm đạo, các tổn thương tiền ung thư và loạn sản, mụn cóc sinh dục, các bệnh lý do nhiễm virus HPV, được chỉ định dành cho trẻ em và phụ nữ trong độ tuổi từ 9-26 tuổi.",
                                            "Merck Sharp and Dohm (Mỹ)",
                                            "Tiêm bắp với liều 0.5ml vào vùng cơ Delta vào phần trên cánh tay hoặc phần trước bên của phía trên đùi.;Không được tiêm tĩnh mạch. Chưa có nghiên cứu về đường tiêm trong da hoặc dưới da nên không có khuyến cáo tiêm theo hai đường tiêm này",
@@ -252,6 +270,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Influvac Tetra (Hà Lan)",
                                            "vac-xin-influvac-tetra.jpg",
+                                           new HashSet<>(Arrays.asList("4-6", "9-18", "Người trưởng thành")),
                                            "Vắc xin Cúm Tứ giá Influvac Tetra được chỉ định để phòng ngừa bệnh cúm mùa do virus cúm thuộc hai chủng cúm A (H1N1, H3N2) và hai chủng cúm B (Yamagata, Victoria).",
                                            "Abbott – Hà Lan",
                                            "Tiêm bắp hoặc tiêm sâu dưới da.",
@@ -265,6 +284,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Synflorix (Bỉ)",
                                            "Synflorix-1.jpg",
+                                           new HashSet<>(Arrays.asList("2-6 tháng", "4-6", "9-18")),
                                            "Vắc xin Synflorix phòng tránh 10 chủng vi khuẩn phế cầu (Streptococcus pneumoniae) gây các bệnh như: Hội chứng nhiễm trùng, viêm màng não, viêm phổi, nhiễm khuẩn huyết và viêm tai giữa cấp,…",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Synflorix tiêm bắp ở mặt trước – bên đùi của trẻ nhỏ và tiêm ở cơ delta cánh tay của trẻ lớn. Không được tiêm tĩnh mạch hoặc tiêm trong da đối với vắc xin Synflorix.",
@@ -278,6 +298,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Infanrix Hexa (Bỉ)",
                                            "vac-xin-Infanrix-hexa.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Vắc xin Infanrix Hexa là vắc xin kết hợp phòng được 6 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt, viêm gan B và các bệnh viêm phổi, viêm màng não mủ do H.Influenzae týp B (Hib). Tích hợp trong duy nhất trong 1 vắc xin, 6 trong 1 Infanrix Hexa giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều mũi.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Infanrix Hexa được chỉ định tiêm bắp sâu. Không được tiêm tĩnh mạch hoặc trong da.",
@@ -291,6 +312,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Hexaxim (Pháp)",
                                            "vac-xin-hexaxim-2.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Vắc xin Hexaxim là vắc xin kết hợp phòng được 6 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt, viêm gan B và các bệnh viêm phổi, viêm màng não mủ do H.Influenzae týp B (Hib). Tích hợp trong duy nhất trong 1 vắc xin, 6 trong 1 Hexaxim giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều. ",
                                            "Sanofi Pasteur (Pháp)",
                                            "Hexaxim được chỉ định tiêm bắp. Vị trí tiêm là mặt trước – ngoài của phần trên đùi và vùng cơ delta ở trẻ 15 tháng tuổi trở lên.",
@@ -304,6 +326,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Pentaxim (Pháp)",
                                            "vac-xin-pentaxim-1.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Vắc xin Pentaxim là vắc xin kết hợp phòng được 5 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt và các bệnh viêm phổi, viêm màng não mủ do H.Influenzae týp B (Hib). Tích hợp trong duy nhất trong 1 vắc xin, 5 trong 1 Pentaxim giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều.",
                                            "Sanofi Pasteur (Pháp)",
                                            "Vắc xin Pentaxim được chỉ định tiêm bắp (ở mặt trước – bên đùi).",
@@ -317,6 +340,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Heberbiovac (Cu ba)",
                                            "vac-xin-Heberbiovac-HB.jpg",
+                                           new HashSet<>(Arrays.asList("0-2 tháng", "2-6 tháng", "7-12 tháng",
+                                                                       "13-24 tháng", "Phụ nữ trước mang thai")),
                                            "Vắc xin Heberbiovac HB là vắc xin viêm gan B tái tổ hợp phòng bệnh do virus viêm gan B – loại virus có thể lây truyền dễ dàng qua đường máu, quan hệ tình dục và từ mẹ truyền sang con.",
                                            "Center for Genetic Engineering and Biotechnology (C.I.G.B) – Cuba.",
                                            "Vắc xin Heberbiovac HB được chỉ định tiêm vào bắp sâu vùng trước bên đùi của trẻ sơ sinh và trẻ dưới 1 tuổi, hoặc vùng cơ delta của trẻ trên 1 tuổi và người lớn. Không tiêm vắc xin theo những đường khác.",
@@ -330,6 +355,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Priorix (Bỉ)",
                                            "vac-xin-priorix.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "13-24 tháng", "4-6", "9-18",
+                                                                       "Phụ nữ trước mang thai", "Người trưởng thành")),
                                            "Vắc xin Priorix có thể tiêm sớm cho trẻ từ 9 tháng tuổi, Priorix có thể tăng khả năng bảo vệ lên đến 98% nếu tiêm đủ 2 mũi. Priorix bảo vệ sớm cho trẻ, giảm tỷ lệ bệnh nặng và tử vong, giúp ngăn ngừa sự lây lan của virus.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Priorix được chỉ định tiêm dưới da. Có thể tiêm bắp vắc xin Priorix ở vùng cơ delta hoặc mặt trước bên đùi.;Tiêm vắc xin Priorix dưới da cho những đối tượng bị rối loạn chảy máu.",
@@ -343,6 +370,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Rotarix (Bỉ)",
                                            "vac-xin-rotarix.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Rotarix là vắc xin sống, giảm độc lực được chỉ định cho trẻ từ 6 tuần tuổi phòng viêm dạ dày – ruột do Rotavirus tuýp huyết thanh G1 và không phải G1. Mặc dù trong thành phần chỉ có 1 tuýp G1P tuy nhiên vắc xin có khả năng bảo vệ chéo tất cả các tuýp G1 và không phải G1 (G2, G3, G4, G9).",
                                            "GlaxoSmithKline (Bỉ)",
                                            "Chỉ dùng đường uống.;Vắc xin Rotarix có khả năng bám dính rất tốt vì vậy sau khi uống nếu trẻ có nôn trớ thì cũng không cần uống liều khác. Tuy nhiên nếu xác định rằng đã bị nôn trớ phần lớn vắc xin thì có thể uống lại.",
@@ -356,6 +384,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Rotateq (Mỹ)",
                                            "vac-xin-RotaTeq.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Rotateq là vắc xin sống giảm độc lực phòng ngừa Rotavirus, ngũ giá, dùng đường uống được chỉ định cho trẻ từ 7,5 tuần tuổi phòng viêm dạ dày – ruột do Rotavirus ở trẻ nhỏ gây ra bởi các tuýp vi-rút G1, G2, G3, G4 và các tuýp có chứa P1A (ví dụ như G9).",
                                            "Meck Sharp and Dohme (MSD) – Mỹ.",
                                            "Chỉ dùng đường uống. Không được tiêm.;Nếu trẻ bị nôn trớ hoặc nhổ ra thì không được uống liều thay thế vì chưa có nghiên cứu lâm sàng cho việc uống thay thế. Cứ dùng liều tiếp theo trong lịch uống vắc xin.;Vắc xin được đóng trong tuýp định liều có thể vặn nắp và cho uống luôn, không được pha loãng bằng nước hoặc sữa.",
@@ -369,6 +398,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Rotavin (Việt Nam)",
                                            "vac-xin-rotavin-1.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Vắc xin Rotavin là vắc xin sống giảm độc lực có tác dụng phòng nguy cơ nhiễm virus Rota – nguyên nhân gây tình trạng tiêu chảy cấp ở trẻ nhỏ. Vắc xin có dung dịch màu hồng, được sản xuất trên dây chuyền công nghệ hiện đại, đạt các tiêu chuẩn của Tổ chức Y tế Thế giới (WHO) về vắc xin uống.",
                                            "Polyvac – Việt Nam.",
                                            "Chỉ được dùng đường uống, không được tiêm.; Liều uống: 2ml/liều.",
@@ -382,6 +412,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin BCG (Việt Nam)",
                                            "vac-xin-bcg.jpg",
+                                           new HashSet<>(List.of("0-2 tháng")),
                                            "Vắc xin BCG phòng ngừa hiệu quả các hình thái lao nguy hiểm, trong đó có lao viêm màng não với độ bảo vệ lên tới 70%. Vắc xin được khuyến cáo cho trẻ sơ sinh và trẻ nhỏ, chỉ cần tiêm 1 liều duy nhất có thể bảo vệ trọn đời, không cần tiêm nhắc lại.",
                                            "Việt Nam.",
                                            "Tiêm trong da chính xác, ở mặt ngoài phía trên cánh tay hoặc vai trái.;Nhân viên y tế cần sử dụng bơm kim tiêm riêng để tiêm vắc xin BCG.",
@@ -395,6 +426,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Mengoc BC (Cu ba)",
                                            "vac-xin-va-mengoc-bc.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Vắc xin VA-Mengoc-BC phòng bệnh viêm màng não do não mô cầu khuẩn Meningococcal tuýp B và C gây ra.",
                                            "Finlay Institute (Cu Ba)",
                                            "Tiêm bắp sâu, tốt nhất là vào vùng cơ delta cánh tay. Tuy nhiên ở trẻ nhỏ có thể tiêm bắp đùi, ở mặt trước ngoài của đùi.;Không được tiêm tĩnh mạch.",
@@ -408,6 +440,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Ivacflu-S (Việt Nam)",
                                            "vac-xin-ivacflu-s.jpg",
+                                           new HashSet<>(List.of("Người trưởng thành")),
                                            "Vắc xin Ivacflu – S phòng 3 chủng cúm A(H3N2), cúm A(H1N1),và cúm B (Victoria/Yamagata).",
                                            "Viện Vắc xin và Sinh phẩm Y tế IVAC – Việt Nam",
                                            "Vắc xin Ivacflu-S được sử dụng qua đường tiêm bắp. Vị trí tiêm: Cơ delta (bắp cánh tay). Không được tiêm vắc xin vào mạch máu.",
@@ -421,6 +454,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Mvvac (Việt Nam)",
                                            "vac-xin-MVVAC.jpg",
+                                           new HashSet<>(List.of("7-12 tháng")),
                                            "Vắc xin MVVAC tạo miễn dịch chủ động phòng bệnh sởi cho trẻ từ 9 tháng tuổi trở lên và người chưa có kháng thể sởi.",
                                            " Polyvac – Việt Nam",
                                            "Vắc xin MVVAC chỉ được tiêm dưới da, không được tiêm tĩnh mạch.",
@@ -434,6 +468,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin MMR II (Mỹ)",
                                            "vac-xin-MMR-II.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6", "9-18",
+                                                                       "Phụ nữ trước mang thai", "Người trưởng thành")),
                                            "Vắc xin phối hợp MMR-II của Mỹ là vắc xin sống giảm độc lực tạo miễn dịch chủ động dùng để ngăn ngừa nhiễm virus bệnh sởi, quai bị và rubella. Thuốc hoạt động bằng cách giúp cơ thể tạo kháng thể chống lại virus.",
                                            "Merck Sharp and Dohm (Mỹ)",
                                            "Tiêm dưới da, không được tiêm tĩnh mạch.",
@@ -447,6 +483,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Tetraxim (Pháp)",
                                            "vac-xin-tetraxim.jpg",
+                                           new HashSet<>(List.of("4-6")),
                                            "Vắc xin 4 trong 1 Tetraxim (Pháp) được chỉ định để phòng ngừa các bệnh ho gà, bạch hầu, uốn ván, bại liệt cho trẻ từ 2 tháng tuổi trở lên đến 13 tuổi tùy theo mỗi quốc gia.",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp ở trẻ nhũ nhi và tiêm vùng cơ delta ở trẻ 2 tháng tuổi đến 13 tuổi.",
@@ -460,6 +497,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Adacel (Canada)",
                                            "Adacel.jpg",
+                                           new HashSet<>(Arrays.asList("9-18", "Phụ nữ trước mang thai",
+                                                                       "Người trưởng thành")),
                                            "Vắc xin Adacel tạo miễn dịch chủ động nhắc lại nhằm phòng bệnh ho gà – bạch hầu – uốn ván.",
                                            "Nghiên cứu và phát triển bởi Sanofi Pasteur – Pháp. Vắc xin Adacel được sản xuất tại Canada.",
                                            "Tiêm bắp. ",
@@ -473,6 +512,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Imojev (Thái Lan)",
                                            "vac-xin-imojev.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6")),
                                            "Imojev là vắc xin phòng viêm não Nhật Bản được chỉ định cho trẻ em từ 9 tháng tuổi trở lên và người lớn.",
                                            "Nghiên cứu và phát triển Sanofi Pasteur (Pháp). Sản xuất tại Thái Lan.",
                                            "Trẻ từ 9 tháng tuổi đến 24 tháng tuổi: Tiêm tại mặt trước – bên của đùi hoặc vùng cơ Delta ở cánh tay.;Trẻ từ 2 tuổi trở lên và người lớn: Tiêm tại vùng cơ Delta ở cánh tay.;Liều tiêm: 0,5ml/liều Imojev hoàn nguyên.",
@@ -486,6 +526,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Avaxim (Pháp)",
                                            "vac-xin-avaxim-80U.jpg",
+                                           new HashSet<>(List.of("7-12 tháng")),
                                            "Vắc xin Avaxim 80U tạo miễn dịch chủ động phòng ngừa virus gây bệnh viêm gan siêu vi A.",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp vào cơ delta trên cánh tay.",
@@ -499,6 +540,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Havax (Việt Nam)",
                                            "vac-xin-havax.jpg",
+                                           new HashSet<>(List.of("7-12 tháng")),
                                            "Vắc xin Havax được dùng để phòng ngừa bệnh viêm gan A cho mọi đối tượng người lớn và trẻ em từ 24 tháng tuổi trở lên, đặc biệt cho những người có nguy cơ phơi nhiễm với virus viêm gan A.",
                                            "Vabiotech – Việt Nam",
                                            "Tiêm bắp. Không được tiêm vào đường tĩnh mạch hoặc trong da.;Ở người lớn thì tiêm vắc-xin vào vùng cơ Delta song ở trẻ em nên tiêm vào vùng đùi ngoài thì tốt hơn vì cơ Delta còn nhỏ.",
@@ -512,6 +554,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Twinrix (Bỉ)",
                                            "vac-xin-twinrix.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6")),
                                            "Vắc xin Twinrix được chỉ định để phòng 2 bệnh viêm gan A và viêm gan B ở trẻ em từ 1 tuổi và người lớn chưa có miễn dịch.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Tiêm bắp.",
@@ -525,6 +568,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin uốn ván hấp phụ (Việt Nam)",
                                            "vac-xin-uon-van-hap-phu-tt.jpg",
+                                           new HashSet<>(Arrays.asList("Phụ nữ trước mang thai", "Người trưởng thành")),
                                            "Vắc xin uốn ván hấp phụ (TT) giúp tạo miễn dịch chủ động phòng bệnh uốn ván cho người lớn và trẻ em. ",
                                            "Viện vắc xin và sinh phẩm y tế Nha Trang IVAC – Việt Nam",
                                            "Vắc xin uốn ván hấp phụ (TT) được chỉ định tiêm bắp sâu, liều tiêm 0,5ml.;Không tiêm tĩnh mạch trong bất cứ trường hợp nào.;Lắc tan đều trước khi tiêm.",
@@ -538,6 +582,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Typhim VI (Pháp)",
                                            "vac-xin-typhim-vi.jpg",
+                                           new HashSet<>(List.of("13-24 tháng")),
                                            "Vắc xin Typhim VI phòng ngừa bệnh Thương hàn (bệnh về đường tiêu hóa) gây ra bởi vi khuẩn thương hàn (Salmonella typhi) cho trẻ từ trên 2 tuổi và người lớn. ",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp hoặc tiêm dưới da.",
@@ -551,6 +596,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin mOrcvax (Việt Nam)",
                                            "vac-xin-mORCVAX.jpg",
+                                           new HashSet<>(Arrays.asList("13-24 tháng", "4-6")),
                                            "Vắc xin mORCVAX phòng bệnh bệnh truyền nhiễm cấp tính do vi khuẩn tả Vibrio cholerae gây nên.",
                                            "Vabiotech – Việt Nam",
                                            "Chỉ dùng đường uống. Liều dùng: 1,5ml/liều.",
@@ -564,6 +610,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Quimihib (Cu ba)",
                                            "vac-xin-quimi-hib.jpg",
+                                           new HashSet<>(List.of("Chưa có cụ thể")),
                                            "Vắc xin Quimihib phòng ngừa bệnh viêm phổi, viêm màng não mủ do tác nhân Haemophilus Influenzae type b gây ra ở trẻ nhỏ.",
                                            "Center for Genetic Engineering and Biotechnology (C.I.G.B) – Cuba",
                                            "Tiêm bắp.;Tiêm vào vùng trước bên đùi của trẻ dưới 2 tuổi.;Tiêm vào vùng cơ delta đối với trẻ trên 2 tuổi.",
@@ -578,6 +625,7 @@ public class VaccineService {
                 new VaccineCreationRequest(
                         "Vắc xin Uốn ván, bạch hầu hấp phụ (Việt Nam)",
                         "vac-xin-uon-van-bach-hau-hap-phu-td.jpg",
+                        new HashSet<>(List.of("Chưa có cụ thể")),
                         "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định cho trẻ em lứa tuổi lớn (từ 7 tuổi trở lên) và người lớn nhằm gây miễn dịch, phòng các bệnh uốn ván và bạch hầu.",
                         "Viện vắc xin và sinh phẩm y tế Nha Trang IVAC (Việt Nam)",
                         "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định tiêm bắp sâu. Không được tiêm dưới da hoặc tĩnh mạch.;Lắc tan đều trước khi dùng.;Liều tiêm 0,5 ml.",
@@ -588,36 +636,38 @@ public class VaccineService {
                         "Trẻ em từ tròn 7 tuổi trở lên đến dưới 10 tuổi chưa từng tiêm vắc xin có chứa thành phần Bạch hầu – Ho gà – Uốn ván hoặc chưa rõ tình trạng đã tiêm ngừa hay chưa có lịch tiêm 3 mũi như sau:;Mũi 1: lần tiêm đầu tiên.;Mùi 2: cách mũi 1 tối thiểu 1 tháng;Mũi 3: cách mũi 2 tối thiểu 6 tháng;Mũi 4: 5 năm sau mũi 3;Sau đó, các mỗi 10 năm tiêm 1 mũi nhắc;Trẻ từ 10 tuổi trở lên chưa từng tiêm vắc xin Bạch hầu – Ho gà – Uốn ván hoặc không rõ tình trạng tiêm ngừa:;Mũi 1: lần đầu tiên;Mũi 2: Cách mũi 1 tối thiểu 1 tháng;Mũi 3: Cách mũi 2 tối thiểu 6 tháng;Sau đó, các mũi nhắc : 01 mũi nhắc mỗi 10 năm;Trẻ em từ tròn 7 tuổi trở lên đến dưới 10 tuổi đã tiêm đủ 4 mũi cơ bản vắc xin 6 trong 1 / 5 trong 1 / 4 trong 1 ( trước 4 tuổi) có lịch tiêm 1 mũi như sau:;Mũi 1: lần tiêm đầu tiên (cách mũi thứ 4 ít nhất 3 năm);Liều tiêm nhắc: tiêm 1 mũi sau 05 năm;Sau đó, các mũi nhắc 01 mũi nhắc mỗi 10 năm;Người từ 10 tuổi trở lên đã tiêm đủ 4 mũi vắc xin 6 trong 1 / 5 trong 1 / 4 trong 1 ( trước 10 tuổi):;Tiêm 1 mũi ( cách mũi thứ 4 ít nhất 1 năm);Sau đó, các mũi nhắc: 01 mũi nhắc mỗi 10 năm",
                         "Được chỉ định chủng ngừa cho người từ 7 tuổi trở lên tạo đáp ứng kháng thể chống 2 bệnh bạch hầu và uốn ván.Không chống chỉ định cho phụ nữ có thai và đang cho con bú. Cân nhắc sử dụng theo chỉ định của bác sĩ."));
 
-        vaccineCreationRequestList.add(
-                new VaccineCreationRequest("Huyết thanh uốn ván (Việt Nam)",
-                                           "huyet-thanh-uon-van-SAT.jpg",
-                                           "Huyết thanh uốn ván SAT được dùng để phòng ngừa uốn ván ở người vừa mới bị vết thương có thể nhiễm bào tử uốn ván, bao gồm những người không tiêm ngừa uốn ván trong 10 năm gần đây, hoặc không nhớ rõ lịch tiêm uốn ván. ",
-                                           "Viện Vắc xin và Sinh phẩm Y tế (IVAC – Việt Nam)",
-                                           "Huyết thanh uốn ván SAT được chỉ định tiêm bắp.",
-                                           "Những trường hợp có tiền sử dị ứng với huyết thanh kháng độc tố uốn ván nguồn gốc từ ngựa. Những trường hợp này nếu bắt buộc dùng nên dùng loại huyết thanh uốn ván nguồn gốc từ người.;Phụ nữ đang mang thai.",
-                                           "Huyết thanh Uốn ván SAT có độ an toàn cao. Tuy nhiên, những người có cơ địa dị ứng, người dùng huyết thanh nhiều lần thường có nguy cơ phản ứng dị ứng với huyết thanh như nổi mề đay, ngứa phù, viêm thận, trường hợp nặng có thể bị choáng, sốc phản vệ.",
-                                           1, 1,
-                                           "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
-                                           "Dự phòng sau khi bị thương:;Nhất thiết phải dùng phương pháp Besredka: Tiêm 0.1ml, chờ nửa giờ, tiêm 0.25ml, chờ nửa giờ, nếu không phản ứng, tiêm hết liều còn lại. Liều thông thường huyết thanh kháng độc tố uốn ván ở người lớn và trẻ em để dự phòng sau khi bị thương là 1500 đvqt, tiêm càng sớm càng tốt sau khi bị thương. Tăng liều gấp đôi đối với vết thương dễ gây uốn ván hoặc chậm trễ khi bắt đầu tiêm phòng hoặc ở người có thể trọng quá cao.;Điều trị uốn ván:;Mặc dù liều điều trị tối ưu và liều có hiệu quả trong điều trị bệnh uốn ván còn chưa được xác định, liều khuyên dùng cho người lớn và trẻ em là 3000 – 6000 đơn vị.;Uốn ván sơ sinh: 5000 – 10.000 đvqt.;Trẻ em và người lớn: 50.000 – 100.000 đvqt, tiêm dưới da 1/2 liều và nửa còn lại tiêm bắp.",
-                                           "Huyết thanh Uốn ván SAT được dùng để dự phòng bệnh uốn ván trong trường hợp bị các vết thương, vết cắn súc vật. Điều trị bệnh nhân bị bệnh uốn ván (khi đã có triệu chứng bệnh)."));
+        vaccineCreationRequestList.add(new VaccineCreationRequest(
+                "Huyết thanh uốn ván (Việt Nam)",
+                "huyet-thanh-uon-van-SAT.jpg",
+                new HashSet<>(List.of("Chưa có cụ thể")),
+                "Huyết thanh uốn ván SAT được dùng để phòng ngừa uốn ván ở người vừa mới bị vết thương có thể nhiễm bào tử uốn ván, bao gồm những người không tiêm ngừa uốn ván trong 10 năm gần đây, hoặc không nhớ rõ lịch tiêm uốn ván. ",
+                "Viện Vắc xin và Sinh phẩm Y tế (IVAC – Việt Nam)",
+                "Huyết thanh uốn ván SAT được chỉ định tiêm bắp.",
+                "Những trường hợp có tiền sử dị ứng với huyết thanh kháng độc tố uốn ván nguồn gốc từ ngựa. Những trường hợp này nếu bắt buộc dùng nên dùng loại huyết thanh uốn ván nguồn gốc từ người.;Phụ nữ đang mang thai.",
+                "Huyết thanh Uốn ván SAT có độ an toàn cao. Tuy nhiên, những người có cơ địa dị ứng, người dùng huyết thanh nhiều lần thường có nguy cơ phản ứng dị ứng với huyết thanh như nổi mề đay, ngứa phù, viêm thận, trường hợp nặng có thể bị choáng, sốc phản vệ.",
+                1, 1,
+                "Bảo quản ở nhiệt độ lạnh (từ 2 – 8 độ C). Không được đóng băng.",
+                "Dự phòng sau khi bị thương:;Nhất thiết phải dùng phương pháp Besredka: Tiêm 0.1ml, chờ nửa giờ, tiêm 0.25ml, chờ nửa giờ, nếu không phản ứng, tiêm hết liều còn lại. Liều thông thường huyết thanh kháng độc tố uốn ván ở người lớn và trẻ em để dự phòng sau khi bị thương là 1500 đvqt, tiêm càng sớm càng tốt sau khi bị thương. Tăng liều gấp đôi đối với vết thương dễ gây uốn ván hoặc chậm trễ khi bắt đầu tiêm phòng hoặc ở người có thể trọng quá cao.;Điều trị uốn ván:;Mặc dù liều điều trị tối ưu và liều có hiệu quả trong điều trị bệnh uốn ván còn chưa được xác định, liều khuyên dùng cho người lớn và trẻ em là 3000 – 6000 đơn vị.;Uốn ván sơ sinh: 5000 – 10.000 đvqt.;Trẻ em và người lớn: 50.000 – 100.000 đvqt, tiêm dưới da 1/2 liều và nửa còn lại tiêm bắp.",
+                "Huyết thanh Uốn ván SAT được dùng để dự phòng bệnh uốn ván trong trường hợp bị các vết thương, vết cắn súc vật. Điều trị bệnh nhân bị bệnh uốn ván (khi đã có triệu chứng bệnh)."));
 
-        vaccineCreationRequestList.add(
-                new VaccineCreationRequest(
-                        "Vắc xin phòng COVID-19 của AstraZeneca ",
-                        "vacxin-covid-19.jpg",
-                        "COVID-19 vaccine Astrazeneca là một loại vắc xin được sử dụng để bảo vệ các đối tượng từ 18 tuổi trở lên chống lại COVID-19. Vắc xin giúp cho hệ miễn dịch của người được được tiêm chủng có khả năng nhận biết và tiêu diệt virus corona (SARS-COV-2).",
-                        "AstraZeneca (Vương quốc Anh)",
-                        "Tiêm bắp.",
-                        "Tiền sử phản vệ với vắc xin phòng COVID-19 cùng loại (lần trước);;Có bất cứ chống chỉ định nào theo công bố của nhà sản xuất.",
-                        "Phản ứng tại chỗ tiêm: Nổi ban đỏ, chai cứng, sưng, ngứa, đỏ tại chỗ tiêm.;Một số phản ứng toàn thân khác: Sốt, mệt mỏi, ớn lạnh, đau đầu, đau cơ hoặc đau khớp, buồn ngủ, giảm cảm giác thèm ăn, nôn mửa, tiêu chảy.",
-                        2, 2,
-                        "Bảo quản ở mức nhiệt 2 – 8 độ C, trong điều kiện bảo quản lạnh thông thường với thời gian trong vòng 6 tháng.",
-                        "Tại Việt Nam, vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm phòng cho những người từ 18 tuổi trở lên.;Lịch tiêm gồm 2 mũi:;Mũi 1: Lần đầu tiên tiêm.;Mũi 2: Sau mũi đầu tiên từ 4 – 12 tuần.",
-                        "Vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm cho người lớn từ 18 tuổi trở lên để tạo miễn dịch chủ động phòng bệnh viêm đường hô hấp cấp do virus SARS-CoV-2 gây ra"));
+        vaccineCreationRequestList.add(new VaccineCreationRequest(
+                "Vắc xin phòng COVID-19 của AstraZeneca ",
+                "vacxin-covid-19.jpg",
+                new HashSet<>(List.of("Chưa có cụ thể")),
+                "COVID-19 vaccine Astrazeneca là một loại vắc xin được sử dụng để bảo vệ các đối tượng từ 18 tuổi trở lên chống lại COVID-19. Vắc xin giúp cho hệ miễn dịch của người được được tiêm chủng có khả năng nhận biết và tiêu diệt virus corona (SARS-COV-2).",
+                "AstraZeneca (Vương quốc Anh)",
+                "Tiêm bắp.",
+                "Tiền sử phản vệ với vắc xin phòng COVID-19 cùng loại (lần trước);;Có bất cứ chống chỉ định nào theo công bố của nhà sản xuất.",
+                "Phản ứng tại chỗ tiêm: Nổi ban đỏ, chai cứng, sưng, ngứa, đỏ tại chỗ tiêm.;Một số phản ứng toàn thân khác: Sốt, mệt mỏi, ớn lạnh, đau đầu, đau cơ hoặc đau khớp, buồn ngủ, giảm cảm giác thèm ăn, nôn mửa, tiêu chảy.",
+                2, 2,
+                "Bảo quản ở mức nhiệt 2 – 8 độ C, trong điều kiện bảo quản lạnh thông thường với thời gian trong vòng 6 tháng.",
+                "Tại Việt Nam, vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm phòng cho những người từ 18 tuổi trở lên.;Lịch tiêm gồm 2 mũi:;Mũi 1: Lần đầu tiên tiêm.;Mũi 2: Sau mũi đầu tiên từ 4 – 12 tuần.",
+                "Vắc xin phòng COVID-19 của AstraZeneca được chỉ định tiêm cho người lớn từ 18 tuổi trở lên để tạo miễn dịch chủ động phòng bệnh viêm đường hô hấp cấp do virus SARS-CoV-2 gây ra"));
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin GCFLU Quadrivalent",
                                            "GCFlu-Quadrivalent.jpg",
+                                           new HashSet<>(Arrays.asList("2-6 tháng", "4-6", "9-18")),
                                            "Vắc xin GCFlu Quadrivalent được chỉ định để phòng ngừa bệnh cúm mùa do virus cúm thuộc 2 chủng cúm A (H1N1, H3N2) và 2 chủng cúm B (Victoria và Yamagata).",
                                            "Green Cross (Hàn Quốc)",
                                            "Ở trẻ 6-35 tháng: vị trí thích hợp để tiêm bắp là mặt trước bên của đùi (hoặc cơ delta của vùng trên cánh tay nếu khối lượng cơ bắp đủ). Ở trẻ em từ 36 tháng tuổi và người lớn: cơ delta của vùng trên cánh tay.",
@@ -631,6 +681,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Varivax (Mỹ)",
                                            "vac-xin-varivax.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "9-18", "Phụ nữ trước mang thai",
+                                                                       "Người trưởng thành")),
                                            "Vắc xin Varivax tạo miễn dịch chủ động phòng bệnh Thủy đậu do virus Varicella Zoster gây ra",
                                            " Merck Sharp and Dohm (Mỹ)",
                                            "Vắc xin Varivax được chỉ định tiêm dưới da. Liều đơn 0.5ml",
@@ -644,6 +696,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Varicella (Hàn Quốc)",
                                            "Varicella.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "9-18", "Phụ nữ trước mang thai",
+                                                                       "Người trưởng thành")),
                                            "Vắc xin Varicella tạo miễn dịch dịch chủ động phòng bệnh thủy đậu do virus Varicella Zoster gây ra.",
                                            "Green Cross – Hàn Quốc",
                                            "Vắc xin phải được sử dụng ngay không quá 30 phút sau khi hoàn nguyên với nước hồi chỉnh cung cấp.;Tiêm dưới da. Liều đơn 0.5ml",
@@ -656,7 +710,9 @@ public class VaccineService {
 
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest(
-                        "Vắc xin Measles – Mumps – Rubella (Ấn Độ)", "MMR.jpg",
+                        "Vắc xin Measles – Mumps – Rubella (Ấn Độ)",
+                        "MMR.jpg",
+                        new HashSet<>(Arrays.asList("13-24 tháng", "4-6", "9-18")),
                         "Vắc xin MMR là vắc xin sống, giảm độc lực, được đông khô và có nước hồi chỉnh kèm theo. Sản phẩm có dạng viên đông khô màu trắng ánh vàng. Vắc xin đạt được các tiêu chuẩn của W.H.O khi kiểm tra bằng các phương pháp theo hướng dẫn trong tạp chí W.H.O TRS 840 (1994).",
                         "Serum Institute of India Ltd",
                         "Vắc xin được tiêm theo đường tiêm dưới da sâu ở vị trí mặt trước bên đùi đối với trẻ nhỏ và vị trí bắp tay đối với trẻ lớn hơn.",
@@ -670,6 +726,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Infranrix IPV + Hib (Bỉ)",
                                            "vac-xin-Infanrix-IPV-Hib.jpg",
+                                           new HashSet<>(List.of("2-6 tháng")),
                                            "Vắc xin Infanrix IPV+Hib là vắc xin kết hợp phòng được 5 loại bệnh trong 1 mũi tiêm, bao gồm: Ho gà, bạch hầu, uốn ván, bại liệt và các bệnh viêm phổi, viêm màng não mủ do H. Influenzae týp B (Hib). Tích hợp trong một loại vắc xin, Infanrix IPV+Hib giúp giảm số mũi tiêm, đồng nghĩa với việc hạn chế đau đớn cho bé khi phải tiêm quá nhiều. ",
                                            " Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Infanrix IPV+Hib được chỉ định tiêm bắp sâu (ở mặt trước-bên đùi). ",
@@ -683,6 +740,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Menactra (Mỹ)",
                                            "vac-xin-Menactra.jpg",
+                                           new HashSet<>(
+                                                   Arrays.asList("7-12 tháng", "4-6", "9-18", "Người trưởng thành")),
                                            "Vắc xin Menactra được chỉ định để tạo miễn dịch chủ động cơ bản và nhắc lại phòng bệnh xâm lấn do N.meningitidis (vi khuẩn não mô cầu) các nhóm huyết thanh A, C, Y, W-135 gây ra, như: viêm màng não, nhiễm trùng huyết, viêm phổi…",
                                            "Vắc xin Menactra được sản xuất bởi hãng vắc xin hàng đầu thế giới – Sanofi Pasteur (Pháp). Được sản xuất tại Mỹ.",
                                            "Menactra được chỉ định tiêm bắp, tốt nhất là ở mặt trước – ngoài của đùi hoặc vùng cơ delta tùy theo tuổi và khối cơ của đối tượng. Không được tiêm tĩnh mạch hoặc tiêm trong da & dưới da đối với vắc xin Menactra.",
@@ -696,6 +755,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Engerix B (Bỉ)",
                                            "vac-xin-engerix-b.jpg",
+                                           new HashSet<>(
+                                                   Arrays.asList("0-2 tháng", "2-6 tháng", "Phụ nữ trước mang thai")),
                                            "Vắc xin Engerix B phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền qua đường máu, qua quan hệ tình dục và từ mẹ truyền sang con.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Engerix B được chỉ định tiêm bắp (vùng cơ delta). Ngoại lệ với những bệnh nhân bị rối loạn chảy máu hay giảm tiểu cầu có thể tiêm dưới da.",
@@ -709,6 +770,8 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Euvax B (Hàn Quốc)",
                                            "EUVAX.jpg",
+                                           new HashSet<>(
+                                                   Arrays.asList("0-2 tháng", "2-6 tháng", "Phụ nữ trước mang thai")),
                                            "Vắc xin Euvax B phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền qua đường máu, qua quan hệ tình dục và từ mẹ truyền sang con.",
                                            "Nghiên cứu và phát triển bởi Sanofi Pasteur (Pháp). Vắc xin Euvax sản xuất tại Hàn Quốc.",
                                            "Euvax B chỉ dùng đường tiêm bắp, không nên tiêm ở vùng mông, và không được tiêm tĩnh mạch.;Phải lắc kỹ trước khi dùng, bởi vì trong quá trình bảo quản vắc xin có thể trở thành dạng chất lắng trắng mịn với dịch nổi bên trên trong suốt không màu.",
@@ -722,6 +785,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Jevax (Việt Nam)",
                                            "JEVAX.jpg",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6")),
                                            "Jevax là vắc xin phòng viêm não Nhật Bản được chỉ định cho trẻ em từ 12 tháng tuổi trở lên và người lớn.",
                                            "Vabiotech – Việt Nam",
                                            "Tiêm dưới da.",
@@ -735,6 +799,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Typhoid VI (Việt Nam)",
                                            "vac-xin-Typhoid-Vi.jpg",
+                                           new HashSet<>(List.of("13-24 tháng")),
                                            "Vắc xin Typhoid VI phòng ngừa bệnh Thương hàn (bệnh về đường tiêu hóa) gây ra bởi vi khuẩn thương hàn (Salmonella typhi) cho trẻ từ trên 2 tuổi và người lớn. ",
                                            "Viện Pasteur Đà Lạt (DAVAC) - Việt Nam",
                                            "Vắc xin phòng bệnh thương hàn Typhoid Vi được chỉ định tiêm dưới da hoặc tiêm bắp với liều 0.5ml.",
@@ -748,6 +813,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin STAMARIL (Pháp)",
                                            "STAMARIL-vacxin-phong-benh-sot-vang.jpg",
+                                           new HashSet<>(List.of("Chưa có cụ thể")),
                                            "Vắc xin Stamaril là vắc xin duy nhất cung cấp miễn dịch bảo vệ hiệu quả cao và tạo miễn dịch chủ động suốt đời khỏi virus thuộc họ Flaviviridae gây bệnh Sốt vàng nguy hiểm. ",
                                            "Sanofi Pasteur (Pháp)",
                                            "Trẻ dưới 12 tháng tuổi: Tiêm mặt trước của đùi.;Trẻ từ 12 – 35 tháng tuổi: Tiêm mặt trước của đùi hoặc cơ delta.;Trẻ từ 36 tháng tuổi trở lên và người lớn: Tiêm ở cơ delta.",
@@ -761,6 +827,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Qdenga (Sản xuất tại Đức)",
                                            "vaccine-qdenga.jpg",
+                                           new HashSet<>(Arrays.asList("4-6", "9-18")),
                                            "Vắc xin Qdenga là chế phẩm sinh học đặc biệt có khả năng phòng bệnh sốt xuất huyết do virus Dengue gây ra, có khả năng bảo vệ chống lại cả 4 nhóm huyết thanh của virus dengue, bao gồm DEN-1, DEN-2, DEN-3 và DEN-4, được chỉ định tiêm cho người từ 4 tuổi trở lên với hiệu lực bảo vệ hơn 80% nguy cơ mắc bệnh do 4 tuýp virus Dengue và trên 90% nguy cơ nhập viện, mắc bệnh nặng và biến chứng nguy hiểm do bệnh sốt xuất huyết gây ra.",
                                            "Nghiên cứu, phát triển và sản xuất bởi Hãng vắc xin và dược phẩm Takeda – Nhật Bản, xuất xứ tại Đức",
                                            "Sau khi hoàn nguyên hoàn toàn vắc xin đông khô với chất pha loãng (dung môi), Qdenga nên được tiêm dưới da, tốt nhất là ở cánh tay trên ở vùng cơ delta.;Qdenga không được tiêm vào mạch, không được tiêm trong da hoặc tiêm bắp.;Không nên trộn vắc xin trong cùng một ống tiêm với bất kỳ loại vắc xin hoặc sản phẩm thuốc tiêm nào khác.",

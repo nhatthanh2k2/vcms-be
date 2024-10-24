@@ -18,7 +18,9 @@ public enum ErrorCode {
     PASSWORDS_NOT_MATCH(1009, "Passwords do not match", HttpStatus.BAD_REQUEST),
     CREATE_FAILED(1010, "Create Failed", HttpStatus.BAD_REQUEST),
     UPDATE_FAILED(1011, "Update Failed", HttpStatus.BAD_REQUEST),
-    VACCINE_QUANTITY_INSUFFICIENT(1012, "Vaccine quantity is insufficient", HttpStatus.BAD_REQUEST);
+    VACCINE_QUANTITY_INSUFFICIENT(1012, "Vaccine quantity is insufficient", HttpStatus.BAD_REQUEST),
+    DELETE_FAILED(1013, "Cannot delete due to dependencies", HttpStatus.BAD_REQUEST);
+
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

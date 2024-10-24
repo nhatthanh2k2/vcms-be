@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "vaccines")
@@ -35,10 +36,13 @@ public class Vaccine {
     @Column(name = "vac_image")
     private String vaccineImage;
 
+    @Column(name = "vac_age")
+    private Set<String> vaccineAgeRange;
+
     //Cong dung
     @Lob
-    @Column(name = "vac_purpose", columnDefinition = "TEXT")
-    private String vaccinePurpose;
+    @Column(name = "vac_description", columnDefinition = "TEXT")
+    private String vaccineDescription;
 
     // Nguồn gốc
     @Column(name = "vac_origin")

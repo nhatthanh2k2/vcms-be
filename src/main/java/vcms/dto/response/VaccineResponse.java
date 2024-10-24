@@ -1,6 +1,10 @@
 package vcms.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +21,9 @@ public class VaccineResponse {
 
     private String vaccineImage;
 
-    private String vaccinePurpose;
+    private Set<String> vaccineAgeRange;
+
+    private String vaccineDescription;
 
     private String vaccineOrigin;
 
@@ -36,5 +42,8 @@ public class VaccineResponse {
     private String vaccineInjectionSchedule;
 
     private String vaccinePatient;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime vaccineCreateAt;
 
 }

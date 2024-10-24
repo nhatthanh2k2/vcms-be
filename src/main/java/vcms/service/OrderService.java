@@ -129,6 +129,7 @@ public class OrderService {
         VaccinePackage customVaccinepackage = new VaccinePackage();
         customVaccinepackage.setVaccinePackageName(vaccinePackage.getVaccinePackageName());
         customVaccinepackage.setVaccinePackageType(vaccinePackage.getVaccinePackageType());
+        customVaccinepackage.setIsCustomPackage(1);
         vaccinePackageService.saveVaccinePackage(customVaccinepackage);
 
         List<Long> vaccineIdList = request.getVaccineIdList();
@@ -154,9 +155,7 @@ public class OrderService {
                         batchDetailList.get(0).getBatchDetailVaccinePrice(),
                         batchDetailList.get(1).getBatchDetailVaccinePrice());
 
-                if ("ADULT".equals(customVaccinepackage.getVaccinePackageType()) ||
-                        "B-PREGNANCY".equals(customVaccinepackage.getVaccinePackageType()) ||
-                        "9-18Y".equals(customVaccinepackage.getVaccinePackageType())) {
+                if ("ADULT".equals(customVaccinepackage.getVaccinePackageType())) {
                     vaccinePrice = adultPrice;
                 }
                 else {

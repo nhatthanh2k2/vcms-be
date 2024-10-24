@@ -121,18 +121,18 @@ public class ApplicationInitConfig {
             if (employeeRepository.findByEmployeeUsername("admin").isEmpty()) {
                 PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
                 Employee admin = new Employee();
-                admin.setEmployeeFullName("Đỗ Nhật Thanh");
+                admin.setEmployeeFullName("Đỗ Bá Thanh");
                 admin.setEmployeeGender(Gender.MALE);
-                LocalDate dob = LocalDate.of(2002, 8, 19);
+                LocalDate dob = LocalDate.of(1980, 8, 19);
                 admin.setEmployeeDob(dob);
-                admin.setEmployeeEmail("thanh2002@gmail.com");
+                admin.setEmployeeEmail("bathanh1980@gmail.com");
                 admin.setEmployeePhone("0399686868");
-                admin.setEmployeeProvince("Tỉnh Sóc Trăng");
-                admin.setEmployeeDistrict("Huyện Long Phú");
-                admin.setEmployeeWard("Xã Phú Hữu");
+                admin.setEmployeeProvince("TThành phố Cần Thơ");
+                admin.setEmployeeDistrict("Quận Ninh Kiều");
+                admin.setEmployeeWard("Phường Xuân Khánh");
                 admin.setEmployeeAvatar("admin-avatar.png");
-                admin.setEmployeeQualification("Kỹ Sư");
-                admin.setEmployeePosition("Admin trung tâm");
+                admin.setEmployeeQualification("Ths.Bs");
+                admin.setEmployeePosition("Giám đốc trung tâm");
                 HashSet<String> roles = new HashSet<>();
                 roles.add(Role.ADMIN.name());
                 admin.setRoles(roles);

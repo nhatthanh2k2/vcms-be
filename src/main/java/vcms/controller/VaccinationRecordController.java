@@ -1,15 +1,13 @@
 package vcms.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.VaccinationRecordCreationRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.VaccinationRecordResponse;
 import vcms.service.VaccinationRecordService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,6 +31,16 @@ public class VaccinationRecordController {
             @RequestBody VaccinationRecordCreationRequest request) {
         return ApiResponse.<VaccinationRecordResponse>builder()
                 .result(vaccinationRecordService.createVaccinationRecord(request))
+                .build();
+    }
+
+    @GetMapping("/list/create-date")
+    public ApiResponse<List<VaccinationRecordResponse>> getAllVaccinationRecordByCreateDate(
+            @RequestParam("createDate") String strCreateDate
+    ) {
+        LocalDate createDate = LocalDate.parse(strCreateDate);
+        return ApiResponse.<List<VaccinationRecordResponse>>builder()
+                .result(vaccinationRecordService.getAllVaccinationRecordByCreateDate(createDate))
                 .build();
     }
 }

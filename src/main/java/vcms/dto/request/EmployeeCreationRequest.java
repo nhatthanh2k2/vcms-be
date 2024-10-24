@@ -37,5 +37,4 @@ public class EmployeeCreationRequest {
 
     private Set<String> roles;
 
-
 }

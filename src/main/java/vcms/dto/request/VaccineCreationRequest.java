@@ -2,6 +2,8 @@ package vcms.dto.request;
 
 import lombok.*;
 
+import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -14,8 +16,9 @@ public class VaccineCreationRequest {
 
     private String vaccineImage;
 
-    //Cong dung
-    private String vaccinePurpose;
+    private Set<String> vaccineAgeRange;
+
+    private String vaccineDescription;
 
     // Nguồn gốc
     private String vaccineOrigin;
