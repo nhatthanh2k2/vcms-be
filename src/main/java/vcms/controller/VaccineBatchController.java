@@ -1,6 +1,5 @@
 package vcms.controller;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vcms.dto.request.VaccineBatchCreationRequest;
@@ -12,7 +11,7 @@ import vcms.model.VaccineBatch;
 import vcms.service.VaccineBatchService;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -47,15 +46,12 @@ public class VaccineBatchController {
     @PostMapping("/add")
     public ApiResponse<VaccineBatchResponse> addNewBatch(
             @RequestParam("vaccineBatchNumber") String vaccineBatchNumber,
-            @RequestParam("vaccineBatchImportDate") @DateTimeFormat(pattern = "dd-MM-yyyy") LocalDate vaccineBatchImportDate,
             @RequestParam("vaccineBatchQuantity") int vaccineBatchQuantity,
-            @RequestParam("vaccineBatchValue") Double vaccineBatchValue,
+            @RequestParam("vaccineBatchValue") BigInteger vaccineBatchValue,
             @RequestParam("batchDetailFile") MultipartFile batchDetailFile) throws IOException {
 
         VaccineBatchCreationRequest vaccineBatchCreationRequest = new VaccineBatchCreationRequest();
         vaccineBatchCreationRequest.setVaccineBatchNumber(vaccineBatchNumber);
-        vaccineBatchCreationRequest.setVaccineBatchImportDate(
-                vaccineBatchImportDate);
         vaccineBatchCreationRequest.setVaccineBatchQuantity(
                 vaccineBatchQuantity);
         vaccineBatchCreationRequest.setVaccineBatchValue(vaccineBatchValue);

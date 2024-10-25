@@ -237,10 +237,10 @@ public class VaccinePackageService {
             for (VaccinePackageCreationRequest request : creationRequestList) {
                 insertPackageToDB(request);
             }
-            System.out.println("Vaccine Package Inserted Data Successfully");
+            System.out.println("Vaccine Package Data Inserted  Successfully");
         }
         catch (Exception exception) {
-            System.out.println("Vaccine Package Inserted Data Failed");
+            System.out.println("Vaccine Package Data Inserted  Failed");
         }
     }
 

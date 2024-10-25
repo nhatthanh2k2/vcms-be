@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vcms.dto.request.VaccineBatchCreationRequest;
@@ -19,6 +20,7 @@ import vcms.model.BatchDetail;
 import vcms.model.Vaccine;
 import vcms.model.VaccineBatch;
 import vcms.repository.VaccineBatchRepository;
+import vcms.utils.DateService;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -40,6 +42,9 @@ public class VaccineBatchService {
     private final VaccineMapper vaccineMapper;
 
     private final DiseaseMapper diseaseMapper;
+
+    @Autowired
+    private DateService dateService;
 
     public VaccineBatchService(VaccineBatchRepository vaccineBatchRepository,
                                VaccineBatchMapper vaccineBatchMapper,
@@ -92,6 +97,7 @@ public class VaccineBatchService {
     public VaccineBatch insertVaccineBatch(VaccineBatchCreationRequest request) throws IOException {
 
         VaccineBatch vaccineBatch = vaccineBatchMapper.toVaccineBatch(request);
+        vaccineBatch.setVaccineBatchImportDate(dateService.getDateNow());
         vaccineBatchRepository.save(vaccineBatch);
 
         MultipartFile file = request.getBatchDetailFile();

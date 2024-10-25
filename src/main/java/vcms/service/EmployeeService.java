@@ -1,6 +1,5 @@
 package vcms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,18 +41,18 @@ public class EmployeeService {
 
     private final DateService dateService;
 
-    @Autowired
-    private GenerateService generateService;
+    private final GenerateService generateService;
 
     @Value("${upload.avatarFolder}")
     private String UPLOAD_AVATAR_FOLDER;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            EmployeeMapper employeeMapper,
-                           DateService dateService) {
+                           DateService dateService, GenerateService generateService) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.dateService = dateService;
+        this.generateService = generateService;
     }
 
     public List<EmployeeResponse> getEmployees() {
@@ -173,7 +172,7 @@ public class EmployeeService {
             fileExtension = ".png";
         }
         else {
-            throw new AppException(ErrorCode.UPDATE_FAILED);
+            throw new AppException(ErrorCode.INVALID_IMAGE);
         }
         String newAvatarFileName = employee.getEmployeeId() + fileExtension;
         Path avatarFolderPath = Paths.get(UPLOAD_AVATAR_FOLDER).toAbsolutePath().normalize();
@@ -185,7 +184,7 @@ public class EmployeeService {
             return employeeMapper.toEmployeeResponse(employee);
         }
         catch (Exception ex) {
-            throw new AppException(ErrorCode.UPDATE_FAILED);
+            throw new AppException(ErrorCode.INVALID_IMAGE);
         }
     }
 
@@ -315,7 +314,7 @@ public class EmployeeService {
                                             "dangthilan@gmail.com",
                                             "0909678901", "Tỉnh An Giang",
                                             "Thành phố Châu Đốc", "Phường Vĩnh Mỹ",
-                                            "ĐH", "Nhân viên lễ tân",
+                                            "ĐD", "Nhân viên lễ tân",
                                             Set.of("RECEPTIONIST")));
 
         employeeCreationRequestList.add(
@@ -323,7 +322,7 @@ public class EmployeeService {
                                             LocalDate.of(1997, 7, 22),
                                             "phanthiha@gmail.com", "0909789012",
                                             "Thành phố Cần Thơ", "Quận Ninh Kiều", "Phường Cái Khế",
-                                            "ĐH", "Nhân viên lễ tân",
+                                            "ĐD", "Nhân viên lễ tân",
                                             Set.of("RECEPTIONIST")));
 
         try {

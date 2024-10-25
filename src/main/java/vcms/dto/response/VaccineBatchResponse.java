@@ -3,6 +3,7 @@ package vcms.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 
@@ -21,5 +22,5 @@ public class VaccineBatchResponse {
 
     private int vaccineBatchQuantity;
 
-    private int vaccineBatchValue;
+    private BigInteger vaccineBatchValue;
 }

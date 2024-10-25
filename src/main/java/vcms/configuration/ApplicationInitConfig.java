@@ -20,6 +20,7 @@ import vcms.utils.DateService;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.HashSet;
 
@@ -41,6 +42,7 @@ public class ApplicationInitConfig {
     private final VaccineBatchService vaccineBatchService;
 
     private final CustomerService customerService;
+
 
     public ApplicationInitConfig(DateService dateService,
                                  EmployeeRepository employeeRepository,
@@ -110,10 +112,10 @@ public class ApplicationInitConfig {
         return args -> {
             VaccineBatchCreationRequest request = new VaccineBatchCreationRequest();
             request.setVaccineBatchNumber("B-00-2024");
-            request.setVaccineBatchImportDate(LocalDate.of(2024, 9, 1));
+
             request.setVaccineBatchQuantity(49);
-            request.setVaccineBatchValue(3795000000.0);
-            String filePath = "D:\\VCMS_Data\\Vaccine_Batch.xlsx";
+            request.setVaccineBatchValue(new BigInteger("9691500000"));
+            String filePath = "D:\\VCMS_Data\\Batch-00.xlsx";
             File file = new File(filePath);
             MultipartFile multipartFile = convertToMultipartFile(file);
             request.setBatchDetailFile(multipartFile);
@@ -152,7 +154,7 @@ public class ApplicationInitConfig {
                 employeeService.insertInitialEmployeeData();
                 customerService.insertInitialCustomerData();
                 employeeService.updateEmployeeAvatars();
-                diseaseService.updateDiseaseVaccineRelations();
+                vaccineService.updateDiseaseVaccineRelations();
             }
 
         };

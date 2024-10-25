@@ -1,7 +1,9 @@
 package vcms.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.VaccineCreationRequest;
+import vcms.dto.request.VaccineCreationRequestByAdmin;
 import vcms.dto.request.VaccineUpdateRequest;
 import vcms.dto.response.VaccineResponse;
 import vcms.exception.AppException;
@@ -12,11 +14,12 @@ import vcms.model.Vaccine;
 import vcms.repository.VaccineRepository;
 import vcms.utils.DateService;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.LongStream;
 
 @Service
 public class VaccineService {
@@ -27,16 +30,29 @@ public class VaccineService {
 
     private final DateService dateService;
 
+    @Value("${upload.vaccineFolder}")
+    private String UPLOAD_VACCINE_FOLDER;
+
+    private final DiseaseService diseaseService;
+
     public VaccineService(VaccineRepository vaccineRepository,
-                          VaccineMapper vaccineMapper, DateService dateService) {
+                          VaccineMapper vaccineMapper, DateService dateService,
+                          DiseaseService diseaseService) {
         this.vaccineRepository = vaccineRepository;
         this.vaccineMapper = vaccineMapper;
         this.dateService = dateService;
+        this.diseaseService = diseaseService;
     }
 
     public List<VaccineResponse> getAllVaccines() {
         return vaccineRepository.findAll().stream()
                 .map(vaccineMapper::toVaccineResponse).toList();
+    }
+
+    public List<VaccineResponse> getVaccineOfDisease(Long diseaseId) {
+        Disease disease = diseaseService.getDiseaseById(diseaseId);
+        List<Vaccine> vaccineList = getAllVaccinesByDisease(disease);
+        return vaccineList.stream().map(vaccineMapper::toVaccineResponse).toList();
     }
 
     public VaccineResponse getVaccineById(Long vaccineId) {
@@ -66,8 +82,32 @@ public class VaccineService {
         return vaccineRepository.findAllById(vaccineIdList);
     }
 
-    public VaccineResponse createVaccine(VaccineCreationRequest request) {
-        Vaccine vaccine = vaccineMapper.toVaccine(request);
+    public VaccineResponse createVaccine(VaccineCreationRequestByAdmin request) {
+        Vaccine vaccine = vaccineMapper.toVaccineFromRequestByAdmin(request);
+        String contentType = request.getVaccineImageFile().getContentType();
+        String fileExtension = "";
+        if ("image/jpeg".equals(contentType)) {
+            fileExtension = ".jpg";
+        }
+        else if ("image/png".equals(contentType)) {
+            fileExtension = ".png";
+        }
+        else {
+            throw new AppException(ErrorCode.INVALID_IMAGE);
+        }
+        String originalFilename = request.getVaccineImageFile().getOriginalFilename();
+        Path avatarFolderPath = Paths.get(UPLOAD_VACCINE_FOLDER).toAbsolutePath().normalize();
+        String newFilePath = avatarFolderPath.resolve(originalFilename).toString();
+
+        try {
+            request.getVaccineImageFile().transferTo(new File(newFilePath));
+            vaccine.setVaccineImage(originalFilename);
+        }
+        catch (Exception ex) {
+            throw new AppException(ErrorCode.INVALID_IMAGE);
+        }
+        Disease disease = diseaseService.getDiseaseById(request.getDiseaseId());
+        vaccine.setDisease(disease);
         vaccineRepository.save(vaccine);
         String vaccineCode = "VAC" + vaccine.getVaccineId().toString();
         vaccine.setVaccineCode(vaccineCode);
@@ -98,7 +138,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Pneumovax 23 (Mỹ)",
                                            "Pneumovax-23.jpg",
-                                           new HashSet<>(Arrays.asList("4-6", "9-18")),
+                                           new HashSet<>(Arrays.asList("4-6 tuổi", "9-18 tuổi")),
                                            "Pneumovax 23, hay còn được biết đến với tên gọi vắc xin Polysaccharide phế cầu 23-valent, là vắc xin được chỉ định để ngăn ngừa các bệnh nhiễm trùng do vi khuẩn phế cầu (Streptococcus pneumoniae) gây ra như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu)…",
                                            "Merck Sharp & Dohme (MSD)",
                                            "Pneumovax 23 được tiêm dưới dạng dung dịch trong lọ đơn liều 0,5ml, qua đường tiêm bắp hoặc tiêm dưới da, thường là vào bắp tay (cơ delta) ở người lớn.;Không được tiêm vào mạch máu và phải thận trọng để đảm bảo kim không đi vào mạch máu.;Không được tiêm vắc xin trong da vì có liên quan đến tăng các phản ứng tại chỗ.",
@@ -112,7 +152,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Gardasil 9 (Mỹ)",
                                            "vac-xin-gardasil-9.jpg",
-                                           new HashSet<>(List.of("9-18")),
+                                           new HashSet<>(List.of("9-18 tuổi")),
                                            "Vắc xin thế hệ mới Gardasil 9 được xem là vắc xin bình đẳng giới vì mở rộng cả đối tượng và phạm vi phòng bệnh rộng hơn ở nam và nữ giới, bảo vệ khỏi 9 tuýp virus HPV phổ biến 6, 11, 16, 18, 31, 33, 45, 52 và 58 gây bệnh ung thư cổ tử cung, ung thư âm hộ, ung thư âm đạo, ung thư hậu môn, ung thư hầu họng, mụn cóc sinh dục, các tổn thương tiền ung thư hoặc loạn sản…, với hiệu quả bảo vệ lên đến trên 90%.",
                                            "Merck Sharp & Dohme (MSD – Mỹ)",
                                            "Vắc xin Gardasil 9 được chỉ định tiêm bắp. Vị trí phù hợp là vùng cơ delta của phần trên cánh tay hoặc ở vùng trước phía trên đùi.;Không được tiêm Gardasil 9 vào mạch máu, tiêm dưới da hoặc tiêm trong da.;Không được trộn lẫn vắc xin trong cùng một ống tiêm với bất kỳ loại vắc xin và dung dịch nào khác.;",
@@ -126,7 +166,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Bexsero (Ý)",
                                            "vac-xin-bexsero-1.jpg",
-                                           new HashSet<>(List.of("9-18")),
+                                           new HashSet<>(List.of("9-18 tuổi")),
                                            "Vắc xin Bexsero được chỉ định để chủng ngừa cho trẻ và người lớn từ 2 tháng tuổi đến 50 tuổi (chưa đến sinh nhật 51 tuổi) chống lại bệnh não mô cầu xâm lấn do Neisseria meningitidis nhóm B gây ra với hiệu quả lên đến 95%.",
                                            "Glaxosmithkline – GSK",
                                            "Vắc xin Bexsero được dùng dưới dạng tiêm bắp sâu, nên ưu tiên tiêm ở mặt trước bên cơ đùi của nhũ nhi hoặc vùng cơ delta cánh tay trên ở những đối tượng lớn hơn.;Nếu phải tiêm đồng thời nhiều loại vắc xin khác thì phải tiêm ở nhiều vị trí riêng biệt.",
@@ -169,7 +209,8 @@ public class VaccineService {
                 new VaccineCreationRequest("Vắc xin Vaxigrip Tetra (Pháp)",
                                            "vac-xin-vaxigrip-tetra.jpg",
                                            new HashSet<>(
-                                                   Arrays.asList("2-6 tháng", "4-6", "9-18", "Người trưởng thành")),
+                                                   Arrays.asList("2-6 tháng", "4-6 tuổi", "9-18 tuổi",
+                                                                 "Người trưởng thành")),
                                            "Vắc xin cúm Tứ giá Vaxigrip Tetra phòng được 4 chủng tuýp virus cúm gồm: 2 chủng cúm A (H1N1, H3N2) và 2 chủng cúm B (Yamagata, Victoria).",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp hoặc tiêm dưới da.",
@@ -184,7 +225,8 @@ public class VaccineService {
                 new VaccineCreationRequest("Vắc xin Prevenar 13 (Bỉ)",
                                            "vac-xin-prevenar-13.jpg",
                                            new HashSet<>(
-                                                   Arrays.asList("2-6 tháng", "4-6", "9-18", "Người trưởng thành")),
+                                                   Arrays.asList("2-6 tháng", "4-6 tuổi", "9-18 tuổi",
+                                                                 "Người trưởng thành")),
                                            "Vắc xin Prevenar 13 là vắc xin phế cầu, phòng các bệnh phế cầu khuẩn xâm lấn gây nguy hiểm cho trẻ em và người lớn như viêm phổi, viêm màng não, nhiễm khuẩn huyết (nhiễm trùng máu), viêm tai giữa cấp tính,… do 13 chủng phế cầu khuẩn Streptococcus Pneumoniae gây ra (type 1, 3, 4, 5, 6A, 6B, 7F, 9V, 14, 18C, 19A, 19F và 23F). ",
                                            "Nghiên cứu và phát triển bởi Pfizer (Mỹ). Prevenar-13 được sản xuất tại Bỉ.",
                                            "Vắc xin Prevenar-13 được chỉ định tiêm bắp (vùng cơ delta) với liều 0.5ml",
@@ -198,7 +240,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Boostrix (Bỉ)",
                                            "vac-xin-boostrix.jpg",
-                                           new HashSet<>(Arrays.asList("9-18", "Phụ nữ trước mang thai",
+                                           new HashSet<>(Arrays.asList("9-18 tuổi", "Phụ nữ trước mang thai",
                                                                        "Người trưởng thành")),
                                            "Vắc xin Boostrix (Bỉ) tạo đáp ứng kháng thể chống 3 bệnh ho gà – bạch hầu – uốn ván.",
                                            "Glaxosmithkline (GSK) – Bỉ",
@@ -213,8 +255,9 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Varilrix (Bỉ)",
                                            "vac-xin-varilrix.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "9-18", "Phụ nữ trước mang thai",
-                                                                       "Người trưởng thành")),
+                                           new HashSet<>(
+                                                   Arrays.asList("7-12 tháng", "9-18 tuổi", "Phụ nữ trước mang thai",
+                                                                 "Người trưởng thành")),
                                            "Vắc xin Varilrix (Bỉ) là vắc xin sống giảm độc lực phòng bệnh thủy đậu do virus Varicella Zoster cho trẻ từ 9 tháng tuổi và người lớn chưa có miễn dịch.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Varilrix được chỉ định tiêm dưới da ở vùng cơ delta hoặc vùng má ngoài đùi với liều 0.5ml.",
@@ -228,7 +271,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Jeev (Ấn Độ)",
                                            "vac-xin-jeev.jpg",
-                                           new HashSet<>(List.of("1-49")),
+                                           new HashSet<>(List.of("Chưa có cụ thể")),
                                            "Vắc xin JEEV là loại vắc xin tinh khiết, bất hoạt qua nuôi cấy từ tế bào Vero, giúp cơ thể tạo ra miễn dịch chủ động nhằm dự phòng bệnh viêm não Nhật Bản.",
                                            "Biological E. Limited – Ấn Độ ",
                                            "Vắc xin JEEV được chỉ định tiêm bắp;Tuyệt đối không tiêm vắc xin JEEV vào tĩnh mạch trong mọi trường hợp;Không được trộn lẫn vắc xin JEEV trong cùng một lọ hoặc ống tiêm với bất kỳ dung dịch hoặc loại vắc xin nào khác.",
@@ -256,7 +299,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Gardasil (Mỹ)",
                                            "vac-xin-gardasil.jpg",
-                                           new HashSet<>(List.of("9-18")),
+                                           new HashSet<>(List.of("9-18 tuổi")),
                                            "Vắc xin Gardasil (Mỹ) phòng bệnh ung thư cổ tử cung, âm hộ, âm đạo, các tổn thương tiền ung thư và loạn sản, mụn cóc sinh dục, các bệnh lý do nhiễm virus HPV, được chỉ định dành cho trẻ em và phụ nữ trong độ tuổi từ 9-26 tuổi.",
                                            "Merck Sharp and Dohm (Mỹ)",
                                            "Tiêm bắp với liều 0.5ml vào vùng cơ Delta vào phần trên cánh tay hoặc phần trước bên của phía trên đùi.;Không được tiêm tĩnh mạch. Chưa có nghiên cứu về đường tiêm trong da hoặc dưới da nên không có khuyến cáo tiêm theo hai đường tiêm này",
@@ -270,7 +313,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Influvac Tetra (Hà Lan)",
                                            "vac-xin-influvac-tetra.jpg",
-                                           new HashSet<>(Arrays.asList("4-6", "9-18", "Người trưởng thành")),
+                                           new HashSet<>(Arrays.asList("4-6 tuổi", "9-18 tuổi", "Người trưởng thành")),
                                            "Vắc xin Cúm Tứ giá Influvac Tetra được chỉ định để phòng ngừa bệnh cúm mùa do virus cúm thuộc hai chủng cúm A (H1N1, H3N2) và hai chủng cúm B (Yamagata, Victoria).",
                                            "Abbott – Hà Lan",
                                            "Tiêm bắp hoặc tiêm sâu dưới da.",
@@ -284,7 +327,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Synflorix (Bỉ)",
                                            "Synflorix-1.jpg",
-                                           new HashSet<>(Arrays.asList("2-6 tháng", "4-6", "9-18")),
+                                           new HashSet<>(Arrays.asList("2-6 tháng", "4-6 tuổi", "9-18 tuổi")),
                                            "Vắc xin Synflorix phòng tránh 10 chủng vi khuẩn phế cầu (Streptococcus pneumoniae) gây các bệnh như: Hội chứng nhiễm trùng, viêm màng não, viêm phổi, nhiễm khuẩn huyết và viêm tai giữa cấp,…",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Synflorix tiêm bắp ở mặt trước – bên đùi của trẻ nhỏ và tiêm ở cơ delta cánh tay của trẻ lớn. Không được tiêm tĩnh mạch hoặc tiêm trong da đối với vắc xin Synflorix.",
@@ -355,8 +398,9 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Priorix (Bỉ)",
                                            "vac-xin-priorix.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "13-24 tháng", "4-6", "9-18",
-                                                                       "Phụ nữ trước mang thai", "Người trưởng thành")),
+                                           new HashSet<>(
+                                                   Arrays.asList("7-12 tháng", "13-24 tháng", "4-6 tuổi", "9-18 tuổi",
+                                                                 "Phụ nữ trước mang thai", "Người trưởng thành")),
                                            "Vắc xin Priorix có thể tiêm sớm cho trẻ từ 9 tháng tuổi, Priorix có thể tăng khả năng bảo vệ lên đến 98% nếu tiêm đủ 2 mũi. Priorix bảo vệ sớm cho trẻ, giảm tỷ lệ bệnh nặng và tử vong, giúp ngăn ngừa sự lây lan của virus.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Vắc xin Priorix được chỉ định tiêm dưới da. Có thể tiêm bắp vắc xin Priorix ở vùng cơ delta hoặc mặt trước bên đùi.;Tiêm vắc xin Priorix dưới da cho những đối tượng bị rối loạn chảy máu.",
@@ -468,7 +512,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin MMR II (Mỹ)",
                                            "vac-xin-MMR-II.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6", "9-18",
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6 tuổi", "9-18 tuổi",
                                                                        "Phụ nữ trước mang thai", "Người trưởng thành")),
                                            "Vắc xin phối hợp MMR-II của Mỹ là vắc xin sống giảm độc lực tạo miễn dịch chủ động dùng để ngăn ngừa nhiễm virus bệnh sởi, quai bị và rubella. Thuốc hoạt động bằng cách giúp cơ thể tạo kháng thể chống lại virus.",
                                            "Merck Sharp and Dohm (Mỹ)",
@@ -483,7 +527,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Tetraxim (Pháp)",
                                            "vac-xin-tetraxim.jpg",
-                                           new HashSet<>(List.of("4-6")),
+                                           new HashSet<>(List.of("4-6 tuổi")),
                                            "Vắc xin 4 trong 1 Tetraxim (Pháp) được chỉ định để phòng ngừa các bệnh ho gà, bạch hầu, uốn ván, bại liệt cho trẻ từ 2 tháng tuổi trở lên đến 13 tuổi tùy theo mỗi quốc gia.",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp ở trẻ nhũ nhi và tiêm vùng cơ delta ở trẻ 2 tháng tuổi đến 13 tuổi.",
@@ -497,7 +541,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Adacel (Canada)",
                                            "Adacel.jpg",
-                                           new HashSet<>(Arrays.asList("9-18", "Phụ nữ trước mang thai",
+                                           new HashSet<>(Arrays.asList("9-18 tuổi", "Phụ nữ trước mang thai",
                                                                        "Người trưởng thành")),
                                            "Vắc xin Adacel tạo miễn dịch chủ động nhắc lại nhằm phòng bệnh ho gà – bạch hầu – uốn ván.",
                                            "Nghiên cứu và phát triển bởi Sanofi Pasteur – Pháp. Vắc xin Adacel được sản xuất tại Canada.",
@@ -512,7 +556,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Imojev (Thái Lan)",
                                            "vac-xin-imojev.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6")),
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6 tuổi")),
                                            "Imojev là vắc xin phòng viêm não Nhật Bản được chỉ định cho trẻ em từ 9 tháng tuổi trở lên và người lớn.",
                                            "Nghiên cứu và phát triển Sanofi Pasteur (Pháp). Sản xuất tại Thái Lan.",
                                            "Trẻ từ 9 tháng tuổi đến 24 tháng tuổi: Tiêm tại mặt trước – bên của đùi hoặc vùng cơ Delta ở cánh tay.;Trẻ từ 2 tuổi trở lên và người lớn: Tiêm tại vùng cơ Delta ở cánh tay.;Liều tiêm: 0,5ml/liều Imojev hoàn nguyên.",
@@ -554,7 +598,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Twinrix (Bỉ)",
                                            "vac-xin-twinrix.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6")),
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6 tuổi")),
                                            "Vắc xin Twinrix được chỉ định để phòng 2 bệnh viêm gan A và viêm gan B ở trẻ em từ 1 tuổi và người lớn chưa có miễn dịch.",
                                            "Glaxosmithkline (GSK) – Bỉ",
                                            "Tiêm bắp.",
@@ -596,7 +640,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin mOrcvax (Việt Nam)",
                                            "vac-xin-mORCVAX.jpg",
-                                           new HashSet<>(Arrays.asList("13-24 tháng", "4-6")),
+                                           new HashSet<>(Arrays.asList("13-24 tháng", "4-6 tuổi")),
                                            "Vắc xin mORCVAX phòng bệnh bệnh truyền nhiễm cấp tính do vi khuẩn tả Vibrio cholerae gây nên.",
                                            "Vabiotech – Việt Nam",
                                            "Chỉ dùng đường uống. Liều dùng: 1,5ml/liều.",
@@ -667,7 +711,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin GCFLU Quadrivalent",
                                            "GCFlu-Quadrivalent.jpg",
-                                           new HashSet<>(Arrays.asList("2-6 tháng", "4-6", "9-18")),
+                                           new HashSet<>(Arrays.asList("2-6 tháng", "4-6 tuổi", "9-18 tuổi")),
                                            "Vắc xin GCFlu Quadrivalent được chỉ định để phòng ngừa bệnh cúm mùa do virus cúm thuộc 2 chủng cúm A (H1N1, H3N2) và 2 chủng cúm B (Victoria và Yamagata).",
                                            "Green Cross (Hàn Quốc)",
                                            "Ở trẻ 6-35 tháng: vị trí thích hợp để tiêm bắp là mặt trước bên của đùi (hoặc cơ delta của vùng trên cánh tay nếu khối lượng cơ bắp đủ). Ở trẻ em từ 36 tháng tuổi và người lớn: cơ delta của vùng trên cánh tay.",
@@ -681,8 +725,9 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Varivax (Mỹ)",
                                            "vac-xin-varivax.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "9-18", "Phụ nữ trước mang thai",
-                                                                       "Người trưởng thành")),
+                                           new HashSet<>(
+                                                   Arrays.asList("7-12 tháng", "9-18 tuổi", "Phụ nữ trước mang thai",
+                                                                 "Người trưởng thành")),
                                            "Vắc xin Varivax tạo miễn dịch chủ động phòng bệnh Thủy đậu do virus Varicella Zoster gây ra",
                                            " Merck Sharp and Dohm (Mỹ)",
                                            "Vắc xin Varivax được chỉ định tiêm dưới da. Liều đơn 0.5ml",
@@ -696,8 +741,9 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Varicella (Hàn Quốc)",
                                            "Varicella.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "9-18", "Phụ nữ trước mang thai",
-                                                                       "Người trưởng thành")),
+                                           new HashSet<>(
+                                                   Arrays.asList("7-12 tháng", "9-18 tuổi", "Phụ nữ trước mang thai",
+                                                                 "Người trưởng thành")),
                                            "Vắc xin Varicella tạo miễn dịch dịch chủ động phòng bệnh thủy đậu do virus Varicella Zoster gây ra.",
                                            "Green Cross – Hàn Quốc",
                                            "Vắc xin phải được sử dụng ngay không quá 30 phút sau khi hoàn nguyên với nước hồi chỉnh cung cấp.;Tiêm dưới da. Liều đơn 0.5ml",
@@ -712,7 +758,7 @@ public class VaccineService {
                 new VaccineCreationRequest(
                         "Vắc xin Measles – Mumps – Rubella (Ấn Độ)",
                         "MMR.jpg",
-                        new HashSet<>(Arrays.asList("13-24 tháng", "4-6", "9-18")),
+                        new HashSet<>(Arrays.asList("13-24 tháng", "4-6 tuổi", "9-18 tuổi")),
                         "Vắc xin MMR là vắc xin sống, giảm độc lực, được đông khô và có nước hồi chỉnh kèm theo. Sản phẩm có dạng viên đông khô màu trắng ánh vàng. Vắc xin đạt được các tiêu chuẩn của W.H.O khi kiểm tra bằng các phương pháp theo hướng dẫn trong tạp chí W.H.O TRS 840 (1994).",
                         "Serum Institute of India Ltd",
                         "Vắc xin được tiêm theo đường tiêm dưới da sâu ở vị trí mặt trước bên đùi đối với trẻ nhỏ và vị trí bắp tay đối với trẻ lớn hơn.",
@@ -741,7 +787,8 @@ public class VaccineService {
                 new VaccineCreationRequest("Vắc xin Menactra (Mỹ)",
                                            "vac-xin-Menactra.jpg",
                                            new HashSet<>(
-                                                   Arrays.asList("7-12 tháng", "4-6", "9-18", "Người trưởng thành")),
+                                                   Arrays.asList("7-12 tháng", "4-6 tuổi", "9-18 tuổi",
+                                                                 "Người trưởng thành")),
                                            "Vắc xin Menactra được chỉ định để tạo miễn dịch chủ động cơ bản và nhắc lại phòng bệnh xâm lấn do N.meningitidis (vi khuẩn não mô cầu) các nhóm huyết thanh A, C, Y, W-135 gây ra, như: viêm màng não, nhiễm trùng huyết, viêm phổi…",
                                            "Vắc xin Menactra được sản xuất bởi hãng vắc xin hàng đầu thế giới – Sanofi Pasteur (Pháp). Được sản xuất tại Mỹ.",
                                            "Menactra được chỉ định tiêm bắp, tốt nhất là ở mặt trước – ngoài của đùi hoặc vùng cơ delta tùy theo tuổi và khối cơ của đối tượng. Không được tiêm tĩnh mạch hoặc tiêm trong da & dưới da đối với vắc xin Menactra.",
@@ -785,7 +832,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Jevax (Việt Nam)",
                                            "JEVAX.jpg",
-                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6")),
+                                           new HashSet<>(Arrays.asList("7-12 tháng", "4-6 tuổi")),
                                            "Jevax là vắc xin phòng viêm não Nhật Bản được chỉ định cho trẻ em từ 12 tháng tuổi trở lên và người lớn.",
                                            "Vabiotech – Việt Nam",
                                            "Tiêm dưới da.",
@@ -827,7 +874,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Qdenga (Sản xuất tại Đức)",
                                            "vaccine-qdenga.jpg",
-                                           new HashSet<>(Arrays.asList("4-6", "9-18")),
+                                           new HashSet<>(Arrays.asList("4-6 tuổi", "")),
                                            "Vắc xin Qdenga là chế phẩm sinh học đặc biệt có khả năng phòng bệnh sốt xuất huyết do virus Dengue gây ra, có khả năng bảo vệ chống lại cả 4 nhóm huyết thanh của virus dengue, bao gồm DEN-1, DEN-2, DEN-3 và DEN-4, được chỉ định tiêm cho người từ 4 tuổi trở lên với hiệu lực bảo vệ hơn 80% nguy cơ mắc bệnh do 4 tuýp virus Dengue và trên 90% nguy cơ nhập viện, mắc bệnh nặng và biến chứng nguy hiểm do bệnh sốt xuất huyết gây ra.",
                                            "Nghiên cứu, phát triển và sản xuất bởi Hãng vắc xin và dược phẩm Takeda – Nhật Bản, xuất xứ tại Đức",
                                            "Sau khi hoàn nguyên hoàn toàn vắc xin đông khô với chất pha loãng (dung môi), Qdenga nên được tiêm dưới da, tốt nhất là ở cánh tay trên ở vùng cơ delta.;Qdenga không được tiêm vào mạch, không được tiêm trong da hoặc tiêm bắp.;Không nên trộn vắc xin trong cùng một ống tiêm với bất kỳ loại vắc xin hoặc sản phẩm thuốc tiêm nào khác.",
@@ -853,6 +900,46 @@ public class VaccineService {
         }
         catch (Exception ex) {
             System.out.println("Vaccine Data Inserted Failed!");
+        }
+    }
+
+    public void updateDiseaseVaccineRelations() {
+        List<Long> diseaseIds = LongStream.rangeClosed(1, 28).boxed().toList();
+        Map<Long, List<Long>> diseaseVaccineMap = new HashMap<>();
+        diseaseVaccineMap.put(1L, Arrays.asList(1016L, 1044L));
+        diseaseVaccineMap.put(2L, Arrays.asList(1019L, 1020L, 1021L));
+        diseaseVaccineMap.put(3L, Arrays.asList(1005L, 1006L, 1013L));
+        diseaseVaccineMap.put(4L, List.of(1022L));
+        diseaseVaccineMap.put(5L, Arrays.asList(1010L, 1017L, 1046L, 1047L));
+        diseaseVaccineMap.put(6L, List.of(1001L));
+        diseaseVaccineMap.put(7L, List.of(1023L));
+        diseaseVaccineMap.put(8L, List.of(1045L));
+        diseaseVaccineMap.put(9L, List.of(1025L));
+        diseaseVaccineMap.put(10L, Arrays.asList(1026L, 1018L, 1043L));
+        diseaseVaccineMap.put(11L, Arrays.asList(1008L, 1041L, 1042L));
+        diseaseVaccineMap.put(12L, Arrays.asList(1004L, 1012L, 1024L, 1040L));
+        diseaseVaccineMap.put(13L, Arrays.asList(1000L, 1011L));
+        diseaseVaccineMap.put(14L, Arrays.asList(1033L, 1038L));
+        diseaseVaccineMap.put(15L, Arrays.asList(1009L, 1029L, 1048L));
+        diseaseVaccineMap.put(16L, Arrays.asList(1003L, 1004L));
+        diseaseVaccineMap.put(17L, Arrays.asList(1007L, 1028L));
+        diseaseVaccineMap.put(18L, List.of(1027L));
+        diseaseVaccineMap.put(19L, List.of(1037L));
+        diseaseVaccineMap.put(20L, List.of(1032L));
+        diseaseVaccineMap.put(21L, Arrays.asList(1030L, 1031L));
+        diseaseVaccineMap.put(22L, Arrays.asList(1034L, 1049L));
+        diseaseVaccineMap.put(23L, List.of(1036L));
+        diseaseVaccineMap.put(24L, List.of(1035L));
+        diseaseVaccineMap.put(25L, List.of(1050L));
+        diseaseVaccineMap.put(26L, List.of(1039L));
+        diseaseVaccineMap.put(27L, List.of(1051L));
+        diseaseVaccineMap.put(28L, List.of(1014L, 1015L));
+        for (Long diseaseId : diseaseIds) {
+            Disease disease = diseaseService.getDiseaseById(diseaseId);
+            List<Long> vaccineIds = diseaseVaccineMap.get(diseaseId);
+            List<Vaccine> vaccines = getAllVaccinesByListId(vaccineIds);
+            vaccines.forEach(vaccine -> vaccine.setDisease(disease));
+            insertAllVaccines(vaccines);
         }
     }
 }

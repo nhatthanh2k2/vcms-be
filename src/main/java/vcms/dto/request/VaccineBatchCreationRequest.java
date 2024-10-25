@@ -1,11 +1,10 @@
 package vcms.dto.request;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
+import java.math.BigInteger;
 
 @Data
 @Getter
@@ -15,12 +14,9 @@ import java.time.LocalDate;
 public class VaccineBatchCreationRequest {
     private String vaccineBatchNumber;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate vaccineBatchImportDate;
-
     private int vaccineBatchQuantity;
 
-    private Double vaccineBatchValue;
+    private BigInteger vaccineBatchValue;
 
     private MultipartFile batchDetailFile;
 }

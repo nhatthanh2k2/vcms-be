@@ -3,6 +3,7 @@ package vcms.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import vcms.dto.request.VaccineCreationRequest;
+import vcms.dto.request.VaccineCreationRequestByAdmin;
 import vcms.dto.request.VaccineUpdateRequest;
 import vcms.dto.response.VaccineResponse;
 import vcms.model.Vaccine;
@@ -10,6 +11,8 @@ import vcms.model.Vaccine;
 @Mapper(componentModel = "spring")
 public interface VaccineMapper {
     Vaccine toVaccine(VaccineCreationRequest request);
+
+    Vaccine toVaccineFromRequestByAdmin(VaccineCreationRequestByAdmin requestByAdmin);
 
     VaccineResponse toVaccineResponse(Vaccine vaccine);
 

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class VaccineBatch {
     private int vaccineBatchQuantity;
 
     @Column(name = "vac_batch_value")
-    private Double vaccineBatchValue;
+    private BigInteger vaccineBatchValue;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccineBatch",
             orphanRemoval = true)
