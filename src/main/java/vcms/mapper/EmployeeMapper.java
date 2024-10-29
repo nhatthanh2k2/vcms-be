@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import vcms.dto.request.EmployeeCreationRequest;
 import vcms.dto.request.EmployeeUpdateRequest;
+import vcms.dto.request.UpdateQualificationAndPositionRequest;
 import vcms.dto.response.EmployeeResponse;
 import vcms.model.Employee;
 
@@ -17,4 +18,7 @@ public interface EmployeeMapper {
 
     void updateEmployee(@MappingTarget Employee employee,
                         EmployeeUpdateRequest request);
+
+    void updateQualificationAndPosition(@MappingTarget Employee employee,
+                                        UpdateQualificationAndPositionRequest request);
 }

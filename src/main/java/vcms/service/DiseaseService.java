@@ -82,6 +82,11 @@ public class DiseaseService {
                 createDateTime,
                 createDateTime));
 
+        diseaseList.add(new Disease(
+                "Bạch hầu, ho gà, uốn ván, bại liệt, viêm màng não mủ, viêm phổi do Hib, viêm gan B",
+                createDateTime,
+                createDateTime));
+
         diseaseList.add(new Disease("Tiêu chảy cấp do Rota virus",
                                     createDateTime,
                                     createDateTime));
@@ -123,14 +128,27 @@ public class DiseaseService {
                                     createDateTime,
                                     createDateTime));
 
+        diseaseList.add(new Disease("Zona thần kinh (giời leo)",
+                                    createDateTime,
+                                    createDateTime));
+
         diseaseList.add(new Disease("Bệnh Cúm",
                                     createDateTime,
                                     createDateTime));
 
         diseaseList.add(new Disease(
-                "Ung thư cổ tử cung, ung thư hầu họng, sùi mào gà... do HPV",
+                "Ung thư cổ tử cung, ung thư hầu họng, sùi mào gà... do HPV (4 chủng)",
                 createDateTime,
                 createDateTime));
+
+        diseaseList.add(new Disease(
+                "Ung thư cổ tử cung, ung thư hầu họng, sùi mào gà... do HPV (9 chủng)",
+                createDateTime,
+                createDateTime));
+
+        diseaseList.add(new Disease("Sốt xuất huyết",
+                                    createDateTime,
+                                    createDateTime));
 
         diseaseList.add(new Disease("Uốn ván",
                                     createDateTime,
@@ -180,17 +198,10 @@ public class DiseaseService {
                                     createDateTime,
                                     createDateTime));
 
-        diseaseList.add(new Disease("Bệnh COVID-19",
+        diseaseList.add(new Disease("COVID-19",
                                     createDateTime,
                                     createDateTime));
 
-        diseaseList.add(new Disease("Sốt xuất huyết",
-                                    createDateTime,
-                                    createDateTime));
-        diseaseList.add(new Disease(
-                "Bạch hầu, ho gà, uốn ván, bại liệt, viêm màng não mủ, viêm phổi do Hib, viêm gan B",
-                createDateTime,
-                createDateTime));
         try {
             diseaseRepository.saveAll(diseaseList);
             System.out.println("Disease Data Inserted Successfully!");

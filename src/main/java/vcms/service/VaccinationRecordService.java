@@ -1,13 +1,14 @@
 package vcms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.VaccinationRecordCreationRequest;
 import vcms.dto.response.VaccinationRecordResponse;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
-import vcms.mapper.*;
+import vcms.mapper.CustomerMapper;
+import vcms.mapper.EmployeeMapper;
+import vcms.mapper.VaccinationRecordMapper;
 import vcms.model.*;
 import vcms.repository.VaccinationRecordRepository;
 import vcms.utils.DateService;
@@ -23,20 +24,13 @@ public class VaccinationRecordService {
 
     private final CustomerService customerService;
 
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     private final VaccineBatchService vaccineBatchService;
 
-    private final VaccineBatchMapper vaccineBatchMapper;
-
     private final VaccinePackageService vaccinePackageService;
 
-    private final VaccinePackageMapper vaccinePackageMapper;
-
     private final VaccineService vaccineService;
-
-    private final VaccineMapper vaccineMapper;
 
     private final EmployeeService employeeService;
 
@@ -48,22 +42,18 @@ public class VaccinationRecordService {
 
     private final DateService dateService;
 
-    @Autowired
-    private GenerateService generateService;
+    private final GenerateService generateService;
 
     public VaccinationRecordService(VaccinationRecordRepository vaccinationRecordRepository,
-                                    CustomerService customerService, VaccineBatchMapper vaccineBatchMapper,
-                                    VaccinePackageMapper vaccinePackageMapper, VaccineMapper vaccineMapper,
+                                    CustomerService customerService,
                                     VaccinationRecordMapper vaccinationRecordMapper,
                                     VaccineBatchService vaccineBatchService,
                                     VaccinePackageService vaccinePackageService, VaccineService vaccineService,
                                     EmployeeService employeeService, EmployeeMapper employeeMapper,
-                                    BatchDetailService batchDetailService, DateService dateService) {
+                                    BatchDetailService batchDetailService, DateService dateService,
+                                    CustomerMapper customerMapper, GenerateService generateService) {
         this.vaccinationRecordRepository = vaccinationRecordRepository;
         this.customerService = customerService;
-        this.vaccineBatchMapper = vaccineBatchMapper;
-        this.vaccinePackageMapper = vaccinePackageMapper;
-        this.vaccineMapper = vaccineMapper;
         this.vaccinationRecordMapper = vaccinationRecordMapper;
         this.vaccineBatchService = vaccineBatchService;
         this.vaccinePackageService = vaccinePackageService;
@@ -72,6 +62,8 @@ public class VaccinationRecordService {
         this.employeeMapper = employeeMapper;
         this.batchDetailService = batchDetailService;
         this.dateService = dateService;
+        this.customerMapper = customerMapper;
+        this.generateService = generateService;
     }
 
     public List<VaccinationRecordResponse> getAllRecordOfCustomer(LookupCustomerRequest request) {
@@ -106,7 +98,7 @@ public class VaccinationRecordService {
             Vaccine vaccine = vaccineService.getVaccineByVaccineId(request.getVaccineId());
             VaccinePackage vaccinePackage;
             VaccineBatch vaccineBatch = vaccineBatchService.getBatchById(request.getVaccineBatchId());
-            List<BatchDetail> batchDetailList = vaccineBatchService.getBatchDetailListByBatchId(
+            List<BatchDetail> batchDetailList = vaccineBatchService.getDetailListByBatchId(
                     vaccineBatch.getVaccineBatchId());
             checkVaccineQuantityAvailability(batchDetailList, vaccine);
             String code = "";
@@ -144,7 +136,7 @@ public class VaccinationRecordService {
         for (VaccinationRecord record : vaccinationRecordList) {
             VaccinationRecordResponse response = vaccinationRecordMapper.toVaccinationRecordResponse(record);
             response.setCustomerResponse(customerMapper.toCustomerResponse(record.getCustomer()));
-            response.setEmployeeFullName(record.getEmployee().getEmployeeFullName());
+            response.setEmployeeResponse(employeeMapper.toEmployeeResponse(record.getEmployee()));
             response.setVaccineName(record.getVaccine().getVaccineName());
             VaccinePackage vaccinePackage = record.getVaccinePackage();
             if (vaccinePackage == null) {

@@ -1,9 +1,7 @@
 package vcms.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import vcms.dto.request.VaccinePackageCreationRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.PackageDetailResponse;
 import vcms.dto.response.VaccinePackageResponse;
@@ -25,6 +23,24 @@ public class VaccinePackageController {
     public ApiResponse<List<VaccinePackageResponse>> getAllPackage() {
         return ApiResponse.<List<VaccinePackageResponse>>builder()
                 .result(vaccinePackageService.getAllVaccinePackage())
+                .build();
+    }
+
+    @PostMapping("/add")
+    public ApiResponse<VaccinePackageResponse> createVaccinePackage(
+            @RequestBody VaccinePackageCreationRequest request
+    ) {
+        return ApiResponse.<VaccinePackageResponse>builder()
+                .result(vaccinePackageService.addVaccinePackage(request))
+                .build();
+    }
+
+    @DeleteMapping("delete/{packageId}")
+    public ApiResponse<String> deleteEmployeeById(
+            @PathVariable("packageId") Long packageId) {
+        vaccinePackageService.deleteVaccinePackage(packageId);
+        return ApiResponse.<String>builder()
+                .result("Vaccine Package has been deleted")
                 .build();
     }
 

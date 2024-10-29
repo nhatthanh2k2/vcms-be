@@ -1,5 +1,6 @@
 package vcms.service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.VaccinePackageCreationRequest;
 import vcms.dto.response.PackageDetailResponse;
@@ -33,26 +34,27 @@ public class VaccinePackageService {
 
     private final VaccineService vaccineService;
 
-    private final BatchDetailService batchDetailService;
-
     private final VaccineMapper vaccineMapper;
 
     private final DiseaseMapper diseaseMapper;
+
+    private final VaccineBatchService vaccineBatchService;
 
     public VaccinePackageService(
             VaccinePackageRepository vaccinePackageRepository,
             VaccinePackageMapper vaccinePackageMapper,
             DateService dateService, PackageDetailService packageDetailService,
-            VaccineService vaccineService, BatchDetailService batchDetailService,
-            VaccineMapper vaccineMapper, DiseaseMapper diseaseMapper) {
+            VaccineService vaccineService,
+            VaccineMapper vaccineMapper, DiseaseMapper diseaseMapper, VaccineBatchService vaccineBatchService) {
         this.vaccinePackageRepository = vaccinePackageRepository;
         this.vaccinePackageMapper = vaccinePackageMapper;
         this.dateService = dateService;
         this.packageDetailService = packageDetailService;
         this.vaccineService = vaccineService;
-        this.batchDetailService = batchDetailService;
+
         this.vaccineMapper = vaccineMapper;
         this.diseaseMapper = diseaseMapper;
+        this.vaccineBatchService = vaccineBatchService;
     }
 
     public List<VaccinePackageResponse> getAllVaccinePackage() {
@@ -66,7 +68,7 @@ public class VaccinePackageService {
 //    }
 
     public List<VaccinePackageResponse> getDefaultPackage() {
-        return vaccinePackageRepository.findAllByIsCustomPackage(0).stream().limit(8)
+        return vaccinePackageRepository.findAllByIsCustomPackage(0).stream()
                 .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
     }
 
@@ -77,6 +79,18 @@ public class VaccinePackageService {
 
     public List<VaccinePackage> getAllByVaccinePackageIdList(List<Long> packageIdList) {
         return vaccinePackageRepository.findAllById(packageIdList);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteVaccinePackage(Long packageId) {
+        VaccinePackage vaccinePackage = vaccinePackageRepository.findById(packageId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        if (!vaccinePackage.getAppointmentList().isEmpty()
+                || !vaccinePackage.getOrderDetailList().isEmpty()
+                || !vaccinePackage.getVaccinationRecordList().isEmpty()) {
+            throw new AppException(ErrorCode.DELETE_FAILED);
+        }
+        vaccinePackageRepository.deleteById(packageId);
     }
 
     public void saveVaccinePackage(VaccinePackage vaccinePackage) {
@@ -103,6 +117,36 @@ public class VaccinePackageService {
         return packageDetailResponseList;
     }
 
+    public VaccinePackageResponse addVaccinePackage(VaccinePackageCreationRequest request) {
+        VaccinePackage vaccinePackage = new VaccinePackage();
+        vaccinePackage.setVaccinePackageName(request.getVaccinePackageName());
+        vaccinePackage.setVaccinePackageType(request.getVaccinePackageType());
+        vaccinePackage.setIsCustomPackage(0);
+        vaccinePackageRepository.save(vaccinePackage);
+
+        List<Long> vaccineIds = request.getVaccineIdList();
+        List<Integer> doseCounts = request.getDoseCountList();
+        int totalPrice = 0;
+        List<PackageDetail> packageDetailList = new ArrayList<>();
+        List<BatchDetail> batchDetailList = vaccineBatchService.getDetailListOfSampleBatch();
+        for (int i = 0; i < vaccineIds.size(); i++) {
+            PackageDetail packageDetail = new PackageDetail();
+            Vaccine vaccine = vaccineService.getVaccineByVaccineId(vaccineIds.get(i));
+            int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage);
+            packageDetail.setVaccine(vaccine);
+            packageDetail.setVaccinePackage(vaccinePackage);
+            packageDetail.setDoseCount(doseCounts.get(i));
+            packageDetailList.add(packageDetail);
+            totalPrice += vaccinePrice * doseCounts.get(i);
+        }
+        vaccinePackage.setVaccinePackageCreateAt(dateService.getDateTimeNow());
+        vaccinePackage.setVaccinePackageUpdateAt(dateService.getDateTimeNow());
+        vaccinePackage.setVaccinePackagePrice(totalPrice);
+        vaccinePackageRepository.save(vaccinePackage);
+        packageDetailService.insertAllPackageDetail(packageDetailList);
+        return vaccinePackageMapper.toVaccinePackageResponse(vaccinePackage);
+    }
+
 
     public void insertPackageToDB(VaccinePackageCreationRequest request) {
         VaccinePackage vaccinePackage = new VaccinePackage();
@@ -115,32 +159,11 @@ public class VaccinePackageService {
         List<Integer> doseCounts = request.getDoseCountList();
         int totalPrice = 0;
         List<PackageDetail> packageDetailList = new ArrayList<>();
-
+        List<BatchDetail> batchDetailList = vaccineBatchService.getDetailListOfSampleBatch();
         for (int i = 0; i < vaccineIds.size(); i++) {
             PackageDetail packageDetail = new PackageDetail();
             Vaccine vaccine = vaccineService.getVaccineByVaccineId(vaccineIds.get(i));
-            List<BatchDetail> batchDetailList = batchDetailService.getBatchDetailByVaccine(vaccine);
-            int vaccinePrice = 0;
-            if (batchDetailList.size() == 1) {
-                BatchDetail batchDetail = batchDetailList.getFirst();
-                vaccinePrice = batchDetail.getBatchDetailVaccinePrice();
-            }
-            else if (batchDetailList.size() > 1) {
-
-                int adultPrice = Math.max(
-                        batchDetailList.get(0).getBatchDetailVaccinePrice(),
-                        batchDetailList.get(1).getBatchDetailVaccinePrice());
-                int childPrice = Math.min(
-                        batchDetailList.get(0).getBatchDetailVaccinePrice(),
-                        batchDetailList.get(1).getBatchDetailVaccinePrice());
-                if ("ADULT".equals(vaccinePackage.getVaccinePackageType())) {
-                    vaccinePrice = adultPrice;
-                }
-                else {
-                    vaccinePrice = childPrice;
-                }
-            }
-
+            int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage);
             packageDetail.setVaccine(vaccine);
             packageDetail.setVaccinePackage(vaccinePackage);
             packageDetail.setDoseCount(doseCounts.get(i));
@@ -152,6 +175,30 @@ public class VaccinePackageService {
         vaccinePackage.setVaccinePackagePrice(totalPrice);
         vaccinePackageRepository.save(vaccinePackage);
         packageDetailService.insertAllPackageDetail(packageDetailList);
+    }
+
+    private static int getVaccinePrice(List<BatchDetail> batchDetailList, VaccinePackage vaccinePackage) {
+        int vaccinePrice = 0;
+        if (batchDetailList.size() == 1) {
+            BatchDetail batchDetail = batchDetailList.getFirst();
+            vaccinePrice = batchDetail.getBatchDetailVaccinePrice();
+        }
+        else if (batchDetailList.size() > 1) {
+
+            int adultPrice = Math.max(
+                    batchDetailList.get(0).getBatchDetailVaccinePrice(),
+                    batchDetailList.get(1).getBatchDetailVaccinePrice());
+            int childPrice = Math.min(
+                    batchDetailList.get(0).getBatchDetailVaccinePrice(),
+                    batchDetailList.get(1).getBatchDetailVaccinePrice());
+            if ("ADULT".equals(vaccinePackage.getVaccinePackageType())) {
+                vaccinePrice = adultPrice;
+            }
+            else {
+                vaccinePrice = childPrice;
+            }
+        }
+        return vaccinePrice;
     }
 
     public void insertInitialVaccinePackageData() {

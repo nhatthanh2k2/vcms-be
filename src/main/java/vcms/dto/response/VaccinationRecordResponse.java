@@ -28,6 +28,8 @@ public class VaccinationRecordResponse {
 
     private String vaccinationRecordPayment;
 
+    private String vaccinationRecordReceiptSource;
+
     private CustomerResponse customerResponse;
 
     private String vaccineName;
@@ -36,5 +38,5 @@ public class VaccinationRecordResponse {
 
     private String vaccineBatchNumber;
 
-    private String employeeFullName;
+    private EmployeeResponse employeeResponse;
 }

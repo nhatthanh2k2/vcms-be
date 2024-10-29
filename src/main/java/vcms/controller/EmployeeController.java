@@ -96,6 +96,15 @@ public class EmployeeController {
                 .build();
     }
 
+    @PutMapping("/update/update-from-admin")
+    public ApiResponse<EmployeeResponse> updateQualificationAndPosition(
+            @RequestBody UpdateQualificationAndPositionRequest request
+    ) {
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(employeeService.updateQualificationAndPosition(request))
+                .build();
+    }
+
     @DeleteMapping("/delete/{employeeId}")
     public ApiResponse<String> deleteEmployeeById(
             @PathVariable("employeeId") Long employeeId) {

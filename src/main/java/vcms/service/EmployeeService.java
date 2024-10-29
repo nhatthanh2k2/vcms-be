@@ -8,10 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import vcms.dto.request.ChangePasswordRequest;
-import vcms.dto.request.EmployeeCreationRequest;
-import vcms.dto.request.EmployeeUpdateRequest;
-import vcms.dto.request.ResetPasswordRequest;
+import vcms.dto.request.*;
 import vcms.dto.response.EmployeeResponse;
 import vcms.enums.Gender;
 import vcms.enums.Role;
@@ -114,6 +111,16 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeUsername(request.getEmployeeUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
         employeeMapper.updateEmployee(employee, request);
+        LocalDateTime updateDateTime = dateService.getDateTimeNow();
+        employee.setEmployeeUpdateAt(updateDateTime);
+        return employeeMapper.toEmployeeResponse(
+                employeeRepository.save(employee));
+    }
+
+    public EmployeeResponse updateQualificationAndPosition(UpdateQualificationAndPositionRequest request) {
+        Employee employee = employeeRepository.findByEmployeeUsername(request.getEmployeeUsername())
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
+        employeeMapper.updateQualificationAndPosition(employee, request);
         LocalDateTime updateDateTime = dateService.getDateTimeNow();
         employee.setEmployeeUpdateAt(updateDateTime);
         return employeeMapper.toEmployeeResponse(

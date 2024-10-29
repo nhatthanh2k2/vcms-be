@@ -1,6 +1,7 @@
 package vcms.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.VaccineCreationRequest;
 import vcms.dto.request.VaccineCreationRequestByAdmin;
@@ -8,6 +9,7 @@ import vcms.dto.request.VaccineUpdateRequest;
 import vcms.dto.response.VaccineResponse;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
+import vcms.mapper.DiseaseMapper;
 import vcms.mapper.VaccineMapper;
 import vcms.model.Disease;
 import vcms.model.Vaccine;
@@ -35,18 +37,28 @@ public class VaccineService {
 
     private final DiseaseService diseaseService;
 
+    private final DiseaseMapper diseaseMapper;
+
     public VaccineService(VaccineRepository vaccineRepository,
                           VaccineMapper vaccineMapper, DateService dateService,
-                          DiseaseService diseaseService) {
+                          DiseaseService diseaseService, DiseaseMapper diseaseMapper) {
         this.vaccineRepository = vaccineRepository;
         this.vaccineMapper = vaccineMapper;
         this.dateService = dateService;
         this.diseaseService = diseaseService;
+        this.diseaseMapper = diseaseMapper;
     }
 
     public List<VaccineResponse> getAllVaccines() {
-        return vaccineRepository.findAll().stream()
-                .map(vaccineMapper::toVaccineResponse).toList();
+        List<Vaccine> vaccineList = vaccineRepository.findAll();
+        List<VaccineResponse> vaccineResponseList = new ArrayList<>();
+
+        for (Vaccine vaccine : vaccineList) {
+            VaccineResponse response = vaccineMapper.toVaccineResponse(vaccine);
+            response.setDiseaseResponse(diseaseMapper.toDiseaseResponse(vaccine.getDisease()));
+            vaccineResponseList.add(response);
+        }
+        return vaccineResponseList;
     }
 
     public List<VaccineResponse> getVaccineOfDisease(Long diseaseId) {
@@ -127,7 +139,14 @@ public class VaccineService {
         return vaccineMapper.toVaccineResponse(vaccineRepository.save(vaccine));
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteVaccine(Long vaccineId) {
+        Vaccine vaccine = vaccineRepository.findById(vaccineId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        if (!vaccine.getBatchDetailList().isEmpty() || !vaccine.getVaccinationRecordList().isEmpty()) {
+            throw new AppException(ErrorCode.DELETE_FAILED);
+        }
         vaccineRepository.deleteById(vaccineId);
     }
 
@@ -904,36 +923,38 @@ public class VaccineService {
     }
 
     public void updateDiseaseVaccineRelations() {
-        List<Long> diseaseIds = LongStream.rangeClosed(1, 28).boxed().toList();
+        List<Long> diseaseIds = LongStream.rangeClosed(1, 30).boxed().toList();
         Map<Long, List<Long>> diseaseVaccineMap = new HashMap<>();
-        diseaseVaccineMap.put(1L, Arrays.asList(1016L, 1044L));
-        diseaseVaccineMap.put(2L, Arrays.asList(1019L, 1020L, 1021L));
-        diseaseVaccineMap.put(3L, Arrays.asList(1005L, 1006L, 1013L));
-        diseaseVaccineMap.put(4L, List.of(1022L));
-        diseaseVaccineMap.put(5L, Arrays.asList(1010L, 1017L, 1046L, 1047L));
-        diseaseVaccineMap.put(6L, List.of(1001L));
-        diseaseVaccineMap.put(7L, List.of(1023L));
-        diseaseVaccineMap.put(8L, List.of(1045L));
-        diseaseVaccineMap.put(9L, List.of(1025L));
-        diseaseVaccineMap.put(10L, Arrays.asList(1026L, 1018L, 1043L));
-        diseaseVaccineMap.put(11L, Arrays.asList(1008L, 1041L, 1042L));
-        diseaseVaccineMap.put(12L, Arrays.asList(1004L, 1012L, 1024L, 1040L));
-        diseaseVaccineMap.put(13L, Arrays.asList(1000L, 1011L));
-        diseaseVaccineMap.put(14L, Arrays.asList(1033L, 1038L));
-        diseaseVaccineMap.put(15L, Arrays.asList(1009L, 1029L, 1048L));
-        diseaseVaccineMap.put(16L, Arrays.asList(1003L, 1004L));
-        diseaseVaccineMap.put(17L, Arrays.asList(1007L, 1028L));
-        diseaseVaccineMap.put(18L, List.of(1027L));
-        diseaseVaccineMap.put(19L, List.of(1037L));
-        diseaseVaccineMap.put(20L, List.of(1032L));
-        diseaseVaccineMap.put(21L, Arrays.asList(1030L, 1031L));
-        diseaseVaccineMap.put(22L, Arrays.asList(1034L, 1049L));
-        diseaseVaccineMap.put(23L, List.of(1036L));
-        diseaseVaccineMap.put(24L, List.of(1035L));
-        diseaseVaccineMap.put(25L, List.of(1050L));
-        diseaseVaccineMap.put(26L, List.of(1039L));
-        diseaseVaccineMap.put(27L, List.of(1051L));
-        diseaseVaccineMap.put(28L, List.of(1014L, 1015L));
+        diseaseVaccineMap.put(1L, List.of(1016L));
+        diseaseVaccineMap.put(2L, Arrays.asList(1014L, 1015L));
+        diseaseVaccineMap.put(3L, Arrays.asList(1019L, 1020L, 1021L));
+        diseaseVaccineMap.put(4L, Arrays.asList(1013L, 1006L, 1000L));
+        diseaseVaccineMap.put(5L, List.of(1022L));
+        diseaseVaccineMap.put(6L, Arrays.asList(1010L, 1017L, 1046L, 1047L));
+        diseaseVaccineMap.put(7L, List.of(1002L));
+        diseaseVaccineMap.put(8L, List.of(1023L));
+        diseaseVaccineMap.put(9L, List.of(1045L));
+        diseaseVaccineMap.put(10L, List.of(1025L));
+        diseaseVaccineMap.put(11L, Arrays.asList(1018L, 1026L, 1043L));
+        diseaseVaccineMap.put(12L, Arrays.asList(1008L, 1041L, 1042L));
+        diseaseVaccineMap.put(13L, List.of());
+        diseaseVaccineMap.put(14L, Arrays.asList(1005L, 1012L, 1024L, 1040L));
+        diseaseVaccineMap.put(15L, List.of(1011L));
+        diseaseVaccineMap.put(16L, List.of(1001L));
+        diseaseVaccineMap.put(17L, List.of(1051L));
+        diseaseVaccineMap.put(18L, Arrays.asList(1033L, 1038L));
+        diseaseVaccineMap.put(19L, Arrays.asList(1029L, 1009L, 1048L));
+        diseaseVaccineMap.put(20L, Arrays.asList(1004L, 1003L));
+        diseaseVaccineMap.put(21L, Arrays.asList(1028L, 1007L));
+        diseaseVaccineMap.put(22L, List.of(1027L, 1044L));
+        diseaseVaccineMap.put(23L, List.of(1037L));
+        diseaseVaccineMap.put(24L, List.of(1032L));
+        diseaseVaccineMap.put(25L, Arrays.asList(1031L, 1030L));
+        diseaseVaccineMap.put(26L, Arrays.asList(1034L, 1049L));
+        diseaseVaccineMap.put(27L, List.of(1036L));
+        diseaseVaccineMap.put(28L, List.of(1035L));
+        diseaseVaccineMap.put(29L, List.of(1050L));
+        diseaseVaccineMap.put(30L, List.of(1039L));
         for (Long diseaseId : diseaseIds) {
             Disease disease = diseaseService.getDiseaseById(diseaseId);
             List<Long> vaccineIds = diseaseVaccineMap.get(diseaseId);

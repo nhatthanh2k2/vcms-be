@@ -69,7 +69,34 @@ public class VaccineBatchService {
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
     }
 
-    public List<BatchDetail> getBatchDetailListByBatchId(Long batchId) {
+    public List<BatchDetailResponse> getDetailOfSampleBatch() {
+        VaccineBatch vaccineBatch = vaccineBatchRepository.findById(1L)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        List<BatchDetail> batchDetailList = batchDetailService.getAllBatchDetailByVaccineBatch(vaccineBatch);
+        List<BatchDetailResponse> batchDetailResponseList = new ArrayList<>();
+        for (BatchDetail batchDetail : batchDetailList) {
+            BatchDetailResponse batchDetailResponse = vaccineBatchMapper.toBatchDetailResponse(
+                    batchDetail);
+            Vaccine vaccine = batchDetail.getVaccine();
+            batchDetailResponse.setVaccineResponse(
+                    vaccineMapper.toVaccineResponse(batchDetail.getVaccine()));
+            batchDetailResponse.setDiseaseResponse(
+                    diseaseMapper.toDiseaseResponse(vaccine.getDisease()));
+            batchDetailResponseList.add(batchDetailResponse);
+        }
+        return batchDetailResponseList;
+    }
+
+    public List<BatchDetail> getDetailListOfSampleBatch() {
+
+        VaccineBatch vaccineBatch = vaccineBatchRepository.findById(1L)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+
+        return batchDetailService.getAllBatchDetailByVaccineBatch(vaccineBatch);
+    }
+
+    public List<BatchDetail> getDetailListByBatchId(Long batchId) {
+
         VaccineBatch vaccineBatch = vaccineBatchRepository.findById(batchId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
         return batchDetailService.getAllBatchDetailByVaccineBatch(vaccineBatch);
@@ -111,7 +138,6 @@ public class VaccineBatchService {
     private List<BatchDetail> readBatchDetailsFromExcel(MultipartFile file,
                                                         VaccineBatch vaccineBatch) throws IOException {
         List<BatchDetail> batchDetails = new ArrayList<>();
-
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
         XSSFSheet sheet = workbook.getSheetAt(0);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -125,7 +151,6 @@ public class VaccineBatchService {
 
             BatchDetail batchDetail = new BatchDetail();
 
-            // Lấy dữ liệu từ các ô trong dòng
             String vaccineCode = row.getCell(0).getStringCellValue();
             int quantity = (int) row.getCell(2).getNumericCellValue();
             int price = (int) row.getCell(3).getNumericCellValue();
@@ -137,7 +162,6 @@ public class VaccineBatchService {
 
             Vaccine vaccine = vaccineService.getVaccineByVaccineCode(vaccineCode);
 
-            // Gán giá trị cho BatchDetail
             batchDetail.setVaccine(vaccine);
             batchDetail.setVaccineBatch(vaccineBatch);
             batchDetail.setBatchDetailVaccineQuantity(quantity);

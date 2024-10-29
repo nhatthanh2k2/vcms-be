@@ -35,4 +35,6 @@ public class VaccinationRecordCreationRequest {
     private int vaccinationRecordTotal;
 
     private String vaccinationRecordPayment;
+
+    private String vaccinationRecordReceiptSource;
 }

@@ -35,6 +35,13 @@ public class VaccineBatchController {
                 .build();
     }
 
+    @GetMapping("/detail/sample-batch")
+    public ApiResponse<List<BatchDetailResponse>> getDetailOfSampleBatch() {
+        return ApiResponse.<List<BatchDetailResponse>>builder()
+                .result(vaccineBatchService.getDetailOfSampleBatch())
+                .build();
+    }
+
     @GetMapping("/detail/{batchId}")
     public ApiResponse<List<BatchDetailResponse>> getDetailsOfBatch(
             @PathVariable("batchId") Long batchId) {

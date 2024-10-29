@@ -46,6 +46,10 @@ public class VaccinationRecord {
     @Column(name = "vac_rec_payment")
     private String vaccinationRecordPayment;
 
+
+    @Column(name = "vac_rec_src")
+    private String vaccinationRecordReceiptSource;
+
     // Người tiêm
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")

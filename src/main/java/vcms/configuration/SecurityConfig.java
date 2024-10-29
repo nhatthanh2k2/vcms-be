@@ -31,6 +31,7 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_GET_ENDPOINTS = {
             "/api/vaccines/all", "/api/vaccines/detail/*",
+            "/api/vaccines/list-of-disease/*",
             "/api/diseases/all", "/api/diseases/detail/*",
             "/api/employees/all", "/api/employees/detail/*",
             "/api/employees/getDoctorAndNurse",
