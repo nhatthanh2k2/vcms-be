@@ -46,7 +46,6 @@ public class VaccinationRecord {
     @Column(name = "vac_rec_payment")
     private String vaccinationRecordPayment;
 
-
     @Column(name = "vac_rec_src")
     private String vaccinationRecordReceiptSource;
 

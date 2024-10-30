@@ -2,6 +2,7 @@ package vcms.utils;
 
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,5 +23,9 @@ public class DateService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String strDate = now.format(formatter);
         return LocalDate.parse(strDate, formatter);
+    }
+
+    public LocalDate getStartOfWeek(LocalDate date) {
+        return date.with(DayOfWeek.MONDAY);
     }
 }

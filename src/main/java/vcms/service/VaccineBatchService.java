@@ -5,7 +5,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vcms.dto.request.VaccineBatchCreationRequest;
@@ -43,20 +42,20 @@ public class VaccineBatchService {
 
     private final DiseaseMapper diseaseMapper;
 
-    @Autowired
-    private DateService dateService;
+    private final DateService dateService;
 
     public VaccineBatchService(VaccineBatchRepository vaccineBatchRepository,
                                VaccineBatchMapper vaccineBatchMapper,
                                VaccineMapper vaccineMapper,
                                DiseaseMapper diseaseMapper, VaccineService vaccineService,
-                               BatchDetailService batchDetailService) {
+                               BatchDetailService batchDetailService, DateService dateService) {
         this.vaccineBatchRepository = vaccineBatchRepository;
         this.vaccineBatchMapper = vaccineBatchMapper;
         this.vaccineMapper = vaccineMapper;
         this.diseaseMapper = diseaseMapper;
         this.vaccineService = vaccineService;
         this.batchDetailService = batchDetailService;
+        this.dateService = dateService;
     }
 
     public List<VaccineBatchResponse> getVaccineBatches() {

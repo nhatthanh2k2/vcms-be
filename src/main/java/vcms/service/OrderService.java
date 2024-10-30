@@ -340,4 +340,9 @@ public class OrderService {
             throw new AppException(ErrorCode.CREATE_FAILED);
         }
     }
+
+    public Long calculateOrderTotalRevenue(LocalDate startDate, LocalDate endDate) {
+        Long orderRevenue = orderRepository.sumTotalRevenueByPeriod(startDate, endDate);
+        return orderRevenue != null ? orderRevenue : 0L;
+    }
 }
