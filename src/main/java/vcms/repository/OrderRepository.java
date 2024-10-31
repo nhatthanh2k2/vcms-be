@@ -13,4 +13,25 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT SUM(o.orderTotal) FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate")
     Long sumTotalRevenueByPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+
+    @Query("SELECT v.vaccineName, COUNT(od) FROM Order o " +
+            "JOIN o.orderDetailList od " +
+            "JOIN od.batchDetail bd " +
+            "JOIN bd.vaccine v " +
+            "WHERE o.orderInjectionDate BETWEEN :startDate AND :endDate " +
+            "GROUP BY v.vaccineName")
+    List<Object[]> countVaccinesInOrders(@Param("startDate") LocalDate startDate,
+                                         @Param("endDate") LocalDate endDate);
+
+
+    @Query("SELECT vp.vaccinePackageName, COUNT(od) FROM Order o " +
+            "JOIN o.orderDetailList od " +
+            "JOIN od.vaccinePackage vp " + // Lấy những đơn hàng có gói tiêm
+            "WHERE o.orderInjectionDate BETWEEN :startDate AND :endDate " +
+            "GROUP BY vp.vaccinePackageName")
+    List<Object[]> countPackagesInOrders(@Param("startDate") LocalDate startDate,
+                                         @Param("endDate") LocalDate endDate);
+
+
 }

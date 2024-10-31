@@ -75,6 +75,15 @@ public class VaccinationRecordService {
         List<VaccinationRecordResponse> vaccinationRecordResponseList = new ArrayList<>();
         for (VaccinationRecord record : vaccinationRecordList) {
             VaccinationRecordResponse recordResponse = vaccinationRecordMapper.toVaccinationRecordResponse(record);
+            recordResponse.setCustomerResponse(customerMapper.toCustomerResponse(record.getCustomer()));
+            recordResponse.setEmployeeResponse(employeeMapper.toEmployeeResponse(record.getEmployee()));
+            recordResponse.setVaccineName(record.getVaccine().getVaccineName());
+            VaccinePackage vaccinePackage = record.getVaccinePackage();
+            if (vaccinePackage == null) {
+                recordResponse.setVaccinePackageName("Không có");
+            }
+            else recordResponse.setVaccinePackageName(record.getVaccinePackage().getVaccinePackageName());
+            recordResponse.setVaccineBatchNumber(record.getVaccineBatch().getVaccineBatchNumber());
             vaccinationRecordResponseList.add(recordResponse);
         }
         return vaccinationRecordResponseList;

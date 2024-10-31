@@ -1,6 +1,5 @@
 package vcms.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vcms.dto.response.TimePeriodRevenueResponse;
 import vcms.utils.DateService;
@@ -17,12 +16,13 @@ public class RevenueService {
 
     private final VaccinationRecordService vaccinationRecordService;
 
-    @Autowired
-    private DateService dateService;
+    private final DateService dateService;
 
-    public RevenueService(OrderService orderService, VaccinationRecordService vaccinationRecordService) {
+    public RevenueService(OrderService orderService, VaccinationRecordService vaccinationRecordService,
+                          DateService dateService) {
         this.orderService = orderService;
         this.vaccinationRecordService = vaccinationRecordService;
+        this.dateService = dateService;
     }
 
     public Long calculateTotalRevenue(LocalDate startDate, LocalDate endDate) {
