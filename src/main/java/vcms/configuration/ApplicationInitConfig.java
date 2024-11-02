@@ -35,6 +35,7 @@ public class ApplicationInitConfig {
     private final DiseaseService diseaseService;
 
     private final VaccineService vaccineService;
+
     private final EmployeeService employeeService;
 
     private final VaccinePackageService vaccinePackageService;

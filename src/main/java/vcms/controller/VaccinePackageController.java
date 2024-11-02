@@ -2,6 +2,7 @@ package vcms.controller;
 
 import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.VaccinePackageCreationRequest;
+import vcms.dto.request.VaccinePackageUpdateRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.PackageDetailResponse;
 import vcms.dto.response.VaccinePackageResponse;
@@ -32,6 +33,15 @@ public class VaccinePackageController {
     ) {
         return ApiResponse.<VaccinePackageResponse>builder()
                 .result(vaccinePackageService.addVaccinePackage(request))
+                .build();
+    }
+
+    @PutMapping("/update")
+    public ApiResponse<VaccinePackageResponse> updateVaccinePackage(
+            @RequestBody VaccinePackageUpdateRequest request
+    ) {
+        return ApiResponse.<VaccinePackageResponse>builder()
+                .result(vaccinePackageService.updateVaccinePackage(request))
                 .build();
     }
 

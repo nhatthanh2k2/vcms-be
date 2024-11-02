@@ -2,7 +2,9 @@ package vcms.service;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vcms.dto.request.VaccinePackageCreationRequest;
+import vcms.dto.request.VaccinePackageUpdateRequest;
 import vcms.dto.response.PackageDetailResponse;
 import vcms.dto.response.VaccinePackageResponse;
 import vcms.exception.AppException;
@@ -62,11 +64,6 @@ public class VaccinePackageService {
                 .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
     }
 
-//    public List<VaccinePackageResponse> getDefaultPackage() {
-//        return vaccinePackageRepository.findAll().stream().limit(8)
-//                .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
-//    }
-
     public List<VaccinePackageResponse> getDefaultPackage() {
         return vaccinePackageRepository.findAllByIsCustomPackage(0).stream()
                 .map(vaccinePackageMapper::toVaccinePackageResponse).toList();
@@ -91,6 +88,46 @@ public class VaccinePackageService {
             throw new AppException(ErrorCode.DELETE_FAILED);
         }
         vaccinePackageRepository.deleteById(packageId);
+    }
+
+
+    @Transactional
+    public VaccinePackageResponse updateVaccinePackage(VaccinePackageUpdateRequest request) {
+        VaccinePackage existingPackage = vaccinePackageRepository.findById(request.getVaccinePackageId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+
+        existingPackage.setVaccinePackageName(request.getVaccinePackageName());
+        existingPackage.setVaccinePackageType(request.getVaccinePackageType());
+        existingPackage.setVaccinePackagePrice(request.getVaccinePackagePrice());
+        existingPackage.setVaccinePackageUpdateAt(dateService.getDateTimeNow());
+
+        List<Long> newVaccineIds = request.getVaccineIdList();
+        List<Integer> newDoseCounts = request.getDoseCountList();
+
+        existingPackage.getPackageDetailList().removeIf(
+                detail -> !newVaccineIds.contains(detail.getVaccine().getVaccineId())
+        );
+
+        for (int i = 0; i < newVaccineIds.size(); i++) {
+            Long vaccineId = newVaccineIds.get(i);
+            int doseCount = newDoseCounts.get(i);
+
+            PackageDetail detail = existingPackage.getPackageDetailList().stream()
+                    .filter(d -> d.getVaccine().getVaccineId().equals(vaccineId))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        PackageDetail newDetail = new PackageDetail();
+                        newDetail.setVaccine(vaccineService.getVaccineByVaccineId(vaccineId));
+                        newDetail.setVaccinePackage(existingPackage);
+                        existingPackage.getPackageDetailList().add(newDetail);
+                        return newDetail;
+                    });
+
+            detail.setDoseCount(doseCount);
+        }
+
+        return vaccinePackageMapper.toVaccinePackageResponse(
+                vaccinePackageRepository.save(existingPackage));
     }
 
     public void saveVaccinePackage(VaccinePackage vaccinePackage) {

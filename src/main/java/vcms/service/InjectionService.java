@@ -25,20 +25,27 @@ public class InjectionService {
 
     private final VaccinationRecordRepository vaccinationRecordRepository;
 
-    public List<InjectionResponse> countVaccineDoseCountForNextMonth() {
-        LocalDate startDate = LocalDate.now().withDayOfMonth(1).plusMonths(1);
-        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+    public InjectionService(AppointmentRepository appointmentRepository, OrderRepository orderRepository,
+                            DateService dateService, VaccinationRecordRepository vaccinationRecordRepository) {
+        this.appointmentRepository = appointmentRepository;
+        this.orderRepository = orderRepository;
+        this.dateService = dateService;
+        this.vaccinationRecordRepository = vaccinationRecordRepository;
+    }
 
-        // Lấy số lượng từ Appointment và Order
+    public List<InjectionResponse> countVaccineDoseCountForNextMonth() {
+//        LocalDate startDate = LocalDate.now().withDayOfMonth(1).plusMonths(1);
+//        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(30);
+
         List<Object[]> appointmentVaccineCounts = appointmentRepository.countVaccinesInAppointments(startDate, endDate);
         List<Object[]> appointmentPackageCounts = appointmentRepository.countPackagesInAppointments(startDate, endDate);
         List<Object[]> orderVaccineCounts = orderRepository.countVaccinesInOrders(startDate, endDate);
         List<Object[]> orderPackageCounts = orderRepository.countPackagesInOrders(startDate, endDate);
 
-        // Sử dụng Map để lưu trữ số lượng mũi tiêm theo tên vắc xin hoặc gói tiêm
         Map<String, InjectionResponse> vaccineCountMap = new HashMap<>();
 
-        // Cộng số lượng từ Appointment (Vaccines)
         for (Object[] count : appointmentVaccineCounts) {
             String vaccineName = (String) count[0];
             int quantity = ((Number) count[1]).intValue();
@@ -84,15 +91,6 @@ public class InjectionService {
 
         // Trả về danh sách InjectionResponse với tên vắc xin/gói tiêm và số lượng mũi tiêm
         return new ArrayList<>(vaccineCountMap.values());
-    }
-
-
-    public InjectionService(AppointmentRepository appointmentRepository, OrderRepository orderRepository,
-                            DateService dateService, VaccinationRecordRepository vaccinationRecordRepository) {
-        this.appointmentRepository = appointmentRepository;
-        this.orderRepository = orderRepository;
-        this.dateService = dateService;
-        this.vaccinationRecordRepository = vaccinationRecordRepository;
     }
 
     public List<TimePeriodDoseCountResponse> calculateDailyDoseCountOfWeek(LocalDate date) {
