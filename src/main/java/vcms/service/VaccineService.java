@@ -199,7 +199,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Abhayrab (Ấn Độ)",
                                            "vac-xin-abhayrab.jpg",
-                                           new HashSet<>(List.of("Chưa có cụ thể")),
+                                           new HashSet<>(List.of("Ngoài các nhóm trên")),
                                            "Vắc xin Abhayrab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
                                            "Human Biological Institute (Ấn Độ) ",
                                            "Tiêm bắp (IM): người lớn tiêm ở vùng cơ Delta cánh tay, trẻ em tiêm ở mặt trước bên đùi. Không tiêm vào vùng mông.;Trong một số trường hợp có thể áp dụng tiêm trong da (ID), tiêm ở cẳng tay hoặc cánh tay.",
@@ -213,7 +213,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Verorab (Pháp)",
                                            "vac-xin-verorab.jpg",
-                                           new HashSet<>(List.of("Chưa có cụ thể")),
+                                           new HashSet<>(List.of("Ngoài các nhóm trên")),
                                            "Vắc xin Verorab có tác dụng tạo miễn dịch chủ động phòng bệnh dại cho cả người lớn và trẻ em, sau khi tiếp xúc hoặc bị con vật nghi bị dại cắn.",
                                            "Sanofi Pasteur (Pháp)",
                                            "Tiêm bắp: với liều 0.5ml vắc xin đã hoàn nguyên, ở người lớn vào vùng cơ Delta ở cánh tay, trẻ nhỏ tiêm ở mặt trước – bên đùi. Không tiêm ở vùng mông.;Tiêm trong da: với liều 0.1ml vắc xin đã hoàn nguyên (bằng 1/5 liều tiêm bắp).",
@@ -290,7 +290,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Jeev (Ấn Độ)",
                                            "vac-xin-jeev.jpg",
-                                           new HashSet<>(List.of("Chưa có cụ thể")),
+                                           new HashSet<>(List.of("Ngoài các nhóm trên")),
                                            "Vắc xin JEEV là loại vắc xin tinh khiết, bất hoạt qua nuôi cấy từ tế bào Vero, giúp cơ thể tạo ra miễn dịch chủ động nhằm dự phòng bệnh viêm não Nhật Bản.",
                                            "Biological E. Limited – Ấn Độ ",
                                            "Vắc xin JEEV được chỉ định tiêm bắp;Tuyệt đối không tiêm vắc xin JEEV vào tĩnh mạch trong mọi trường hợp;Không được trộn lẫn vắc xin JEEV trong cùng một lọ hoặc ống tiêm với bất kỳ dung dịch hoặc loại vắc xin nào khác.",
@@ -304,7 +304,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Gene Hbvax (Việt Nam)",
                                            "vac-xin-Gene-HBvax.jpg",
-                                           new HashSet<>(List.of("Chưa có cụ thể")),
+                                           new HashSet<>(List.of("Ngoài các nhóm trên")),
                                            "Vắc xin phòng viêm gan B tái tổ hợp Gene-HBvax phòng bệnh do virus viêm gan B – loại virus này có thể lây truyền qua đường máu, qua quan hệ tình dục và từ mẹ truyền sang con với khả năng lây nhiễm cao gấp 10 lần so với virus HIV. Một khi nhiễm virus viêm gan B người bệnh phải chấp nhận sống chung với bệnh suốt đời. 25% trong bệnh nhân viêm gan siêu vi B sẽ phát sinh những vấn đề nghiêm trọng về gan, kể cả ung thư gan.",
                                            "VABIOTECH (Việt Nam)",
                                            "Không được tiêm đường tĩnh mạch hoặc trong da, vắc xin Gene-HBvax được chỉ định tiêm bắp. Ở người lớn thì tiêm vắc xin vào vùng cơ delta, song ở trẻ sơ sinh và trẻ nhỏ thì nên tiêm vào vùng đùi ngoài thì tốt hơn vì cơ delta còn nhỏ. Ngoại lệ có thể tiêm vắc xin theo đường dưới da cho những bệnh nhân ưa chảy máu. Lắc kỹ lọ vắc xin trước khi tiêm.",
@@ -673,7 +673,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin Quimihib (Cu ba)",
                                            "vac-xin-quimi-hib.jpg",
-                                           new HashSet<>(List.of("Chưa có cụ thể")),
+                                           new HashSet<>(List.of("Ngoài các nhóm trên")),
                                            "Vắc xin Quimihib phòng ngừa bệnh viêm phổi, viêm màng não mủ do tác nhân Haemophilus Influenzae type b gây ra ở trẻ nhỏ.",
                                            "Center for Genetic Engineering and Biotechnology (C.I.G.B) – Cuba",
                                            "Tiêm bắp.;Tiêm vào vùng trước bên đùi của trẻ dưới 2 tuổi.;Tiêm vào vùng cơ delta đối với trẻ trên 2 tuổi.",
@@ -688,7 +688,7 @@ public class VaccineService {
                 new VaccineCreationRequest(
                         "Vắc xin Uốn ván, bạch hầu hấp phụ (Việt Nam)",
                         "vac-xin-uon-van-bach-hau-hap-phu-td.jpg",
-                        new HashSet<>(List.of("Chưa có cụ thể")),
+                        new HashSet<>(List.of("Ngoài các nhóm trên")),
                         "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định cho trẻ em lứa tuổi lớn (từ 7 tuổi trở lên) và người lớn nhằm gây miễn dịch, phòng các bệnh uốn ván và bạch hầu.",
                         "Viện vắc xin và sinh phẩm y tế Nha Trang IVAC (Việt Nam)",
                         "Vắc xin uốn ván – bạch hầu hấp phụ (Td) được chỉ định tiêm bắp sâu. Không được tiêm dưới da hoặc tĩnh mạch.;Lắc tan đều trước khi dùng.;Liều tiêm 0,5 ml.",
@@ -702,7 +702,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(new VaccineCreationRequest(
                 "Huyết thanh uốn ván (Việt Nam)",
                 "huyet-thanh-uon-van-SAT.jpg",
-                new HashSet<>(List.of("Chưa có cụ thể")),
+                new HashSet<>(List.of("Ngoài các nhóm trên")),
                 "Huyết thanh uốn ván SAT được dùng để phòng ngừa uốn ván ở người vừa mới bị vết thương có thể nhiễm bào tử uốn ván, bao gồm những người không tiêm ngừa uốn ván trong 10 năm gần đây, hoặc không nhớ rõ lịch tiêm uốn ván. ",
                 "Viện Vắc xin và Sinh phẩm Y tế (IVAC – Việt Nam)",
                 "Huyết thanh uốn ván SAT được chỉ định tiêm bắp.",
@@ -716,7 +716,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(new VaccineCreationRequest(
                 "Vắc xin phòng COVID-19 của AstraZeneca ",
                 "vacxin-covid-19.jpg",
-                new HashSet<>(List.of("Chưa có cụ thể")),
+                new HashSet<>(List.of("Ngoài các nhóm trên")),
                 "COVID-19 vaccine Astrazeneca là một loại vắc xin được sử dụng để bảo vệ các đối tượng từ 18 tuổi trở lên chống lại COVID-19. Vắc xin giúp cho hệ miễn dịch của người được được tiêm chủng có khả năng nhận biết và tiêu diệt virus corona (SARS-COV-2).",
                 "AstraZeneca (Vương quốc Anh)",
                 "Tiêm bắp.",
@@ -879,7 +879,7 @@ public class VaccineService {
         vaccineCreationRequestList.add(
                 new VaccineCreationRequest("Vắc xin STAMARIL (Pháp)",
                                            "STAMARIL-vacxin-phong-benh-sot-vang.jpg",
-                                           new HashSet<>(List.of("Chưa có cụ thể")),
+                                           new HashSet<>(List.of("Ngoài các nhóm trên")),
                                            "Vắc xin Stamaril là vắc xin duy nhất cung cấp miễn dịch bảo vệ hiệu quả cao và tạo miễn dịch chủ động suốt đời khỏi virus thuộc họ Flaviviridae gây bệnh Sốt vàng nguy hiểm. ",
                                            "Sanofi Pasteur (Pháp)",
                                            "Trẻ dưới 12 tháng tuổi: Tiêm mặt trước của đùi.;Trẻ từ 12 – 35 tháng tuổi: Tiêm mặt trước của đùi hoặc cơ delta.;Trẻ từ 36 tháng tuổi trở lên và người lớn: Tiêm ở cơ delta.",

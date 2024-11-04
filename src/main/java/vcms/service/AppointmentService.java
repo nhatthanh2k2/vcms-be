@@ -65,6 +65,17 @@ public class AppointmentService {
 
     public List<AppointmentResponse> getAppointmentListByInjectionDate(LocalDate injectionDate) {
         List<Appointment> appointmentList = appointmentRepository.findAllByAppointmentInjectionDate(injectionDate);
+        return convertAppointmentListToAppointmentResponseList(appointmentList);
+    }
+
+    public List<AppointmentResponse> getCanceledAppointmentList() {
+        List<Appointment> appointmentList = appointmentRepository.findAllByAppointmentStatus(
+                AppointmentStatus.CANCELLED);
+        return convertAppointmentListToAppointmentResponseList(appointmentList);
+    }
+
+    private List<AppointmentResponse> convertAppointmentListToAppointmentResponseList(
+            List<Appointment> appointmentList) {
         if (appointmentList.isEmpty()) {
             return Collections.emptyList();
         }

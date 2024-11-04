@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import vcms.enums.AppointmentStatus;
 import vcms.model.Appointment;
 
 import java.time.LocalDate;
@@ -12,6 +13,8 @@ import java.util.List;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     List<Appointment> findAllByAppointmentInjectionDate(LocalDate date);
+
+    List<Appointment> findAllByAppointmentStatus(AppointmentStatus status);
 
     @Query("SELECT v.vaccineName, COUNT(a) FROM Appointment a " +
             "JOIN a.batchDetail bd " +

@@ -30,6 +30,13 @@ public class AppointmentController {
                 .build();
     }
 
+    @GetMapping("list/canceled-list")
+    public ApiResponse<List<AppointmentResponse>> getCanceledAppointmentList() {
+        return ApiResponse.<List<AppointmentResponse>>builder()
+                .result(appointmentService.getCanceledAppointmentList())
+                .build();
+    }
+
     @PostMapping("/create")
     public ApiResponse<AppointmentResponse> createAppointmentWithOutCustomerCode(
             @RequestBody AppointmentCreationRequest request) {

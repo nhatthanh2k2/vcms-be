@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import vcms.dto.response.TimePeriodRevenueResponse;
 import vcms.utils.DateService;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,36 +29,6 @@ public class RevenueService {
         Long recordRevenue = vaccinationRecordService.calculateVaccinationRecordTotalRevenue(startDate, endDate);
         return orderRevenue + recordRevenue;
     }
-
-    public Long getDailyRevenue(LocalDate date) {
-        return calculateTotalRevenue(date, date);
-    }
-
-    public Long getWeeklyRevenue(LocalDate date) {
-        LocalDate startOfWeek = date.with(DayOfWeek.MONDAY);
-        LocalDate endOfWeek = date.with(DayOfWeek.SUNDAY);
-        return calculateTotalRevenue(startOfWeek, endOfWeek);
-    }
-
-    public Long getMonthlyRevenue(int month, int year) {
-        LocalDate startOfMonth = LocalDate.of(year, month, 1);
-        LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
-        return calculateTotalRevenue(startOfMonth, endOfMonth);
-    }
-
-    public Long getQuarterlyRevenue(int quarter, int year) {
-        LocalDate startOfQuarter = LocalDate.of(year, (quarter - 1) * 3 + 1, 1);
-        LocalDate endOfQuarter = startOfQuarter.plusMonths(2).withDayOfMonth(
-                startOfQuarter.plusMonths(2).lengthOfMonth());
-        return calculateTotalRevenue(startOfQuarter, endOfQuarter);
-    }
-
-    public Long getYearlyRevenue(int year) {
-        LocalDate startOfYear = LocalDate.of(year, 1, 1);
-        LocalDate endOfYear = LocalDate.of(year, 12, 31);
-        return calculateTotalRevenue(startOfYear, endOfYear);
-    }
-
 
     public List<TimePeriodRevenueResponse> calculateDailyRevenueOfWeek(LocalDate date) {
         LocalDate startOfWeek = dateService.getStartOfWeek(date);
