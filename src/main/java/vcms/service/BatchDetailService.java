@@ -1,6 +1,7 @@
 package vcms.service;
 
 import org.springframework.stereotype.Service;
+import vcms.dto.request.UpdateVaccinePriceRequest;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
 import vcms.model.BatchDetail;
@@ -33,6 +34,13 @@ public class BatchDetailService {
 
     public List<BatchDetail> getAllBatchDetailByVaccineBatch(VaccineBatch batch) {
         return batchDetailRepository.findAllByVaccineBatch(batch);
+    }
+
+    public void updateVaccinePrice(UpdateVaccinePriceRequest request) {
+        BatchDetail batchDetail = batchDetailRepository.findById(request.getBatchDetailId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        batchDetail.setBatchDetailVaccinePrice(request.getNewPrice());
+        batchDetailRepository.save(batchDetail);
     }
 
     public void insertBatchDetailList(List<BatchDetail> batchDetailList) {

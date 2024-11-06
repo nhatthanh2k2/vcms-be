@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "vac_pkg_details")
+@Table(name = "package_details")
 @Getter
 @Setter
 @NoArgsConstructor

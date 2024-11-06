@@ -31,7 +31,7 @@ public class VaccineBatchController {
     @GetMapping("/all")
     public ApiResponse<List<VaccineBatchResponse>> getAllVaccineBatch() {
         return ApiResponse.<List<VaccineBatchResponse>>builder()
-                .result(vaccineBatchService.getVaccineBatches())
+                .result(vaccineBatchService.getAllVaccineBatch())
                 .build();
     }
 

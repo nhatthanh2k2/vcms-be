@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -28,4 +29,10 @@ public class BatchDetailResponse {
     private VaccineResponse vaccineResponse;
 
     private DiseaseResponse diseaseResponse;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime batchDetailCreateAt;
+
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime batchDetailUpdateAt;
 }

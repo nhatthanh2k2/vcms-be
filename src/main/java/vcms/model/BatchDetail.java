@@ -1,7 +1,6 @@
 package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +39,14 @@ public class BatchDetail {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailExpirationDate;
 
+    @Column(name = "batch_det_createAt")
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime batchDetailCreateAt;
+
+    @Column(name = "batch_det_updateAt")
+    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
+    private LocalDateTime batchDetailUpdateAt;
+
     @Column(name = "batch_det_vac_type", length = 2000)
     private String vaccineType;
 
@@ -48,17 +56,14 @@ public class BatchDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccine_id")
-    @JsonIgnore
     private Vaccine vaccine;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "batchDetail", orphanRemoval = true)
-    @JsonIgnore
     private List<Appointment> appointmentList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "batchDetail", orphanRemoval = true)
-    @JsonIgnore
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
 }

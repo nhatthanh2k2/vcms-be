@@ -133,6 +133,13 @@ public class VaccineService {
                                          VaccineUpdateRequest request) {
         Vaccine vaccine = vaccineRepository.findById(vaccineId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXISTED));
+        Long currentDiseaseId = vaccine.getDisease() != null ? vaccine.getDisease().getDiseaseId() : null;
+
+        // Kiểm tra xem diseaseId trong request có khác với currentDiseaseId
+        if (request.getDiseaseId() != null && !request.getDiseaseId().equals(currentDiseaseId)) {
+            Disease newDisease = diseaseService.getDiseaseById(request.getDiseaseId());
+            vaccine.setDisease(newDisease);
+        }
         vaccineMapper.updateVaccine(vaccine, request);
         LocalDateTime updateDateTime = dateService.getDateTimeNow();
         vaccine.setVaccineUpdateAt(updateDateTime);

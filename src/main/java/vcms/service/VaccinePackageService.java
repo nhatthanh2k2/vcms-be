@@ -169,7 +169,7 @@ public class VaccinePackageService {
         for (int i = 0; i < vaccineIds.size(); i++) {
             PackageDetail packageDetail = new PackageDetail();
             Vaccine vaccine = vaccineService.getVaccineByVaccineId(vaccineIds.get(i));
-            int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage);
+            int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage, vaccine);
             packageDetail.setVaccine(vaccine);
             packageDetail.setVaccinePackage(vaccinePackage);
             packageDetail.setDoseCount(doseCounts.get(i));
@@ -200,7 +200,7 @@ public class VaccinePackageService {
         for (int i = 0; i < vaccineIds.size(); i++) {
             PackageDetail packageDetail = new PackageDetail();
             Vaccine vaccine = vaccineService.getVaccineByVaccineId(vaccineIds.get(i));
-            int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage);
+            int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage, vaccine);
             packageDetail.setVaccine(vaccine);
             packageDetail.setVaccinePackage(vaccinePackage);
             packageDetail.setDoseCount(doseCounts.get(i));
@@ -214,28 +214,27 @@ public class VaccinePackageService {
         packageDetailService.insertAllPackageDetail(packageDetailList);
     }
 
-    private static int getVaccinePrice(List<BatchDetail> batchDetailList, VaccinePackage vaccinePackage) {
-        int vaccinePrice = 0;
-        if (batchDetailList.size() == 1) {
-            BatchDetail batchDetail = batchDetailList.getFirst();
-            vaccinePrice = batchDetail.getBatchDetailVaccinePrice();
-        }
-        else if (batchDetailList.size() > 1) {
+    private static int getVaccinePrice(List<BatchDetail> batchDetailList, VaccinePackage vaccinePackage,
+                                       Vaccine vaccine) {
+        List<BatchDetail> matchingBatchDetails = batchDetailList.stream()
+                .filter(batchDetail -> batchDetail.getVaccine().getVaccineId().equals(vaccine.getVaccineId()))
+                .toList();
 
-            int adultPrice = Math.max(
-                    batchDetailList.get(0).getBatchDetailVaccinePrice(),
-                    batchDetailList.get(1).getBatchDetailVaccinePrice());
-            int childPrice = Math.min(
-                    batchDetailList.get(0).getBatchDetailVaccinePrice(),
-                    batchDetailList.get(1).getBatchDetailVaccinePrice());
-            if ("ADULT".equals(vaccinePackage.getVaccinePackageType())) {
-                vaccinePrice = adultPrice;
-            }
-            else {
-                vaccinePrice = childPrice;
-            }
+        if (matchingBatchDetails.size() == 1) {
+            // Nếu chỉ có một BatchDetail, trả về giá của batch này
+            return matchingBatchDetails.getFirst().getBatchDetailVaccinePrice();
         }
-        return vaccinePrice;
+        else if (matchingBatchDetails.size() == 2) {
+
+            int price1 = matchingBatchDetails.get(0).getBatchDetailVaccinePrice();
+            int price2 = matchingBatchDetails.get(1).getBatchDetailVaccinePrice();
+
+            return "ADULT".equals(vaccinePackage.getVaccinePackageType()) ? Math.max(price1, price2) : Math.min(price1,
+                                                                                                                price2);
+        }
+
+
+        return 0;
     }
 
     public void insertInitialVaccinePackageData() {

@@ -3,6 +3,8 @@ package vcms.dto.request;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,31 +13,27 @@ import lombok.*;
 public class VaccineUpdateRequest {
     private String vaccineName;
 
-    private String vaccineImage;
+    private Set<String> vaccineAgeRange;
 
     private String vaccineDescription;
 
-    // Nguồn gốc
     private String vaccineOrigin;
 
-    // Đường tiêm
     private String vaccineInjectionRoute;
 
-    // Chống chỉ định
     private String vaccineContraindication;
 
-    // Tương tác thuốc
-    private String vaccineDrugInteractions;
+    private String vaccineReaction;
 
-    // Tác dụng không mong muốn
-    private String vaccineAdverseEffects;
+    private int vaccineChildDoseCount;
 
-    // Bảo quản
+    private int vaccineAdultDoseCount;
+
     private String vaccineStorage;
 
-    // Đối tượng
+    private String vaccineInjectionSchedule;
+
     private String vaccinePatient;
 
-    // Phản ứng sau tiêm
-    private String vaccineReaction;
+    private Long diseaseId;
 }

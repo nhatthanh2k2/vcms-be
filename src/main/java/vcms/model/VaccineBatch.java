@@ -41,4 +41,8 @@ public class VaccineBatch {
             orphanRemoval = true)
     private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccineBatch",
+            orphanRemoval = true)
+    private List<BatchDetail> batchDetailList = new ArrayList<>();
+
 }

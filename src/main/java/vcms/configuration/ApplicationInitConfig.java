@@ -112,8 +112,7 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner() {
         return args -> {
             VaccineBatchCreationRequest request = new VaccineBatchCreationRequest();
-            request.setVaccineBatchNumber("B-00-2024");
-
+            request.setVaccineBatchNumber("B-00-0000");
             request.setVaccineBatchQuantity(49);
             request.setVaccineBatchValue(new BigInteger("9691500000"));
             String filePath = "D:\\VCMS_Data\\Batch-00.xlsx";
@@ -150,12 +149,13 @@ public class ApplicationInitConfig {
                 // init data
                 diseaseService.insertInitialDiseaseData();
                 vaccineService.insertInitialVaccineData();
+                vaccineService.updateDiseaseVaccineRelations();
                 vaccineBatchService.insertVaccineBatch(request);
                 vaccinePackageService.insertInitialVaccinePackageData();
                 employeeService.insertInitialEmployeeData();
                 customerService.insertInitialCustomerData();
                 employeeService.updateEmployeeAvatars();
-                vaccineService.updateDiseaseVaccineRelations();
+
             }
 
         };

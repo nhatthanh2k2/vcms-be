@@ -66,6 +66,11 @@ public class DiseaseService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteDisease(Long diseaseId) {
+        Disease disease = diseaseRepository.findById(diseaseId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        if (!disease.getVaccineList().isEmpty()) {
+            throw new AppException(ErrorCode.DELETE_FAILED);
+        }
         diseaseRepository.deleteById(diseaseId);
     }
 

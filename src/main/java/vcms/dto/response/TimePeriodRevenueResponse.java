@@ -9,5 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class TimePeriodRevenueResponse {
     private String period;
-    private Long revenue;
+    private Long orderRevenue;
+    private Long recordRevenue;
 }

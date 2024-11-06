@@ -3,7 +3,6 @@ package vcms.service;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.VaccinationRecordCreationRequest;
-import vcms.dto.response.TimePeriodDoseCountResponse;
 import vcms.dto.response.VaccinationRecordResponse;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
@@ -16,7 +15,6 @@ import vcms.utils.DateService;
 import vcms.utils.GenerateService;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,68 +161,6 @@ public class VaccinationRecordService {
     public Long calculateVaccinationRecordTotalRevenue(LocalDate startDate, LocalDate endDate) {
         Long recordRevenue = vaccinationRecordRepository.sumTotalRevenueByPeriod(startDate, endDate);
         return recordRevenue != null ? recordRevenue : 0L;
-    }
-
-    public List<TimePeriodDoseCountResponse> calculateDailyDoseCountOfWeek(LocalDate date) {
-        LocalDate startOfWeek = dateService.getStartOfWeek(date);
-        LocalDate endOfWeek = startOfWeek.plusDays(6);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        List<TimePeriodDoseCountResponse> dailyVaccinationCountList = new ArrayList<>();
-
-        for (LocalDate day = startOfWeek; !day.isAfter(endOfWeek); day = day.plusDays(1)) {
-            Long dailyCount = vaccinationRecordRepository.countByVaccinationRecordDate(day);
-            dailyVaccinationCountList.add(new TimePeriodDoseCountResponse(day.format(formatter), dailyCount));
-        }
-
-        return dailyVaccinationCountList;
-    }
-
-    public List<TimePeriodDoseCountResponse> calculateMonthlyDoseCountOfYear(int year) {
-        List<TimePeriodDoseCountResponse> monthVaccinationCountList = new ArrayList<>();
-
-        for (int month = 1; month <= 12; month++) {
-            LocalDate startDate = LocalDate.of(year, month, 1);
-            LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
-            Long monthlyCount = vaccinationRecordRepository.countByVaccinationRecordDateBetween(startDate, endDate);
-            monthVaccinationCountList.add(
-                    new TimePeriodDoseCountResponse(startDate.getMonth().toString(), monthlyCount));
-        }
-
-        return monthVaccinationCountList;
-    }
-
-    public List<TimePeriodDoseCountResponse> calculateMonthlyDoseCountOfQuarter(int year, int quarter) {
-        int startMonth = (quarter - 1) * 3 + 1;
-        int endMonth = startMonth + 2;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-yyyy");
-        List<TimePeriodDoseCountResponse> quarterlyVaccinationCountList = new ArrayList<>();
-
-        for (int month = startMonth; month <= endMonth; month++) {
-            LocalDate startDate = LocalDate.of(year, month, 1);
-            LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
-            Long monthlyCount = vaccinationRecordRepository.countByVaccinationRecordDateBetween(startDate, endDate);
-            quarterlyVaccinationCountList.add(
-                    new TimePeriodDoseCountResponse(startDate.format(formatter), monthlyCount));
-        }
-
-        return quarterlyVaccinationCountList;
-    }
-
-    public List<TimePeriodDoseCountResponse> calculateQuarterlyDoseCountOfYear(int year) {
-        List<TimePeriodDoseCountResponse> quarterlyVaccinationCountList = new ArrayList<>();
-
-        for (int quarter = 1; quarter <= 4; quarter++) {
-            int startMonth = (quarter - 1) * 3 + 1;
-            LocalDate startDate = LocalDate.of(year, startMonth, 1);
-            LocalDate endDate = startDate.plusMonths(2).withDayOfMonth(startDate.plusMonths(2).lengthOfMonth());
-            Long quarterlyCount = vaccinationRecordRepository.countByVaccinationRecordDateBetween(startDate, endDate);
-            quarterlyVaccinationCountList.add(
-                    new TimePeriodDoseCountResponse("Quý " + quarter + " - " + year, quarterlyCount));
-        }
-
-        return quarterlyVaccinationCountList;
     }
 
 

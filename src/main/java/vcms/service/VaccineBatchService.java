@@ -26,6 +26,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class VaccineBatchService {
@@ -58,9 +60,11 @@ public class VaccineBatchService {
         this.dateService = dateService;
     }
 
-    public List<VaccineBatchResponse> getVaccineBatches() {
+    public List<VaccineBatchResponse> getAllVaccineBatch() {
         return vaccineBatchRepository.findAll().stream()
-                .map(vaccineBatchMapper::toVaccineBatchResponse).toList();
+                .filter(vaccineBatch -> vaccineBatch.getVaccineBatchId() != 1)
+                .map(vaccineBatchMapper::toVaccineBatchResponse)
+                .toList();
     }
 
     public VaccineBatch getBatchById(Long batchId) {
@@ -120,6 +124,7 @@ public class VaccineBatchService {
         return batchDetailResponseList;
     }
 
+
     public VaccineBatch insertVaccineBatch(VaccineBatchCreationRequest request) throws IOException {
 
         VaccineBatch vaccineBatch = vaccineBatchMapper.toVaccineBatch(request);
@@ -134,12 +139,20 @@ public class VaccineBatchService {
         return vaccineBatch;
     }
 
+
     private List<BatchDetail> readBatchDetailsFromExcel(MultipartFile file,
                                                         VaccineBatch vaccineBatch) throws IOException {
         List<BatchDetail> batchDetails = new ArrayList<>();
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
         XSSFSheet sheet = workbook.getSheetAt(0);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        VaccineBatch exampleBatch = vaccineBatchRepository.findById(1L)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        List<BatchDetailResponse> batchDetailResponseList = getDetailsOfBatch(1L);
+        Set<String> exampleVaccineCodeList = batchDetailResponseList.stream()
+                .map(detail -> detail.getVaccineResponse().getVaccineCode())
+                .collect(Collectors.toSet());
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             XSSFRow row = sheet.getRow(i);
@@ -160,6 +173,9 @@ public class VaccineBatchService {
             String vaccineTypeStr = row.getCell(6).getStringCellValue();
 
             Vaccine vaccine = vaccineService.getVaccineByVaccineCode(vaccineCode);
+            if (vaccine == null) {
+                throw new AppException(ErrorCode.NOT_EXISTED);
+            }
 
             batchDetail.setVaccine(vaccine);
             batchDetail.setVaccineBatch(vaccineBatch);
@@ -168,10 +184,27 @@ public class VaccineBatchService {
             batchDetail.setBatchDetailManufactureDate(manufactureDate);
             batchDetail.setBatchDetailExpirationDate(expirationDate);
             batchDetail.setVaccineType(vaccineTypeStr);
-
+            batchDetail.setBatchDetailCreateAt(dateService.getDateTimeNow());
+            batchDetail.setBatchDetailUpdateAt(dateService.getDateTimeNow());
             batchDetails.add(batchDetail);
-        }
 
+//            if (!exampleVaccineCodeList.contains(vaccineCode)) {
+//                BatchDetail exampleBatchDetail = new BatchDetail();
+//                exampleBatchDetail.setVaccine(vaccine);
+//                exampleBatchDetail.setVaccineBatch(exampleBatch);
+//                exampleBatchDetail.setBatchDetailVaccineQuantity(quantity);
+//                exampleBatchDetail.setBatchDetailVaccinePrice(price);
+//                exampleBatchDetail.setBatchDetailManufactureDate(manufactureDate);
+//                exampleBatchDetail.setBatchDetailExpirationDate(expirationDate);
+//                exampleBatchDetail.setVaccineType(vaccineTypeStr);
+//                exampleBatchDetail.setBatchDetailCreateAt(dateService.getDateTimeNow());
+//                exampleBatchDetail.setBatchDetailUpdateAt(dateService.getDateTimeNow());
+//
+//                batchDetailService.saveBatchDetail(exampleBatchDetail);
+//
+//                exampleVaccineCodeList.add(vaccineCode);
+//            }
+        }
         workbook.close();
 
         return batchDetails;
