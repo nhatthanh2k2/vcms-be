@@ -27,6 +27,12 @@ public class OrderController {
                 orderService.getDetailByOrderId(orderId)).build();
     }
 
+    @GetMapping("/detail/my-order/{orderId}")
+    public ApiResponse<List<OrderDetailResponse>> getMyOrder(@PathVariable("orderId") Long orderId) {
+        return ApiResponse.<List<OrderDetailResponse>>builder().result(
+                orderService.getDetailByOrderId(orderId)).build();
+    }
+
     @PostMapping("/create-code")
     public ApiResponse<?> createOrderWithCustomerCode(
             @RequestBody OrderWithCustomerCodeRequest request) {

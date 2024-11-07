@@ -39,7 +39,8 @@ public class SecurityConfig {
             "/api/vaccine-batch/all",
             "/api/vaccine-package/detail/*",
             "/api/vaccine-package/list-default",
-            "/images/vaccines/*", "/images/avatars/*"
+            "/images/vaccines/*", "/images/avatars/*",
+            "/api/orders/detail/my-order/*"
     };
 
     @Value("${jwt.signerKey}")
