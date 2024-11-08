@@ -200,7 +200,7 @@ public class EmployeeService {
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Nguyễn Văn An", Gender.MALE,
-                                            LocalDate.of(1985, 5, 12),
+                                            LocalDate.of(1975, 5, 12),
                                             "nguyenvana@gmail.com",
                                             "0909123456", "Tỉnh An Giang",
                                             "Thành phố Long Xuyên", "Phường Mỹ Hòa",
@@ -209,7 +209,7 @@ public class EmployeeService {
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Trần Văn Bình", Gender.MALE,
-                                            LocalDate.of(1979, 3, 22),
+                                            LocalDate.of(1989, 3, 22),
                                             "tranvanbinh@gmail.com",
                                             "0909345678", "Thành phố Cần Thơ",
                                             "Quận Ninh Kiều", "Phường An Hòa",
@@ -218,7 +218,7 @@ public class EmployeeService {
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Lê Văn Cường", Gender.MALE,
-                                            LocalDate.of(1988, 10, 10),
+                                            LocalDate.of(1990, 10, 10),
                                             "levancuong@gmail.com",
                                             "0909456789", "Tỉnh Đồng Tháp",
                                             "Thành phố Cao Lãnh", "Phường 3",
@@ -227,7 +227,7 @@ public class EmployeeService {
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Phạm Minh Dũng", Gender.MALE,
-                                            LocalDate.of(1982, 7, 5),
+                                            LocalDate.of(1980, 7, 5),
                                             "phamminhdung@gmail.com",
                                             "0909567890", "Tỉnh Vĩnh Long",
                                             "Huyện Long Hồ", "Xã Đông Phú",
@@ -236,11 +236,11 @@ public class EmployeeService {
 
         employeeCreationRequestList.add(
                 new EmployeeCreationRequest("Ngô Văn Hải", Gender.MALE,
-                                            LocalDate.of(1990, 4, 15),
+                                            LocalDate.of(1973, 4, 15),
                                             "ngovanhai@gmail.com", "0909678901",
                                             "Tỉnh Kiên Giang", "Thành phố Rạch Giá",
                                             "Xã Vĩnh Thanh",
-                                            "BS", "Chuyên viên Y khoa",
+                                            "BS", "Phó Giám đốc Y khoa",
                                             Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
@@ -249,7 +249,7 @@ public class EmployeeService {
                                             "vuvanhoang@gmail.com",
                                             "0909789012", "Tỉnh Tiền Giang",
                                             "Thành phố Mỹ Tho", "Phường 6",
-                                            "BS", "Bác sĩ khám sàng lọc",
+                                            "BS", "Quản lý Y khoa",
                                             Set.of("DOCTOR")));
 
         employeeCreationRequestList.add(
@@ -331,6 +331,7 @@ public class EmployeeService {
                                             "Thành phố Cần Thơ", "Quận Ninh Kiều", "Phường Cái Khế",
                                             "ĐD", "Nhân viên lễ tân",
                                             Set.of("RECEPTIONIST")));
+
 
         try {
             for (EmployeeCreationRequest request : employeeCreationRequestList) {

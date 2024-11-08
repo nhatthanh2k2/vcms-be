@@ -1,5 +1,8 @@
 package vcms.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum ScreeningResult {
     ELIGIBLE("Đủ điều kiện"),
     NOT_ELIGIBLE("Không đủ điều kiện");
@@ -10,7 +13,4 @@ public enum ScreeningResult {
         this.label = label;
     }
 
-    public String getLabel() {
-        return label;
-    }
 }
