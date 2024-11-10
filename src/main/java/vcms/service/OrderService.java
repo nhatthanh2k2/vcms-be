@@ -56,13 +56,15 @@ public class OrderService {
 
     private final PackageDetailService packageDetailService;
 
+    private final VaccineBatchService vaccineBatchService;
+
     public OrderService(OrderRepository orderRepository, DateService dateService,
                         VaccineBatchMapper vaccineBatchMapper, CustomerService customerService,
                         OrderDetailService orderDetailService, BatchDetailService batchDetailService,
                         VaccinePackageService vaccinePackageService, VaccinePackageMapper vaccinePackageMapper,
                         VaccineService vaccineService, OrderMapper orderMapper,
                         PackageDetailService packageDetailService, OrderDetailRepository orderDetailRepository,
-                        VaccineMapper vaccineMapper) {
+                        VaccineMapper vaccineMapper, VaccineBatchService vaccineBatchService) {
         this.orderRepository = orderRepository;
         this.dateService = dateService;
         this.vaccineBatchMapper = vaccineBatchMapper;
@@ -76,6 +78,15 @@ public class OrderService {
         this.packageDetailService = packageDetailService;
         this.orderDetailRepository = orderDetailRepository;
         this.vaccineMapper = vaccineMapper;
+        this.vaccineBatchService = vaccineBatchService;
+    }
+
+    public BatchDetail findBatchDetailByVaccine(Vaccine targetVaccine) {
+        List<BatchDetail> batchDetailList = vaccineBatchService.getDetailListOfSampleBatch();
+        return batchDetailList.stream()
+                .filter(batchDetail -> batchDetail.getVaccine().equals(targetVaccine))
+                .findFirst()
+                .orElse(null);
     }
 
     public List<OrderDetailResponse> getDetailByOrderId(Long orderId) {
@@ -86,11 +97,11 @@ public class OrderService {
         for (OrderDetail detail : orderDetailList) {
             OrderDetailResponse orderDetailResponse = new OrderDetailResponse();
             orderDetailResponse.setOrderDetailId(detail.getOrderDetailId());
-            if (detail.getBatchDetail() != null) {
+            if (detail.getVaccine() != null) {
                 BatchDetailResponse batchDetailResponse = vaccineBatchMapper.toBatchDetailResponse(
-                        detail.getBatchDetail());
+                        findBatchDetailByVaccine(detail.getVaccine()));
                 batchDetailResponse.setVaccineResponse(
-                        vaccineMapper.toVaccineResponse(detail.getBatchDetail().getVaccine()));
+                        vaccineMapper.toVaccineResponse(detail.getVaccine()));
                 orderDetailResponse.setBatchDetailResponse(batchDetailResponse);
                 orderDetailResponse.setVaccinePackageResponse(null);
             }
@@ -140,29 +151,8 @@ public class OrderService {
         for (int i = 0; i < vaccineIdList.size(); i++) {
             PackageDetail packageDetail = new PackageDetail();
             Vaccine vaccine = vaccineService.getVaccineByVaccineId(vaccineIdList.get(i));
-            List<BatchDetail> batchDetailList = batchDetailService.getBatchDetailByVaccine(vaccine);
-            int vaccinePrice = 0;
-            if (batchDetailList.size() == 1) {
-                BatchDetail batchDetail = batchDetailList.getFirst();
-                vaccinePrice = batchDetail.getBatchDetailVaccinePrice();
-            }
-            else if (batchDetailList.size() > 1) {
-
-                int adultPrice = Math.max(
-                        batchDetailList.get(0).getBatchDetailVaccinePrice(),
-                        batchDetailList.get(1).getBatchDetailVaccinePrice());
-                int childPrice = Math.min(
-                        batchDetailList.get(0).getBatchDetailVaccinePrice(),
-                        batchDetailList.get(1).getBatchDetailVaccinePrice());
-
-                if ("ADULT".equals(customVaccinepackage.getVaccinePackageType())) {
-                    vaccinePrice = adultPrice;
-                }
-                else {
-                    vaccinePrice = childPrice;
-                }
-            }
-
+            BatchDetail batchDetail = findBatchDetailByVaccine(vaccine);
+            int vaccinePrice = batchDetail.getBatchDetailVaccinePrice();
             packageDetail.setVaccine(vaccine);
             packageDetail.setVaccinePackage(customVaccinepackage);
             packageDetail.setDoseCount(doseCountList.get(i));
@@ -172,7 +162,6 @@ public class OrderService {
         customVaccinepackage.setVaccinePackageCreateAt(dateService.getDateTimeNow());
         customVaccinepackage.setVaccinePackageUpdateAt(dateService.getDateTimeNow());
         customVaccinepackage.setVaccinePackagePrice(totalPrice);
-
         vaccinePackageService.saveVaccinePackage(customVaccinepackage);
         packageDetailService.insertAllPackageDetail(packageDetailList);
         // tao order
@@ -197,7 +186,7 @@ public class OrderService {
         List<OrderDetail> orderDetailList = new ArrayList<>();
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setVaccinePackage(customVaccinepackage);
-        orderDetail.setBatchDetail(null);
+        orderDetail.setVaccine(null);
         orderDetailList.add(orderDetail);
         orderRepository.save(order);
         orderDetail.setOrder(order);
@@ -228,15 +217,14 @@ public class OrderService {
         if (request.getInjectionType().equals(InjectionType.SINGLE)) {
             batchDetail = batchDetailService.getBatchDetailById(request.getBatchDetailSelected());
             total = batchDetail.getBatchDetailVaccinePrice();
-            vaccinePackage = null;
-            orderDetail.setBatchDetail(batchDetail);
+            orderDetail.setVaccine(batchDetail.getVaccine());
 
         }
         else {
             vaccinePackage = vaccinePackageService.getVaccinePackageById(request.getPackageSelected());
             total = vaccinePackage.getVaccinePackagePrice();
             orderDetail.setVaccinePackage(vaccinePackage);
-            batchDetail = null;
+
         }
         order.setOrderDate(dateService.getDateNow());
         order.setOrderInjectionDate(request.getInjectionDate());
@@ -276,7 +264,7 @@ public class OrderService {
             for (BatchDetail batchDetail : batchDetailList) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
-                orderDetail.setBatchDetail(batchDetail);
+                orderDetail.setVaccine(batchDetail.getVaccine());
                 orderDetail.setVaccinePackage(null);
                 orderDetailList.add(orderDetail);
             }
@@ -284,7 +272,7 @@ public class OrderService {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
                 orderDetail.setVaccinePackage(vaccinePackage);
-                orderDetail.setBatchDetail(null);
+                orderDetail.setVaccine(null);
                 orderDetailList.add(orderDetail);
             }
             order.setOrderDetailList(orderDetailList);
@@ -293,7 +281,7 @@ public class OrderService {
             return orderMapper.toOrderResponse(order);
         }
         catch (Exception exception) {
-            return new OrderResponse();
+            throw new AppException(ErrorCode.CREATE_FAILED);
         }
     }
 
@@ -320,7 +308,7 @@ public class OrderService {
             for (BatchDetail batchDetail : batchDetailList) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
-                orderDetail.setBatchDetail(batchDetail);
+                orderDetail.setVaccine(batchDetail.getVaccine());
                 orderDetail.setVaccinePackage(null);
                 orderDetailList.add(orderDetail);
             }
@@ -328,7 +316,7 @@ public class OrderService {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder(order);
                 orderDetail.setVaccinePackage(vaccinePackage);
-                orderDetail.setBatchDetail(null);
+                orderDetail.setVaccine(null);
                 orderDetailList.add(orderDetail);
             }
             order.setOrderDetailList(orderDetailList);

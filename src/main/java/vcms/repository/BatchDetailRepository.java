@@ -10,5 +10,7 @@ import java.util.List;
 public interface BatchDetailRepository extends JpaRepository<BatchDetail, Long> {
     List<BatchDetail> findAllByVaccineBatch(VaccineBatch vaccineBatch);
 
-    List<BatchDetail> findByVaccine(Vaccine vaccine);
+    List<BatchDetail> findAllByVaccine(Vaccine vaccine);
+
+    BatchDetail findByVaccine(Vaccine vaccine);
 }

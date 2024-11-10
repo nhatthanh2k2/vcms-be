@@ -23,8 +23,8 @@ public class OrderDetail {
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "batch_detail_id")
-    private BatchDetail batchDetail;
+    @JoinColumn(name = "vaccine_id")
+    private Vaccine vaccine;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccine_package_id")

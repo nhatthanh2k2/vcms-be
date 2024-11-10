@@ -17,8 +17,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT v.vaccineName, COUNT(od) FROM Order o " +
             "JOIN o.orderDetailList od " +
-            "JOIN od.batchDetail bd " +
-            "JOIN bd.vaccine v " +
+
+            "JOIN od.vaccine v " +
             "WHERE o.orderInjectionDate BETWEEN :startDate AND :endDate " +
             "GROUP BY v.vaccineName")
     List<Object[]> countVaccinesInOrders(@Param("startDate") LocalDate startDate,
@@ -27,7 +27,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT vp.vaccinePackageName, COUNT(od) FROM Order o " +
             "JOIN o.orderDetailList od " +
-            "JOIN od.vaccinePackage vp " + // Lấy những đơn hàng có gói tiêm
+            "JOIN od.vaccinePackage vp " +
             "WHERE o.orderInjectionDate BETWEEN :startDate AND :endDate " +
             "GROUP BY vp.vaccinePackageName")
     List<Object[]> countPackagesInOrders(@Param("startDate") LocalDate startDate,

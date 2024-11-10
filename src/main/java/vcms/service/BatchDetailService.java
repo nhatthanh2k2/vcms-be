@@ -24,8 +24,9 @@ public class BatchDetailService {
                 ErrorCode.NOT_EXISTED));
     }
 
-    public List<BatchDetail> getBatchDetailByVaccine(Vaccine vaccine) {
-        return batchDetailRepository.findByVaccine(vaccine);
+
+    public List<BatchDetail> getBatchDetailListByVaccine(Vaccine vaccine) {
+        return batchDetailRepository.findAllByVaccine(vaccine);
     }
 
     public List<BatchDetail> getAllBatchDetailByBatchDetailIdList(List<Long> batchDetailIds) {
@@ -34,6 +35,11 @@ public class BatchDetailService {
 
     public List<BatchDetail> getAllBatchDetailByVaccineBatch(VaccineBatch batch) {
         return batchDetailRepository.findAllByVaccineBatch(batch);
+    }
+
+
+    public BatchDetail getBatchDetailByVaccine(Vaccine vaccine) {
+        return batchDetailRepository.findByVaccine(vaccine);
     }
 
     public void updateVaccinePrice(UpdateVaccinePriceRequest request) {

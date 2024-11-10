@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "batch_details")
@@ -46,12 +44,5 @@ public class BatchDetail {
     @JoinColumn(name = "vaccine_id")
     private Vaccine vaccine;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "batchDetail", orphanRemoval = true)
-    private List<Appointment> appointmentList = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "batchDetail", orphanRemoval = true)
-    private List<OrderDetail> orderDetailList = new ArrayList<>();
 
 }

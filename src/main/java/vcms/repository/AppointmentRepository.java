@@ -17,8 +17,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findAllByAppointmentStatus(AppointmentStatus status);
 
     @Query("SELECT v.vaccineName, COUNT(a) FROM Appointment a " +
-            "JOIN a.batchDetail bd " +
-            "JOIN bd.vaccine v " +
+            "JOIN a.vaccine v " +
             "WHERE a.appointmentInjectionDate BETWEEN :startDate AND :endDate " +
             "AND a.vaccinePackage IS NULL " +  // Chỉ lấy những cuộc hẹn có vắc xin
             "GROUP BY v.vaccineName")
@@ -28,7 +27,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT vp.vaccinePackageName, COUNT(a) FROM Appointment a " +
             "JOIN a.vaccinePackage vp " +  // Lấy những cuộc hẹn có gói tiêm
             "WHERE a.appointmentInjectionDate BETWEEN :startDate AND :endDate " +
-            "AND a.batchDetail IS NULL " +  // Chỉ lấy những cuộc hẹn có gói tiêm
+            "AND a.vaccine IS NULL " +  // Chỉ lấy những cuộc hẹn có gói tiêm
             "GROUP BY vp.vaccinePackageName")
     List<Object[]> countPackagesInAppointments(@Param("startDate") LocalDate startDate,
                                                @Param("endDate") LocalDate endDate);

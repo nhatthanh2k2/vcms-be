@@ -1,6 +1,5 @@
 package vcms.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -79,13 +78,11 @@ public class Appointment {
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "batch_detail_id")
-    @JsonBackReference
-    private BatchDetail batchDetail;
+    @JoinColumn(name = "vaccine_id")
+    private Vaccine vaccine;
 
     @ManyToOne
     @JoinColumn(name = "vaccine_package_id")
-    @JsonBackReference
     private VaccinePackage vaccinePackage;
 
 }

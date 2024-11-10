@@ -1,7 +1,6 @@
 package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -96,15 +95,22 @@ public class Vaccine {
 
     @ManyToOne
     @JoinColumn(name = "disease_id")
-    @JsonIgnore
     private Disease disease;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "vaccine", orphanRemoval = true)
     private List<BatchDetail> batchDetailList = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "vaccine", orphanRemoval = true)
+    private List<Appointment> appointmentList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "vaccine", orphanRemoval = true)
+    private List<OrderDetail> orderDetailList = new ArrayList<>();
+
     @OneToMany(mappedBy = "vaccine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PackageDetail> packageDetails = new ArrayList<>();
+    private List<PackageDetail> packageDetailList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "vaccine", orphanRemoval = true)
