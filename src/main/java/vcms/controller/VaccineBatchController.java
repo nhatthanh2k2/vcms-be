@@ -11,7 +11,6 @@ import vcms.model.VaccineBatch;
 import vcms.service.VaccineBatchService;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -53,15 +52,10 @@ public class VaccineBatchController {
     @PostMapping("/add")
     public ApiResponse<VaccineBatchResponse> addNewBatch(
             @RequestParam("vaccineBatchNumber") String vaccineBatchNumber,
-            @RequestParam("vaccineBatchQuantity") int vaccineBatchQuantity,
-            @RequestParam("vaccineBatchValue") BigInteger vaccineBatchValue,
             @RequestParam("batchDetailFile") MultipartFile batchDetailFile) throws IOException {
 
         VaccineBatchCreationRequest vaccineBatchCreationRequest = new VaccineBatchCreationRequest();
         vaccineBatchCreationRequest.setVaccineBatchNumber(vaccineBatchNumber);
-        vaccineBatchCreationRequest.setVaccineBatchQuantity(
-                vaccineBatchQuantity);
-        vaccineBatchCreationRequest.setVaccineBatchValue(vaccineBatchValue);
         vaccineBatchCreationRequest.setBatchDetailFile(batchDetailFile);
 
         VaccineBatch savedBatch = vaccineBatchService.insertVaccineBatch(vaccineBatchCreationRequest);

@@ -20,7 +20,6 @@ import vcms.utils.DateService;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.HashSet;
 
@@ -113,8 +112,6 @@ public class ApplicationInitConfig {
         return args -> {
             VaccineBatchCreationRequest request = new VaccineBatchCreationRequest();
             request.setVaccineBatchNumber("B-00-0000");
-            request.setVaccineBatchQuantity(49);
-            request.setVaccineBatchValue(new BigInteger("9691500000"));
             String filePath = "D:\\VCMS_Data\\Batch-00.xlsx";
             File file = new File(filePath);
             MultipartFile multipartFile = convertToMultipartFile(file);

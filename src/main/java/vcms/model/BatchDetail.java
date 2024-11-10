@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,17 +37,6 @@ public class BatchDetail {
     @Column(name = "batch_det_exp_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailExpirationDate;
-
-    @Column(name = "batch_det_createAt")
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime batchDetailCreateAt;
-
-    @Column(name = "batch_det_updateAt")
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime batchDetailUpdateAt;
-
-    @Column(name = "batch_det_vac_type", length = 2000)
-    private String vaccineType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vaccineBatch_id")

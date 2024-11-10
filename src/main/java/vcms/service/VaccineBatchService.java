@@ -22,11 +22,10 @@ import vcms.repository.VaccineBatchRepository;
 import vcms.utils.DateService;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -132,16 +131,90 @@ public class VaccineBatchService {
         vaccineBatchRepository.save(vaccineBatch);
 
         MultipartFile file = request.getBatchDetailFile();
-        List<BatchDetail> batchDetails = readBatchDetailsFromExcel(file, vaccineBatch);
+        //List<BatchDetail> batchDetails = readBatchDetailsFromExcel(file, vaccineBatch);
+        Map<String, Object> result = readBatchDetailsFromExcel(file, vaccineBatch);
 
+        List<BatchDetail> batchDetails = (List<BatchDetail>) result.get("batchDetails");
+
+        int uniqueVaccineCount = (int) result.get("uniqueVaccineCount");
+        BigInteger totalCost = (BigInteger) result.get("totalCost");
+        vaccineBatch.setVaccineBatchQuantity(uniqueVaccineCount);
+        vaccineBatch.setVaccineBatchValue(totalCost);
+        vaccineBatchRepository.save(vaccineBatch);
         batchDetailService.insertBatchDetailList(batchDetails);
 
         return vaccineBatch;
     }
 
 
-    private List<BatchDetail> readBatchDetailsFromExcel(MultipartFile file,
-                                                        VaccineBatch vaccineBatch) throws IOException {
+//    private List<BatchDetail> readBatchDetailsFromExcel(MultipartFile file,
+//                                                        VaccineBatch vaccineBatch) throws IOException {
+//        List<BatchDetail> batchDetails = new ArrayList<>();
+//        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+//        XSSFSheet sheet = workbook.getSheetAt(0);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//
+//        VaccineBatch exampleBatch = vaccineBatchRepository.findById(1L)
+//                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+//        List<BatchDetailResponse> batchDetailResponseList = getDetailsOfBatch(1L);
+//        Set<String> exampleVaccineCodeList = batchDetailResponseList.stream()
+//                .map(detail -> detail.getVaccineResponse().getVaccineCode())
+//                .collect(Collectors.toSet());
+//        Set<String> uniqueVaccineCodes = new HashSet<>();
+//        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+//            XSSFRow row = sheet.getRow(i);
+//
+//            if (row == null || isRowEmpty(row)) {
+//                continue;
+//            }
+//
+//            BatchDetail batchDetail = new BatchDetail();
+//
+//            String vaccineCode = row.getCell(0).getStringCellValue();
+//            int quantity = (int) row.getCell(2).getNumericCellValue();
+//            int price = (int) row.getCell(3).getNumericCellValue();
+//            LocalDate manufactureDate = getLocalDateFromCell(row.getCell(4),
+//                                                             formatter);
+//            LocalDate expirationDate = getLocalDateFromCell(row.getCell(5),
+//                                                            formatter);
+//
+//            Vaccine vaccine = vaccineService.getVaccineByVaccineCode(vaccineCode);
+//            if (vaccine == null) {
+//                throw new AppException(ErrorCode.NOT_EXISTED);
+//            }
+//
+//            batchDetail.setVaccine(vaccine);
+//            batchDetail.setVaccineBatch(vaccineBatch);
+//            batchDetail.setBatchDetailVaccineQuantity(quantity);
+//            batchDetail.setBatchDetailVaccinePrice(price);
+//            batchDetail.setBatchDetailManufactureDate(manufactureDate);
+//            batchDetail.setBatchDetailExpirationDate(expirationDate);
+//            batchDetails.add(batchDetail);
+//
+//            if (!exampleVaccineCodeList.contains(vaccineCode)) {
+//                BatchDetail exampleBatchDetail = new BatchDetail();
+//                exampleBatchDetail.setVaccine(vaccine);
+//                exampleBatchDetail.setVaccineBatch(exampleBatch);
+//                exampleBatchDetail.setBatchDetailVaccineQuantity(quantity);
+//                exampleBatchDetail.setBatchDetailVaccinePrice(price);
+//                exampleBatchDetail.setBatchDetailManufactureDate(manufactureDate);
+//                exampleBatchDetail.setBatchDetailExpirationDate(expirationDate);
+//
+//                batchDetailService.saveBatchDetail(exampleBatchDetail);
+//
+//                exampleVaccineCodeList.add(vaccineCode);
+//            }
+//
+//            uniqueVaccineCodes.add(vaccineCode);
+//        }
+//
+//        workbook.close();
+//
+//        return batchDetails;
+//    }
+
+    private Map<String, Object> readBatchDetailsFromExcel(MultipartFile file,
+                                                          VaccineBatch vaccineBatch) throws IOException {
         List<BatchDetail> batchDetails = new ArrayList<>();
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
         XSSFSheet sheet = workbook.getSheetAt(0);
@@ -153,7 +226,8 @@ public class VaccineBatchService {
         Set<String> exampleVaccineCodeList = batchDetailResponseList.stream()
                 .map(detail -> detail.getVaccineResponse().getVaccineCode())
                 .collect(Collectors.toSet());
-
+        Set<String> uniqueVaccineCodes = new HashSet<>();
+        BigInteger totalCost = BigInteger.ZERO;
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             XSSFRow row = sheet.getRow(i);
 
@@ -170,7 +244,6 @@ public class VaccineBatchService {
                                                              formatter);
             LocalDate expirationDate = getLocalDateFromCell(row.getCell(5),
                                                             formatter);
-            String vaccineTypeStr = row.getCell(6).getStringCellValue();
 
             Vaccine vaccine = vaccineService.getVaccineByVaccineCode(vaccineCode);
             if (vaccine == null) {
@@ -183,32 +256,33 @@ public class VaccineBatchService {
             batchDetail.setBatchDetailVaccinePrice(price);
             batchDetail.setBatchDetailManufactureDate(manufactureDate);
             batchDetail.setBatchDetailExpirationDate(expirationDate);
-            batchDetail.setVaccineType(vaccineTypeStr);
-            batchDetail.setBatchDetailCreateAt(dateService.getDateTimeNow());
-            batchDetail.setBatchDetailUpdateAt(dateService.getDateTimeNow());
             batchDetails.add(batchDetail);
 
-//            if (!exampleVaccineCodeList.contains(vaccineCode)) {
-//                BatchDetail exampleBatchDetail = new BatchDetail();
-//                exampleBatchDetail.setVaccine(vaccine);
-//                exampleBatchDetail.setVaccineBatch(exampleBatch);
-//                exampleBatchDetail.setBatchDetailVaccineQuantity(quantity);
-//                exampleBatchDetail.setBatchDetailVaccinePrice(price);
-//                exampleBatchDetail.setBatchDetailManufactureDate(manufactureDate);
-//                exampleBatchDetail.setBatchDetailExpirationDate(expirationDate);
-//                exampleBatchDetail.setVaccineType(vaccineTypeStr);
-//                exampleBatchDetail.setBatchDetailCreateAt(dateService.getDateTimeNow());
-//                exampleBatchDetail.setBatchDetailUpdateAt(dateService.getDateTimeNow());
-//
-//                batchDetailService.saveBatchDetail(exampleBatchDetail);
-//
-//                exampleVaccineCodeList.add(vaccineCode);
-//            }
+            if (!exampleVaccineCodeList.contains(vaccineCode)) {
+                BatchDetail exampleBatchDetail = new BatchDetail();
+                exampleBatchDetail.setVaccine(vaccine);
+                exampleBatchDetail.setVaccineBatch(exampleBatch);
+                exampleBatchDetail.setBatchDetailVaccineQuantity(quantity);
+                exampleBatchDetail.setBatchDetailVaccinePrice(price);
+                exampleBatchDetail.setBatchDetailManufactureDate(manufactureDate);
+                exampleBatchDetail.setBatchDetailExpirationDate(expirationDate);
+                batchDetailService.saveBatchDetail(exampleBatchDetail);
+                exampleVaccineCodeList.add(vaccineCode);
+            }
+            BigInteger itemCost = BigInteger.valueOf(quantity).multiply(BigInteger.valueOf(price));
+            totalCost = totalCost.add(itemCost);
+            uniqueVaccineCodes.add(vaccineCode);
         }
+
         workbook.close();
 
-        return batchDetails;
+        Map<String, Object> result = new HashMap<>();
+        result.put("batchDetails", batchDetails);
+        result.put("uniqueVaccineCount", uniqueVaccineCodes.size());
+        result.put("totalCost", totalCost);
+        return result;
     }
+
 
     private LocalDate getLocalDateFromCell(XSSFCell cell,
                                            DateTimeFormatter formatter) {
