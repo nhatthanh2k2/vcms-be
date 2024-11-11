@@ -72,6 +72,11 @@ public class EmployeeService {
                         .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED)));
     }
 
+    public Employee getEmployeeByEmpId(Long empId) {
+        return employeeRepository.findById(empId)
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
+    }
+
     public Employee getEmployeeByUsername(String username) {
         return employeeRepository.findByEmployeeUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_EXISTED));
