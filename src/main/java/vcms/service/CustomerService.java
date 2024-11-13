@@ -14,7 +14,6 @@ import vcms.repository.CustomerRepository;
 import vcms.utils.DateService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +61,6 @@ public class CustomerService {
                 throw new AppException(ErrorCode.CUSTOMER_EXISTED);
             }
             Customer customer = customerMapper.toCustomer(request);
-            LocalDateTime createDateTime = dateService.getDateTimeNow();
-            customer.setCustomerCreateAt(createDateTime);
-            customer.setCustomerUpdateAt(createDateTime);
             Relatives relatives = new Relatives();
             relatives.setRelativesFullName(request.getRelativesFullName());
             relatives.setRelativesPhone(request.getRelativesPhone());
@@ -94,8 +90,6 @@ public class CustomerService {
             Customer customer = customerRepository.findById(customerId).orElseThrow(
                     () -> new AppException(ErrorCode.CUSTOMER_NOT_EXISTED));
             customerMapper.updateCustomer(customer, request);
-            LocalDateTime updateDateTime = dateService.getDateTimeNow();
-            customer.setCustomerUpdateAt(updateDateTime);
             return customerMapper.toCustomerResponse(
                     customerRepository.save(customer));
         }

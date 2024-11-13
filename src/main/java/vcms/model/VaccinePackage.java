@@ -33,7 +33,7 @@ public class VaccinePackage {
     @Column(name = "vac_pkg_type")
     private String vaccinePackageType;
 
-    @Column(name = "is_cus_pack")
+    @Column(name = "vac_pkg_is_custom")
     private int isCustomPackage;
 
     @Column(name = "vac_pkg_createAt")

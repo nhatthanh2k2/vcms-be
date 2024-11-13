@@ -9,7 +9,6 @@ import lombok.Setter;
 import vcms.enums.Gender;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,14 +54,6 @@ public class Customer {
 
     @Column(name = "cust_ward")
     private String customerWard;
-
-    @Column(name = "cust_createAt")
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime customerCreateAt;
-
-    @Column(name = "cust_updateAt")
-    @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
-    private LocalDateTime customerUpdateAt;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Relatives relatives;

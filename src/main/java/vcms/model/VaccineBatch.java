@@ -31,7 +31,7 @@ public class VaccineBatch {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate vaccineBatchImportDate;
 
-    @Column(name = "vac_batch_qty")
+    @Column(name = "vac_batch_quantity")
     private int vaccineBatchQuantity;
 
     @Column(name = "vac_batch_value")

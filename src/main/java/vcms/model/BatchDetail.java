@@ -22,7 +22,7 @@ public class BatchDetail {
     @Column(name = "batch_det_id")
     private Long batchDetailId;
 
-    @Column(name = "batch_det_vac_qty")
+    @Column(name = "batch_det_vac_quantity")
     private int batchDetailVaccineQuantity;
 
     @Column(name = "batch_det_vac_price")

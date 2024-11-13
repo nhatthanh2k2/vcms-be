@@ -59,7 +59,7 @@ public class Vaccine {
 
     // Phản ứng sau tiêm
     @Lob
-    @Column(name = "vac_post_inj_react", columnDefinition = "TEXT")
+    @Column(name = "vac_reaction", columnDefinition = "TEXT")
     private String vaccineReaction;
 
     //So mui tre em
@@ -77,7 +77,7 @@ public class Vaccine {
 
     //Phac do tiem
     @Lob
-    @Column(name = "vac_inj_sched", columnDefinition = "TEXT")
+    @Column(name = "vac_inj_schedule", columnDefinition = "TEXT")
     private String vaccineInjectionSchedule;
 
     // Đối tượng

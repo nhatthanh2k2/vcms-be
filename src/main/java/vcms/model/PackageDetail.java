@@ -18,6 +18,9 @@ public class PackageDetail {
     @Column(name = "pkg_det_id")
     private Long vaccinePkgDetailId;
 
+    @Column(name = "pkg_det_dose_count")
+    private int doseCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vac_pkg_id")
     private VaccinePackage vaccinePackage;
@@ -26,6 +29,5 @@ public class PackageDetail {
     @JoinColumn(name = "vaccine_id")
     private Vaccine vaccine;
 
-    @Column(name = "dose_count")
-    private int doseCount;
+
 }

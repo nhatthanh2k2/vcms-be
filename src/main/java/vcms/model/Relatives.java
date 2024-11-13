@@ -21,7 +21,7 @@ public class Relatives {
     @Column(name = "rel_full_name")
     private String relativesFullName;
 
-    @Column(name = "rels_phone")
+    @Column(name = "rel_phone")
     private String relativesPhone;
 
     @Column(name = "rel_relationship")

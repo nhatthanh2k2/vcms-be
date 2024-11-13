@@ -1,7 +1,6 @@
 package vcms.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,7 +36,6 @@ public class Disease {
 
     @OneToMany(mappedBy = "disease", fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonManagedReference
     private List<Vaccine> vaccineList = new ArrayList<>();
 
     public Disease(String diseaseName, LocalDateTime diseaseCreateAt,
