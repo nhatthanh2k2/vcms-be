@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewsResponse {
-    private Long news_id;
+    private Long newsId;
 
     private String newsTitle;
 
@@ -27,5 +27,5 @@ public class NewsResponse {
     private String employeeFullName;
 
     private String employeeAvatar;
-    
+
 }

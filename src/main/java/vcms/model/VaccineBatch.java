@@ -32,7 +32,7 @@ public class VaccineBatch {
     private LocalDate vaccineBatchImportDate;
 
     @Column(name = "vac_batch_quantity")
-    private int vaccineBatchQuantity;
+    private Integer vaccineBatchQuantity;
 
     @Column(name = "vac_batch_value")
     private BigInteger vaccineBatchValue;

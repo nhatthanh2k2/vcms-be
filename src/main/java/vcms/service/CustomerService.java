@@ -420,6 +420,15 @@ public class CustomerService {
         customerRequestList.add(teen4);
         customerRequestList.add(teen5);
 
+        CustomerRequest customer = new CustomerRequest(
+                "Đỗ Nhật Thanh", Gender.MALE, LocalDate.of(2002, 8, 19),
+                "thanhdost2002@gmail.com", "0363903404",
+                "Tỉnh Sóc Trăng", "Huyện Long Phú", "Xã Phú Hữu",
+                "Đỗ Nhật Thanh", "0363903404", "Bản thân"
+        );
+
+        customerRequestList.add(customer);
+
         try {
             for (CustomerRequest request : customerRequestList) {
                 createCustomer(request);

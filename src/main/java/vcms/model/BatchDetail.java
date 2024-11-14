@@ -23,10 +23,10 @@ public class BatchDetail {
     private Long batchDetailId;
 
     @Column(name = "batch_det_vac_quantity")
-    private int batchDetailVaccineQuantity;
+    private Integer batchDetailVaccineQuantity;
 
     @Column(name = "batch_det_vac_price")
-    private int batchDetailVaccinePrice;
+    private Integer batchDetailVaccinePrice;
 
     @Column(name = "batch_det_manuf_date")
     @JsonFormat(pattern = "dd-MM-yyyy")

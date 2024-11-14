@@ -15,7 +15,6 @@ import vcms.repository.NewsRepository;
 import vcms.utils.DateService;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -81,6 +80,19 @@ public class NewsService {
         return newsResponseList;
     }
 
+    public List<NewsResponse> getAllMyNews(Long employeeId) {
+        Employee employee = employeeService.getEmployeeByEmpId(employeeId);
+        return newsRepository.findAllByEmployee(employee)
+                .stream()
+                .map(newsMapper::toNewsResponse).toList();
+    }
+
+    public NewsResponse getMyNewsDetailById(Long newsId) {
+        News news = newsRepository.findById(newsId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        return newsMapper.toNewsResponse(news);
+    }
+
     public NewsResponse updateNewsStatus(NewsUpdateRequest request) {
         News news = newsRepository.findById(request.getNewsId())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
@@ -90,41 +102,6 @@ public class NewsService {
 
     public void deleteNews(Long newsId) {
         newsRepository.deleteById(newsId);
-    }
-
-    public String saveNewsImage(MultipartFile newsImageFile) {
-        String contentType = newsImageFile.getContentType();
-        String fileExtension = "";
-
-        // Xác định phần mở rộng dựa trên loại ảnh
-        if ("image/jpeg".equals(contentType)) {
-            fileExtension = ".jpg";
-        }
-        else if ("image/png".equals(contentType)) {
-            fileExtension = ".png";
-        }
-        else {
-            throw new AppException(ErrorCode.INVALID_IMAGE);
-        }
-
-        // Lấy tên tệp gốc và thêm phần mở rộng (nếu cần)
-        String originalFilename = newsImageFile.getOriginalFilename();
-        if (originalFilename != null && !originalFilename.endsWith(fileExtension)) {
-            originalFilename += fileExtension;
-        }
-
-        // Xác định đường dẫn lưu tệp ảnh
-        Path newsFolderPath = Paths.get(UPLOAD_NEWS_FOLDER).toAbsolutePath().normalize();
-        String newFilePath = newsFolderPath.resolve(originalFilename).toString();
-
-        try {
-            // Lưu ảnh vào thư mục đã chỉ định
-            newsImageFile.transferTo(new File(newFilePath));
-            return originalFilename; // Trả về tên tệp để lưu vào cơ sở dữ liệu
-        }
-        catch (IOException ex) {
-            throw new AppException(ErrorCode.INVALID_IMAGE);
-        }
     }
 
     public NewsResponse createNews(NewsCreationRequest request) {
@@ -137,8 +114,27 @@ public class NewsService {
             Employee employee = employeeService.getEmployeeByEmpId(request.getEmployeeId());
             news.setEmployee(employee);
             news.setNewsStatus("PENDING");
-            String imageName = saveNewsImage(request.getNewsImage());
-            news.setNewsImage(imageName);
+            MultipartFile newsImageFile = request.getNewsImage();
+            String contentType = newsImageFile.getContentType();
+            String fileExtension = "";
+            if ("image/jpeg".equals(contentType)) {
+                fileExtension = ".jpg";
+            }
+            else if ("image/png".equals(contentType)) {
+                fileExtension = ".png";
+            }
+            else {
+                throw new AppException(ErrorCode.INVALID_IMAGE);
+            }
+
+            String originalFilename = newsImageFile.getOriginalFilename();
+            if (originalFilename != null && !originalFilename.endsWith(fileExtension)) {
+                originalFilename += fileExtension;
+            }
+            Path newsFolderPath = Paths.get(UPLOAD_NEWS_FOLDER).toAbsolutePath().normalize();
+            String newFilePath = newsFolderPath.resolve(originalFilename).toString();
+            newsImageFile.transferTo(new File(newFilePath));
+            news.setNewsImage(originalFilename);
             newsRepository.save(news);
             return newsMapper.toNewsResponse(news);
         }

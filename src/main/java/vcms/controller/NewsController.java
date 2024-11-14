@@ -40,6 +40,24 @@ public class NewsController {
                 .build();
     }
 
+    @GetMapping("/my-news/{employeeId}")
+    public ApiResponse<List<NewsResponse>> getAllMyNews(
+            @PathVariable("employeeId") Long employeeId
+    ) {
+        return ApiResponse.<List<NewsResponse>>builder()
+                .result(newsService.getAllMyNews(employeeId))
+                .build();
+    }
+
+    @GetMapping("my-news/detail/{newsId}")
+    public ApiResponse<NewsResponse> getMyNewsDetailById(
+            @PathVariable("newsId") Long newsId
+    ) {
+        return ApiResponse.<NewsResponse>builder()
+                .result(newsService.getMyNewsDetailById(newsId))
+                .build();
+    }
+
     @PostMapping("/create")
     public ApiResponse<NewsResponse> createNews(
             @ModelAttribute NewsCreationRequest newsRequest
