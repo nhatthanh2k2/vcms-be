@@ -10,6 +10,7 @@ import vcms.service.AppointmentService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -18,6 +19,17 @@ public class AppointmentController {
 
     public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
+    }
+
+    @GetMapping("/list/all")
+    public ApiResponse<Map<String, Object>> getAllAppointment(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+
+        return ApiResponse.<Map<String, Object>>builder()
+                .result(appointmentService.getAllAppointment(page, size))
+                .build();
     }
 
     @GetMapping("/list/injection-date")

@@ -40,6 +40,7 @@ public class SecurityConfig {
             "/api/vaccine-package/detail/*",
             "/api/vaccine-package/list-default",
             "/images/vaccines/*", "/images/avatars/*",
+            "/images/news/*",
             "/api/orders/detail/my-order/*"
     };
 

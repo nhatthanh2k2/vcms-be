@@ -12,6 +12,8 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+
+
     List<Appointment> findAllByAppointmentInjectionDate(LocalDate date);
 
     List<Appointment> findAllByAppointmentStatus(AppointmentStatus status);
@@ -19,15 +21,15 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT v.vaccineName, COUNT(a) FROM Appointment a " +
             "JOIN a.vaccine v " +
             "WHERE a.appointmentInjectionDate BETWEEN :startDate AND :endDate " +
-            "AND a.vaccinePackage IS NULL " +  // Chỉ lấy những cuộc hẹn có vắc xin
+            "AND a.vaccinePackage IS NULL " +
             "GROUP BY v.vaccineName")
     List<Object[]> countVaccinesInAppointments(@Param("startDate") LocalDate startDate,
                                                @Param("endDate") LocalDate endDate);
 
     @Query("SELECT vp.vaccinePackageName, COUNT(a) FROM Appointment a " +
-            "JOIN a.vaccinePackage vp " +  // Lấy những cuộc hẹn có gói tiêm
+            "JOIN a.vaccinePackage vp " +
             "WHERE a.appointmentInjectionDate BETWEEN :startDate AND :endDate " +
-            "AND a.vaccine IS NULL " +  // Chỉ lấy những cuộc hẹn có gói tiêm
+            "AND a.vaccine IS NULL " +
             "GROUP BY vp.vaccinePackageName")
     List<Object[]> countPackagesInAppointments(@Param("startDate") LocalDate startDate,
                                                @Param("endDate") LocalDate endDate);

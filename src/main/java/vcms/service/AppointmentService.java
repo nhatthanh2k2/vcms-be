@@ -1,5 +1,8 @@
 package vcms.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.AppointmentCreationRequest;
 import vcms.dto.request.AppointmentWithCustomerCodeRequest;
@@ -20,9 +23,7 @@ import vcms.model.*;
 import vcms.repository.AppointmentRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AppointmentService {
@@ -65,6 +66,23 @@ public class AppointmentService {
         this.vaccinePackageService = vaccinePackageService;
         this.vaccineMapper = vaccineMapper;
         this.vaccineBatchService = vaccineBatchService;
+    }
+
+    public Map<String, Object> getAllAppointment(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Appointment> appointmentPage = appointmentRepository.findAll(pageable);
+
+        List<AppointmentResponse> appointmentResponseList =
+                convertAppointmentListToAppointmentResponseList(appointmentPage.getContent());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("content", appointmentResponseList);
+        result.put("totalElements", appointmentPage.getTotalElements());
+        result.put("totalPages", appointmentPage.getTotalPages());
+        result.put("number", appointmentPage.getNumber());
+        result.put("size", appointmentPage.getSize());
+
+        return result;
     }
 
     public List<AppointmentResponse> getAppointmentListByInjectionDate(LocalDate injectionDate) {
