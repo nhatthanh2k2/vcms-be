@@ -209,32 +209,23 @@ public class VaccinePackageService {
         }
         vaccinePackage.setVaccinePackageCreateAt(dateService.getDateTimeNow());
         vaccinePackage.setVaccinePackageUpdateAt(dateService.getDateTimeNow());
-        vaccinePackage.setVaccinePackagePrice(totalPrice);
+        vaccinePackage.setVaccinePackagePrice((int) (totalPrice * 1.10));
         vaccinePackageRepository.save(vaccinePackage);
         packageDetailService.insertAllPackageDetail(packageDetailList);
     }
 
     private static int getVaccinePrice(List<BatchDetail> batchDetailList, VaccinePackage vaccinePackage,
                                        Vaccine vaccine) {
-        List<BatchDetail> matchingBatchDetails = batchDetailList.stream()
+        BatchDetail matchingBatchDetail = batchDetailList.stream()
                 .filter(batchDetail -> batchDetail.getVaccine().getVaccineId().equals(vaccine.getVaccineId()))
-                .toList();
+                .findFirst()
+                .orElse(null);
 
-        if (matchingBatchDetails.size() == 1) {
-            // Nếu chỉ có một BatchDetail, trả về giá của batch này
-            return matchingBatchDetails.getFirst().getBatchDetailVaccinePrice();
-        }
-        else if (matchingBatchDetails.size() == 2) {
-
-            int price1 = matchingBatchDetails.get(0).getBatchDetailVaccinePrice();
-            int price2 = matchingBatchDetails.get(1).getBatchDetailVaccinePrice();
-
-            return "ADULT".equals(vaccinePackage.getVaccinePackageType()) ? Math.max(price1, price2) : Math.min(price1,
-                                                                                                                price2);
+        if (matchingBatchDetail == null) {
+            return 0;
         }
 
-
-        return 0;
+        return matchingBatchDetail.getBatchDetailVaccinePrice();
     }
 
     public void insertInitialVaccinePackageData() {

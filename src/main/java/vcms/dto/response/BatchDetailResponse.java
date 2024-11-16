@@ -15,6 +15,8 @@ public class BatchDetailResponse {
 
     private int batchDetailVaccineQuantity;
 
+    private Integer batchDetailTotalVaccineQuantity;
+
     private int batchDetailVaccinePrice;
 
     @JsonFormat(pattern = "dd-MM-yyyy")

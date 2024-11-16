@@ -253,6 +253,7 @@ public class VaccineBatchService {
             batchDetail.setVaccine(vaccine);
             batchDetail.setVaccineBatch(vaccineBatch);
             batchDetail.setBatchDetailVaccineQuantity(quantity);
+            batchDetail.setBatchDetailTotalVaccineQuantity(quantity);
             batchDetail.setBatchDetailVaccinePrice(price);
             batchDetail.setBatchDetailManufactureDate(manufactureDate);
             batchDetail.setBatchDetailExpirationDate(expirationDate);
@@ -263,6 +264,7 @@ public class VaccineBatchService {
                 exampleBatchDetail.setVaccine(vaccine);
                 exampleBatchDetail.setVaccineBatch(exampleBatch);
                 exampleBatchDetail.setBatchDetailVaccineQuantity(quantity);
+                exampleBatchDetail.setBatchDetailTotalVaccineQuantity(quantity);
                 exampleBatchDetail.setBatchDetailVaccinePrice(price);
                 exampleBatchDetail.setBatchDetailManufactureDate(manufactureDate);
                 exampleBatchDetail.setBatchDetailExpirationDate(expirationDate);

@@ -25,6 +25,9 @@ public class BatchDetail {
     @Column(name = "batch_det_vac_quantity")
     private Integer batchDetailVaccineQuantity;
 
+    @Column(name = "batch_det_total_vac_quantity")
+    private Integer batchDetailTotalVaccineQuantity;
+
     @Column(name = "batch_det_vac_price")
     private Integer batchDetailVaccinePrice;
 
