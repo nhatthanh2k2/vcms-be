@@ -25,4 +25,9 @@ public interface VaccinationRecordRepository extends JpaRepository<VaccinationRe
     @Query("SELECT SUM(v.vaccinationRecordTotal) FROM VaccinationRecord v WHERE v.vaccinationRecordReceiptSource = 'APPOINTMENT' AND v.vaccinationRecordDate BETWEEN :startDate AND :endDate")
     Long sumTotalRevenueByPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
+    @Query("SELECT v FROM VaccinationRecord v WHERE v.vaccinationRecordReceiptSource = 'APPOINTMENT' AND  v.vaccinationRecordDate BETWEEN :startDate AND :endDate")
+    List<VaccinationRecord> getAllVaccinationRecordByDateAndSource(@Param("startDate") LocalDate startDate,
+                                                                   @Param("endDate") LocalDate endDate);
+
+
 }

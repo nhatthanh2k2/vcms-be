@@ -42,21 +42,24 @@ public class VaccinePackageService {
 
     private final VaccineBatchService vaccineBatchService;
 
+    private final BatchDetailService batchDetailService;
+
     public VaccinePackageService(
             VaccinePackageRepository vaccinePackageRepository,
             VaccinePackageMapper vaccinePackageMapper,
             DateService dateService, PackageDetailService packageDetailService,
             VaccineService vaccineService,
-            VaccineMapper vaccineMapper, DiseaseMapper diseaseMapper, VaccineBatchService vaccineBatchService) {
+            VaccineMapper vaccineMapper, DiseaseMapper diseaseMapper, VaccineBatchService vaccineBatchService,
+            BatchDetailService batchDetailService) {
         this.vaccinePackageRepository = vaccinePackageRepository;
         this.vaccinePackageMapper = vaccinePackageMapper;
         this.dateService = dateService;
         this.packageDetailService = packageDetailService;
         this.vaccineService = vaccineService;
-
         this.vaccineMapper = vaccineMapper;
         this.diseaseMapper = diseaseMapper;
         this.vaccineBatchService = vaccineBatchService;
+        this.batchDetailService = batchDetailService;
     }
 
     public List<VaccinePackageResponse> getAllVaccinePackage() {
@@ -227,6 +230,25 @@ public class VaccinePackageService {
 
         return matchingBatchDetail.getBatchDetailVaccinePrice();
     }
+
+    public Long calculateVaccinePackageCost(VaccinePackage vaccinePackage) {
+        Long packageCost = 0L;
+
+        // Lặp qua từng chi tiết gói
+        for (PackageDetail detail : vaccinePackage.getPackageDetailList()) {
+            Vaccine vaccine = detail.getVaccine();
+            int doseCount = detail.getDoseCount();
+
+            // Lấy giá nhập từ lô mới nhất
+            BatchDetail latestBatchDetail = batchDetailService.getLatestBatchDetail(vaccine);
+            if (latestBatchDetail != null) {
+                packageCost += (long) latestBatchDetail.getBatchDetailVaccinePrice() * doseCount;
+            }
+        }
+
+        return packageCost;
+    }
+
 
     public void insertInitialVaccinePackageData() {
         List<VaccinePackageCreationRequest> creationRequestList = new ArrayList<>();

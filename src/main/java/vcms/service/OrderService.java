@@ -333,4 +333,28 @@ public class OrderService {
         Long orderRevenue = orderRepository.sumTotalRevenueByPeriod(startDate, endDate);
         return orderRevenue != null ? orderRevenue : 0L;
     }
+
+    public Long calculateOrderTotalCost(LocalDate startDate, LocalDate endDate) {
+        List<Order> orders = orderRepository.findAllOrdersByDateRange(startDate, endDate);
+        Long totalCost = 0L;
+
+        for (Order order : orders) {
+            for (OrderDetail detail : order.getOrderDetailList()) {
+                if (detail.getVaccine() != null) {
+                    // Nếu là vắc xin
+                    BatchDetail latestBatch = batchDetailService.getLatestBatchDetail(detail.getVaccine());
+                    if (latestBatch != null) {
+                        totalCost += (long) latestBatch.getBatchDetailVaccinePrice();
+                    }
+                }
+                else if (detail.getVaccinePackage() != null) {
+                    // Nếu là gói vắc xin
+                    totalCost += vaccinePackageService.calculateVaccinePackageCost(detail.getVaccinePackage());
+                }
+            }
+        }
+
+        return totalCost;
+    }
+
 }

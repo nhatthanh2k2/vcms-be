@@ -53,4 +53,11 @@ public class RevenueController {
                 .build();
     }
 
+    @GetMapping("/year/last-five-years")
+    public ApiResponse<List<TimePeriodRevenueResponse>> calculateAnnualRevenueForLastFiveYears() {
+        return ApiResponse.<List<TimePeriodRevenueResponse>>builder()
+                .result(revenueService.calculateAnnualRevenueForLastFiveYears())
+                .build();
+    }
+
 }

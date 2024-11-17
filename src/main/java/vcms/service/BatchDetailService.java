@@ -1,5 +1,7 @@
 package vcms.service;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.UpdateVaccinePriceRequest;
 import vcms.exception.AppException;
@@ -55,5 +57,15 @@ public class BatchDetailService {
 
     public void saveBatchDetail(BatchDetail batchDetail) {
         batchDetailRepository.save(batchDetail);
+    }
+
+    public BatchDetail getBatchDetailByBatchAndVaccine(VaccineBatch batch, Vaccine vaccine) {
+        return batchDetailRepository.findByVaccineBatchAndVaccine(batch, vaccine);
+    }
+
+    public BatchDetail getLatestBatchDetail(Vaccine vaccine) {
+        Pageable pageable = PageRequest.of(0, 1);
+        List<BatchDetail> batches = batchDetailRepository.findBatchDetailsByVaccine(vaccine, pageable);
+        return batches.isEmpty() ? null : batches.getFirst();
     }
 }

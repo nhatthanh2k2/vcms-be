@@ -163,5 +163,24 @@ public class VaccinationRecordService {
         return recordRevenue != null ? recordRevenue : 0L;
     }
 
+    public Long calculateVaccinationRecordTotalCost(LocalDate startDate, LocalDate endDate) {
+        List<VaccinationRecord> records = vaccinationRecordRepository
+                .findAllByVaccinationRecordDateBetween(startDate, endDate);
+
+        Long totalCost = 0L;
+        for (VaccinationRecord record : records) {
+            VaccineBatch batch = record.getVaccineBatch();
+            Vaccine vaccine = record.getVaccine();
+
+            // Lấy giá nhập từ BatchDetail
+            BatchDetail batchDetail = batchDetailService.getBatchDetailByBatchAndVaccine(batch, vaccine);
+            if (batchDetail != null) {
+                totalCost += batchDetail.getBatchDetailVaccinePrice();
+            }
+        }
+
+        return totalCost;
+    }
+
 
 }
