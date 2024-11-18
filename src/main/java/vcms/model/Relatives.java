@@ -15,16 +15,16 @@ import lombok.Setter;
 public class Relatives {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rel_id")
+    @Column(name = "relatives_id")
     private Long relativesId;
 
-    @Column(name = "rel_full_name")
+    @Column(name = "relatives_name")
     private String relativesFullName;
 
-    @Column(name = "rel_phone")
+    @Column(name = "relatives_phone")
     private String relativesPhone;
 
-    @Column(name = "rel_relationship")
+    @Column(name = "relatives_relationship")
     private String relativesRelationship;
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -19,28 +19,28 @@ import java.time.LocalDate;
 public class BatchDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "batch_det_id")
+    @Column(name = "batch_detail_id")
     private Long batchDetailId;
 
-    @Column(name = "batch_det_vac_quantity")
+    @Column(name = "batch_detail__quantity")
     private Integer batchDetailVaccineQuantity;
 
-    @Column(name = "batch_det_total_vac_quantity")
+    @Column(name = "batch_detail_total_quantity")
     private Integer batchDetailTotalVaccineQuantity;
 
-    @Column(name = "batch_det_vac_price")
+    @Column(name = "batch_detail_vaccine_price")
     private Integer batchDetailVaccinePrice;
 
-    @Column(name = "batch_det_manuf_date")
+    @Column(name = "batch_detail_manufacture_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailManufactureDate;
 
-    @Column(name = "batch_det_exp_date")
+    @Column(name = "batch_detail_expiration_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailExpirationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vaccineBatch_id")
+    @JoinColumn(name = "vaccine_batch_id")
     private VaccineBatch vaccineBatch;
 
     @ManyToOne(fetch = FetchType.LAZY)

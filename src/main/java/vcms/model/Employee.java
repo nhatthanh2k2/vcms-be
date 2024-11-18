@@ -28,57 +28,57 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
     @SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq",
             allocationSize = 1, initialValue = 1000)
-    @Column(name = "emp_id")
+    @Column(name = "employee_id")
     private Long employeeId;
 
-    @Column(name = "emp_full_name")
+    @Column(name = "employee_name")
     private String employeeFullName;
 
-    @Column(name = "emp_gender")
+    @Column(name = "employee_gender")
     private Gender employeeGender;
 
-    @Column(name = "emp_dob")
+    @Column(name = "employee_dob")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate employeeDob;
 
-    @Column(name = "emp_email")
+    @Column(name = "employee_email")
     private String employeeEmail;
 
-    @Column(name = "emp_phone")
+    @Column(name = "employee_phone")
     private String employeePhone;
 
-    @Column(name = "emp_avatar")
+    @Column(name = "employee_avatar")
     private String employeeAvatar;
 
-    @Column(name = "emp_province")
+    @Column(name = "employee_province")
     private String employeeProvince;
 
-    @Column(name = "emp_district")
+    @Column(name = "employee_district")
     private String employeeDistrict;
 
-    @Column(name = "emp_ward")
+    @Column(name = "employee_ward")
     private String employeeWard;
 
-    @Column(name = "emp_qual")
+    @Column(name = "employee_qualification")
     private String employeeQualification;
 
-    @Column(name = "emp_position")
+    @Column(name = "employee_position")
     private String employeePosition;
 
-    @Column(name = "emp_role")
+    @Column(name = "employee_role")
     private Set<String> roles;
 
-    @Column(name = "emp_username")
+    @Column(name = "employee_username")
     private String employeeUsername;
 
-    @Column(name = "emp_password")
+    @Column(name = "employee_password")
     private String employeePassword;
 
-    @Column(name = "emp_createAt")
+    @Column(name = "employee_createAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime employeeCreateAt;
 
-    @Column(name = "emp_updateAt")
+    @Column(name = "employee_updateAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime employeeUpdateAt;
 
@@ -89,6 +89,5 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ScreeningRecord> screeningRecordList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<News> newsList = new ArrayList<>();
+
 }

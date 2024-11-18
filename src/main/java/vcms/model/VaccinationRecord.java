@@ -18,35 +18,35 @@ import java.time.LocalDate;
 public class VaccinationRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vac_rec_id")
+    @Column(name = "vaccination_reccord_id")
     private Long vaccinationRecordId;
 
-    @Column(name = "vac_rec_code")
+    @Column(name = "vaccination_reccord_code")
     private String vaccinationRecordCode;
 
     // Ngày tiêm
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "vac_rec_date")
+    @Column(name = "vaccination_reccord_date")
     private LocalDate vaccinationRecordDate;
 
-    @Column(name = "vac_rec_type")
+    @Column(name = "vaccination_reccord_type")
     private String vaccinationRecordType;
 
     // Liều lượng tiêm
-    @Column(name = "vac_rec_dosage")
+    @Column(name = "vaccination_reccord_dosage")
     private String vaccinationRecordDosage;
 
     // Mũi tiêm
-    @Column(name = "vac_rec_dose")
+    @Column(name = "vaccination_reccord_dose")
     private String vaccinationRecordDose;
 
-    @Column(name = "vac_rec_total")
+    @Column(name = "vaccination_reccord_total")
     private int vaccinationRecordTotal;
 
-    @Column(name = "vac_rec_payment")
+    @Column(name = "vaccination_reccord_payment")
     private String vaccinationRecordPayment;
 
-    @Column(name = "vac_rec_src")
+    @Column(name = "vaccination_reccord_receipt_source")
     private String vaccinationRecordReceiptSource;
 
     // Người tiêm
@@ -59,11 +59,11 @@ public class VaccinationRecord {
     private Vaccine vaccine;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vac_pkg_id")
+    @JoinColumn(name = "vaccine_package_id")
     private VaccinePackage vaccinePackage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vac_batch_id")
+    @JoinColumn(name = "vaccine_batch_id")
     private VaccineBatch vaccineBatch;
 
     // nhân viên thực hiện

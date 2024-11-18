@@ -24,35 +24,35 @@ public class Customer {
             generator = "customer_seq")
     @SequenceGenerator(name = "customer_seq", sequenceName = "customer_seq",
             allocationSize = 1, initialValue = 1000)
-    @Column(name = "cust_id")
+    @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "cust_code")
+    @Column(name = "customer_code")
     private String customerCode;
 
-    @Column(name = "cust_full_name")
+    @Column(name = "customer_name")
     private String customerFullName;
 
-    @Column(name = "cust_gender")
+    @Column(name = "customer_gender")
     private Gender customerGender;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "cust_dob")
+    @Column(name = "customer_dob")
     private LocalDate customerDob;
 
-    @Column(name = "cust_email")
+    @Column(name = "customer_email")
     private String customerEmail;
 
-    @Column(name = "cust_phone")
+    @Column(name = "customer_phone")
     private String customerPhone;
 
-    @Column(name = "cust_province")
+    @Column(name = "customer_province")
     private String customerProvince;
 
-    @Column(name = "cust_district")
+    @Column(name = "customer_district")
     private String customerDistrict;
 
-    @Column(name = "cust_ward")
+    @Column(name = "customer_ward")
     private String customerWard;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)

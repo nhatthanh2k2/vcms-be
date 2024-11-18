@@ -15,14 +15,14 @@ import lombok.Setter;
 public class PackageDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pkg_det_id")
+    @Column(name = "package_detail_id")
     private Long vaccinePkgDetailId;
 
-    @Column(name = "pkg_det_dose_count")
+    @Column(name = "package_detail_dose_count")
     private int doseCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vac_pkg_id")
+    @JoinColumn(name = "vaccine_package_id")
     private VaccinePackage vaccinePackage;
 
     @ManyToOne(fetch = FetchType.LAZY)
