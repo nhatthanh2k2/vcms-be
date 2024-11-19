@@ -32,6 +32,28 @@ public class AppointmentController {
                 .build();
     }
 
+    @GetMapping("/list/today")
+    public ApiResponse<Map<String, Object>> getAllAppointmentListToday(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+
+        return ApiResponse.<Map<String, Object>>builder()
+                .result(appointmentService.getAllAppointmentListToday(page, size))
+                .build();
+    }
+
+    @GetMapping("/list/week")
+    public ApiResponse<Map<String, Object>> getAllAppointmentListInWeek(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+
+        return ApiResponse.<Map<String, Object>>builder()
+                .result(appointmentService.getAllAppointmentListThisWeek(page, size))
+                .build();
+    }
+
     @GetMapping("/list/injection-date")
     public ApiResponse<List<AppointmentResponse>> getAppointmentListByInjectionDate(
             @RequestParam("selectedDate") String selectedDateStr

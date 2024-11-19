@@ -91,6 +91,45 @@ public class AppointmentService {
         return convertAppointmentListToAppointmentResponseList(appointmentList);
     }
 
+    public Map<String, Object> getAllAppointmentListToday(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Appointment> appointmentPage = appointmentRepository.findAllInToday(pageable);
+
+        List<AppointmentResponse> appointmentResponseList =
+                convertAppointmentListToAppointmentResponseList(appointmentPage.getContent());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("content", appointmentResponseList);
+        result.put("totalElements", appointmentPage.getTotalElements());
+        result.put("totalPages", appointmentPage.getTotalPages());
+        result.put("number", appointmentPage.getNumber());
+        result.put("size", appointmentPage.getSize());
+
+        return result;
+    }
+
+    public Map<String, Object> getAllAppointmentListThisWeek(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        LocalDate today = LocalDate.now();
+        LocalDate endDate = today.plusDays(7);
+
+        Page<Appointment> appointmentPage =
+                appointmentRepository.findAllByAppointmentInjectionDateBetween(today, endDate, pageable);
+
+        List<AppointmentResponse> appointmentResponseList =
+                convertAppointmentListToAppointmentResponseList(appointmentPage.getContent());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("content", appointmentResponseList);
+        result.put("totalElements", appointmentPage.getTotalElements());
+        result.put("totalPages", appointmentPage.getTotalPages());
+        result.put("number", appointmentPage.getNumber());
+        result.put("size", appointmentPage.getSize());
+
+        return result;
+    }
+
+
     public List<AppointmentResponse> getCanceledAppointmentList() {
         List<Appointment> appointmentList = appointmentRepository.findAllByAppointmentStatus(
                 AppointmentStatus.CANCELLED);

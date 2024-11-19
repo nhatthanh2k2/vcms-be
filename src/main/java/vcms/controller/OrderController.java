@@ -10,6 +10,7 @@ import vcms.service.OrderService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -19,6 +20,36 @@ public class OrderController {
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+    @GetMapping("list/all")
+    public ApiResponse<Map<String, Object>> getAllOrder(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+        return ApiResponse.<Map<String, Object>>builder()
+                .result(orderService.getAllOrder(page, size))
+                .build();
+    }
+
+    @GetMapping("list/today")
+    public ApiResponse<Map<String, Object>> getAllOrderToday(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+        return ApiResponse.<Map<String, Object>>builder()
+                .result(orderService.getAllOrderToday(page, size))
+                .build();
+    }
+
+    @GetMapping("list/week")
+    public ApiResponse<Map<String, Object>> getAllOrderInWeek(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+        return ApiResponse.<Map<String, Object>>builder()
+                .result(orderService.getAllOrderInWeek(page, size))
+                .build();
     }
 
     @GetMapping("/detail/{orderId}")

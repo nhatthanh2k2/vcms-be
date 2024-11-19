@@ -25,8 +25,6 @@ public class BatchDetailResponse {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailExpirationDate;
 
-    private String vaccineType;
-
     private VaccineResponse vaccineResponse;
 
     private DiseaseResponse diseaseResponse;

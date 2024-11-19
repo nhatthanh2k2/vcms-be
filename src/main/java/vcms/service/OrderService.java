@@ -1,6 +1,9 @@
 package vcms.service;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vcms.dto.request.BookVaccinationRequest;
 import vcms.dto.request.CustomPackageOrderRequest;
@@ -23,9 +26,7 @@ import vcms.repository.OrderRepository;
 import vcms.utils.DateService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -89,6 +90,20 @@ public class OrderService {
                 .orElse(null);
     }
 
+    public List<OrderResponse> convertOrderListToResponseList(List<Order> orderList) {
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+        for (Order order : orderList) {
+            OrderResponse orderResponse = orderMapper.toOrderResponse(order);
+            Customer customer = order.getCustomer();
+            if (customer != null) {
+                orderResponse.setCustomerCode(order.getCustomer().getCustomerCode());
+            }
+            else orderResponse.setCustomerCode("Chưa có thông tin");
+            orderResponseList.add(orderResponse);
+        }
+        return orderResponseList;
+    }
+
     public List<OrderDetailResponse> getDetailByOrderId(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXISTED));
@@ -121,18 +136,74 @@ public class OrderService {
         List<Order> orderList = orderRepository.findAllByOrderInjectionDate(injectionDate);
         if ((orderList.isEmpty()))
             return Collections.emptyList();
-        List<OrderResponse> orderResponseList = new ArrayList<>();
-        for (Order order : orderList) {
-            OrderResponse orderResponse = orderMapper.toOrderResponse(order);
-            Customer customer = order.getCustomer();
-            if (customer != null) {
-                orderResponse.setCustomerCode(order.getCustomer().getCustomerCode());
-            }
-            else orderResponse.setCustomerCode("Chưa có thông tin");
-            orderResponseList.add(orderResponse);
-        }
-        return orderResponseList;
+        return convertOrderListToResponseList(orderList);
+
+//        List<OrderResponse> orderResponseList = new ArrayList<>();
+//        for (Order order : orderList) {
+//            OrderResponse orderResponse = orderMapper.toOrderResponse(order);
+//            Customer customer = order.getCustomer();
+//            if (customer != null) {
+//                orderResponse.setCustomerCode(order.getCustomer().getCustomerCode());
+//            }
+//            else orderResponse.setCustomerCode("Chưa có thông tin");
+//            orderResponseList.add(orderResponse);
+//        }
+
     }
+
+    public Map<String, Object> getAllOrder(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Order> orderPage = orderRepository.findAll(pageable);
+
+        List<OrderResponse> orderResponseList =
+                convertOrderListToResponseList(orderPage.getContent());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("content", orderResponseList);
+        result.put("totalElements", orderPage.getTotalElements());
+        result.put("totalPages", orderPage.getTotalPages());
+        result.put("number", orderPage.getNumber());
+        result.put("size", orderPage.getSize());
+
+        return result;
+    }
+
+    public Map<String, Object> getAllOrderToday(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Order> orderPage = orderRepository.findAllInToday(pageable);
+
+        List<OrderResponse> orderResponseList =
+                convertOrderListToResponseList(orderPage.getContent());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("content", orderResponseList);
+        result.put("totalElements", orderPage.getTotalElements());
+        result.put("totalPages", orderPage.getTotalPages());
+        result.put("number", orderPage.getNumber());
+        result.put("size", orderPage.getSize());
+
+        return result;
+    }
+
+    public Map<String, Object> getAllOrderInWeek(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        LocalDate today = LocalDate.now();
+        LocalDate endDate = today.plusDays(7);
+        Page<Order> orderPage = orderRepository.findAllByOrderDateBetween(today, endDate, pageable);
+
+        List<OrderResponse> orderResponseList =
+                convertOrderListToResponseList(orderPage.getContent());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("content", orderResponseList);
+        result.put("totalElements", orderPage.getTotalElements());
+        result.put("totalPages", orderPage.getTotalPages());
+        result.put("number", orderPage.getNumber());
+        result.put("size", orderPage.getSize());
+
+        return result;
+    }
+
 
     public OrderResponse createCustomPackageOrder(CustomPackageOrderRequest request) {
         // tao custom package moi tu package co ban
