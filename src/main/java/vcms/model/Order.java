@@ -35,7 +35,7 @@ public class Order {
     private LocalDate orderDate;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "order_injection_date")
+    @Column(name = "order_inj_date")
     private LocalDate orderInjectionDate;
 
     // Khach hang chua co ma KH thi luu thong tin

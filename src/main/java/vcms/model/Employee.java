@@ -59,7 +59,7 @@ public class Employee {
     @Column(name = "employee_ward")
     private String employeeWard;
 
-    @Column(name = "employee_qualification")
+    @Column(name = "employee_qual")
     private String employeeQualification;
 
     @Column(name = "employee_position")

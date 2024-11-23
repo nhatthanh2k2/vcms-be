@@ -21,20 +21,20 @@ import java.util.List;
 public class VaccineBatch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vaccine_batch_id")
+    @Column(name = "vb_id")
     private Long vaccineBatchId;
 
-    @Column(name = "vaccine_batch_number")
+    @Column(name = "vb_number")
     private String vaccineBatchNumber;
 
-    @Column(name = "vaccine_batch_import_date")
+    @Column(name = "vb_imp_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate vaccineBatchImportDate;
 
-    @Column(name = "vaccine_batch_quantity")
+    @Column(name = "vb_quantity")
     private Integer vaccineBatchQuantity;
 
-    @Column(name = "vaccine_batch_value")
+    @Column(name = "vb_value")
     private BigInteger vaccineBatchValue;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vaccineBatch",

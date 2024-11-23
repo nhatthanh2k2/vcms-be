@@ -5,6 +5,7 @@ import vcms.dto.request.ScreeningRecordCreationRequest;
 import vcms.dto.response.CustomerResponse;
 import vcms.dto.response.EmployeeResponse;
 import vcms.dto.response.ScreeningRecordResponse;
+import vcms.enums.RecordStatus;
 import vcms.mapper.CustomerMapper;
 import vcms.mapper.EmployeeMapper;
 import vcms.mapper.ScreeningRecordMapper;
@@ -66,6 +67,7 @@ public class ScreeningRecordService {
         }
         screeningRecord.setScreeningRecordCode(code);
         screeningRecord.setScreeningRecordDate(dateService.getDateNow());
+        screeningRecord.setScreeningRecordStatus(RecordStatus.NOT_PRINTED);
         screeningRecord.setEmployee(employee);
         screeningRecord.setCustomer(customer);
         return screeningRecordMapper.toScreeningRecordResponse(

@@ -19,23 +19,23 @@ import java.time.LocalDate;
 public class BatchDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "batch_detail_id")
+    @Column(name = "bd_id")
     private Long batchDetailId;
 
-    @Column(name = "batch_detail__quantity")
-    private Integer batchDetailVaccineQuantity;
+    @Column(name = "bd_rem_qty")
+    private Integer batchDetailRemainingQuantity;
 
-    @Column(name = "batch_detail_total_quantity")
-    private Integer batchDetailTotalVaccineQuantity;
+    @Column(name = "bd_init_qty")
+    private Integer batchDetailInitialQuantity;
 
-    @Column(name = "batch_detail_vaccine_price")
+    @Column(name = "bd_vac_price")
     private Integer batchDetailVaccinePrice;
 
-    @Column(name = "batch_detail_manufacture_date")
+    @Column(name = "bd_mf_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailManufactureDate;
 
-    @Column(name = "batch_detail_expiration_date")
+    @Column(name = "bd_exp_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate batchDetailExpirationDate;
 

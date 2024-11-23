@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 public class PackageDetailResponse {
 
-    private Long vaccinePkgDetailId;
+    private Long packageDetailId;
 
     private VaccineResponse vaccineResponse;
 
     private DiseaseResponse diseaseResponse;
 
-    private int doseCount;
+    private int packageDetailDoseCount;
 }

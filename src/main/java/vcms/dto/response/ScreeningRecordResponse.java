@@ -2,6 +2,7 @@ package vcms.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import vcms.enums.RecordStatus;
 import vcms.enums.ScreeningResult;
 
 import java.time.LocalDate;
@@ -18,6 +19,8 @@ public class ScreeningRecordResponse {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate screeningRecordDate;
+
+    private RecordStatus screeningRecordStatus;
 
     private String screeningRecordHeight; // Chiều cao (m)
 

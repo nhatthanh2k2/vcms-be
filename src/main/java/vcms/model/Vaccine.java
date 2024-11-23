@@ -49,12 +49,12 @@ public class Vaccine {
 
     // Đường tiêm
     @Lob
-    @Column(name = "vaccine_injection_route", columnDefinition = "TEXT")
+    @Column(name = "vaccine_route", columnDefinition = "TEXT")
     private String vaccineInjectionRoute;
 
     // Chống chỉ định
     @Lob
-    @Column(name = "vaccine_contraindication", columnDefinition = "TEXT")
+    @Column(name = "vaccine_contraind", columnDefinition = "TEXT")
     private String vaccineContraindication;
 
     // Phản ứng sau tiêm
@@ -63,11 +63,11 @@ public class Vaccine {
     private String vaccineReaction;
 
     //So mui tre em
-    @Column(name = "vaccine_child_dose_count")
+    @Column(name = "vaccine_child_dc")
     private int vaccineChildDoseCount;
 
     //So mui nguoi lon
-    @Column(name = "vaccine_adult_dose_count")
+    @Column(name = "vaccine_adult_dc")
     private int vaccineAdultDoseCount;
 
     // Bảo quản
@@ -77,7 +77,7 @@ public class Vaccine {
 
     //Phac do tiem
     @Lob
-    @Column(name = "vaccine_injection_schedule", columnDefinition = "TEXT")
+    @Column(name = "vaccine_schedule", columnDefinition = "TEXT")
     private String vaccineInjectionSchedule;
 
     // Đối tượng

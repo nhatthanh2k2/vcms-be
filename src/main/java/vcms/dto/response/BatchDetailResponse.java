@@ -13,9 +13,9 @@ import java.time.LocalDate;
 public class BatchDetailResponse {
     private Long batchDetailId;
 
-    private int batchDetailVaccineQuantity;
+    private Integer batchDetailRemainingQuantity;
 
-    private Integer batchDetailTotalVaccineQuantity;
+    private Integer batchDetailInitialQuantity;
 
     private int batchDetailVaccinePrice;
 

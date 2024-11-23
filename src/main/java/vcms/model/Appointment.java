@@ -25,33 +25,32 @@ public class Appointment {
     private Long appointmentId;
 
     // thong tin nguoi tiêm
-
-    @Column(name = "appt_customer_name")
+    @Column(name = "appt_cust_name")
     private String appointmentCustomerFullName;
 
-    @Column(name = "appt_customer_dob")
+    @Column(name = "appt_cust_dob")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate appointmentCustomerDob;
 
-    @Column(name = "appt_customer_gender")
+    @Column(name = "appt_cust_gender")
     private Gender appointmentCustomerGender;
 
-    @Column(name = "appt_customer_phone")
+    @Column(name = "appt_cust_phone")
     private String appointmentCustomerPhone;
 
-    @Column(name = "appt_customer_email")
+    @Column(name = "appt_cust_email")
     private String appointmentCustomerEmail;
 
-    @Column(name = "appt_customer_province")
+    @Column(name = "appt_cust_province")
     private String appointmentCustomerProvince;
 
-    @Column(name = "appt_customer_district")
+    @Column(name = "appt_cust_district")
     private String appointmentCustomerDistrict;
 
-    @Column(name = "appt_customer ward")
+    @Column(name = "appt_cust ward")
     private String appointmentCustomerWard;
 
-    @Column(name = "appt_injection_date")
+    @Column(name = "appt_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate appointmentInjectionDate;
 
@@ -59,18 +58,18 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private AppointmentStatus appointmentStatus;
 
-    @Column(name = "appt_injection_type")
+    @Column(name = "appt_inj_type")
     @Enumerated(EnumType.STRING)
     private InjectionType appointmentInjectionType;
 
     // thong tin lien he
-    @Column(name = "appt_relatives_name")
+    @Column(name = "appt_rel_name")
     private String appointmentRelativesFullName;
 
-    @Column(name = "appt_relatives_phone")
+    @Column(name = "appt_rel_phone")
     private String appointmentRelativesPhone;
 
-    @Column(name = "appt_relatives_relationship")
+    @Column(name = "appt_rel_relationship")
     private String appointmentRelativesRelationship;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,6 +2,7 @@ package vcms.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import vcms.enums.RecordStatus;
 
 import java.time.LocalDate;
 
@@ -17,6 +18,8 @@ public class VaccinationRecordResponse {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate vaccinationRecordDate;
+
+    private RecordStatus vaccinationRecordStatus;
 
     private String vaccinationRecordType;
 

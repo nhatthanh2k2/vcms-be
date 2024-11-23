@@ -226,7 +226,7 @@ public class OrderService {
             int vaccinePrice = batchDetail.getBatchDetailVaccinePrice();
             packageDetail.setVaccine(vaccine);
             packageDetail.setVaccinePackage(customVaccinepackage);
-            packageDetail.setDoseCount(doseCountList.get(i));
+            packageDetail.setPackageDetailDoseCount(doseCountList.get(i));
             packageDetailList.add(packageDetail);
             totalPrice += vaccinePrice * doseCountList.get(i);
         }

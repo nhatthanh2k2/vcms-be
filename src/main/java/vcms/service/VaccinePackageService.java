@@ -126,7 +126,7 @@ public class VaccinePackageService {
                         return newDetail;
                     });
 
-            detail.setDoseCount(doseCount);
+            detail.setPackageDetailDoseCount(doseCount);
         }
 
         return vaccinePackageMapper.toVaccinePackageResponse(
@@ -148,8 +148,8 @@ public class VaccinePackageService {
         for (PackageDetail detail : packageDetailList) {
             PackageDetailResponse response = new PackageDetailResponse();
             Vaccine vaccine = detail.getVaccine();
-            response.setVaccinePkgDetailId(detail.getVaccinePkgDetailId());
-            response.setDoseCount(detail.getDoseCount());
+            response.setPackageDetailId(detail.getPackageDetailId());
+            response.setPackageDetailDoseCount(detail.getPackageDetailDoseCount());
             response.setVaccineResponse(vaccineMapper.toVaccineResponse(detail.getVaccine()));
             response.setDiseaseResponse(diseaseMapper.toDiseaseResponse(vaccine.getDisease()));
             packageDetailResponseList.add(response);
@@ -175,7 +175,7 @@ public class VaccinePackageService {
             int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage, vaccine);
             packageDetail.setVaccine(vaccine);
             packageDetail.setVaccinePackage(vaccinePackage);
-            packageDetail.setDoseCount(doseCounts.get(i));
+            packageDetail.setPackageDetailDoseCount(doseCounts.get(i));
             packageDetailList.add(packageDetail);
             totalPrice += vaccinePrice * doseCounts.get(i);
         }
@@ -206,7 +206,7 @@ public class VaccinePackageService {
             int vaccinePrice = getVaccinePrice(batchDetailList, vaccinePackage, vaccine);
             packageDetail.setVaccine(vaccine);
             packageDetail.setVaccinePackage(vaccinePackage);
-            packageDetail.setDoseCount(doseCounts.get(i));
+            packageDetail.setPackageDetailDoseCount(doseCounts.get(i));
             packageDetailList.add(packageDetail);
             totalPrice += vaccinePrice * doseCounts.get(i);
         }
@@ -237,7 +237,7 @@ public class VaccinePackageService {
         // Lặp qua từng chi tiết gói
         for (PackageDetail detail : vaccinePackage.getPackageDetailList()) {
             Vaccine vaccine = detail.getVaccine();
-            int doseCount = detail.getDoseCount();
+            int doseCount = detail.getPackageDetailDoseCount();
 
             // Lấy giá nhập từ lô mới nhất
             BatchDetail latestBatchDetail = batchDetailService.getLatestBatchDetail(vaccine);

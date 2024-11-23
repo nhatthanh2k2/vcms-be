@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vcms.enums.RecordStatus;
 import vcms.enums.ScreeningResult;
 
 import java.time.LocalDate;
@@ -21,58 +22,61 @@ import java.time.LocalDate;
 public class ScreeningRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "screen_reccord_id")
+    @Column(name = "sr_id")
     private Long screeningRecordId;
 
-    @Column(name = "screen_reccord_code")
+    @Column(name = "sr_code")
     private String screeningRecordCode;
 
-    @Column(name = "screen_reccord_date")
+    @Column(name = "sr_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate screeningRecordDate;
 
-    @Column(name = "screen_reccord_height")
+    @Column(name = "sr_status")
+    private RecordStatus screeningRecordStatus;
+
+    @Column(name = "sr_height")
     private String screeningRecordHeight; // Chiều cao (m)
 
-    @Column(name = "screen_reccord_weight")
+    @Column(name = "sr_weight")
     private String screeningRecordWeight; // Cân nặng (kg)
 
-    @Column(name = "screen_reccord_blood_pressure")
+    @Column(name = "sr_blood_pressure")
     private String screeningRecordBloodPressure; // Huyết áp (mmHg)
 
-    @Column(name = "screen_reccord_heart_rate")
+    @Column(name = "sr_heart_rate")
     private String screeningRecordHeartRate; // Nhịp tim (bpm)
 
-    @Column(name = "screen_reccord_temperature")
+    @Column(name = "sr_temperature")
     private String screeningRecordTemperature; // Nhiệt độ cơ thể (°C)
 
-    @Column(name = "screen_reccord_respiratory_rate")
+    @Column(name = "sr_respiratory_rate")
     private String screeningRecordRespiratoryRate; // Tình trạng hô hấp
 
-    @Column(name = "screen_reccord_chronic_diseases", length = 500)
+    @Column(name = "sr_diseases", length = 500)
     private String screeningRecordChronicDiseases; // Các bệnh mãn tính
 
-    @Column(name = "screen_reccord_allergies", length = 500)
+    @Column(name = "sr_allergies", length = 500)
     private String screeningRecordAllergies; // Dị ứng
 
-    @Column(name = "screen_reccord_medications", length = 500)
+    @Column(name = "sr_medications", length = 500)
     private String screeningRecordCurrentMedications; // Thuốc đang sử dụng
 
-    @Column(name = "screen_reccord_symptoms", length = 500)
+    @Column(name = "sr_symptoms", length = 500)
     private String screeningRecordAbnormalSymptoms; // Các triệu chứng bất thường
 
-    @Column(name = "screen_reccord_note")
+    @Column(name = "sr_note")
     private String screeningRecordNotes; // Ghi chú bổ sung
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "screen_reccord_result")
+    @Column(name = "sr_result")
     private ScreeningResult screeningRecordResult; // Kết quả khám sàng lọc
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 }

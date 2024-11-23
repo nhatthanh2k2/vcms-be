@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.VaccinationRecordCreationRequest;
 import vcms.dto.response.VaccinationRecordResponse;
+import vcms.enums.RecordStatus;
 import vcms.exception.AppException;
 import vcms.exception.ErrorCode;
 import vcms.mapper.CustomerMapper;
@@ -70,27 +71,13 @@ public class VaccinationRecordService {
         Customer customer = customerService.findCustomerByIdentifierAndDob(
                 request.getCustomerIdentifier(), request.getCustomerDob());
         List<VaccinationRecord> vaccinationRecordList = vaccinationRecordRepository.findAllByCustomer(customer);
-        List<VaccinationRecordResponse> vaccinationRecordResponseList = new ArrayList<>();
-        for (VaccinationRecord record : vaccinationRecordList) {
-            VaccinationRecordResponse recordResponse = vaccinationRecordMapper.toVaccinationRecordResponse(record);
-            recordResponse.setCustomerResponse(customerMapper.toCustomerResponse(record.getCustomer()));
-            recordResponse.setEmployeeResponse(employeeMapper.toEmployeeResponse(record.getEmployee()));
-            recordResponse.setVaccineName(record.getVaccine().getVaccineName());
-            VaccinePackage vaccinePackage = record.getVaccinePackage();
-            if (vaccinePackage == null) {
-                recordResponse.setVaccinePackageName("Không có");
-            }
-            else recordResponse.setVaccinePackageName(record.getVaccinePackage().getVaccinePackageName());
-            recordResponse.setVaccineBatchNumber(record.getVaccineBatch().getVaccineBatchNumber());
-            vaccinationRecordResponseList.add(recordResponse);
-        }
-        return vaccinationRecordResponseList;
+        return convertToVRResponse(vaccinationRecordList);
     }
 
     public boolean checkVaccineQuantityAvailability(List<BatchDetail> batchDetailList, Vaccine vaccine) {
         for (BatchDetail detail : batchDetailList) {
-            if (detail.getVaccine().equals(vaccine) && detail.getBatchDetailVaccineQuantity() >= 1) {
-                detail.setBatchDetailVaccineQuantity(detail.getBatchDetailVaccineQuantity() - 1);
+            if (detail.getVaccine().equals(vaccine) && detail.getBatchDetailRemainingQuantity() >= 1) {
+                detail.setBatchDetailRemainingQuantity(detail.getBatchDetailRemainingQuantity() - 1);
                 batchDetailService.saveBatchDetail(detail);
                 return true;
             }
@@ -125,6 +112,7 @@ public class VaccinationRecordService {
             }
             vaccinationRecord.setVaccinationRecordCode(code);
             vaccinationRecord.setVaccinationRecordDate(dateService.getDateNow());
+            vaccinationRecord.setVaccinationRecordStatus(RecordStatus.NOT_PRINTED);
             vaccinationRecord.setCustomer(customer);
             vaccinationRecord.setEmployee(employee);
             vaccinationRecord.setVaccineBatch(vaccineBatch);
@@ -141,6 +129,10 @@ public class VaccinationRecordService {
     public List<VaccinationRecordResponse> getAllVaccinationRecordByCreateDate(LocalDate createDate) {
         List<VaccinationRecord> vaccinationRecordList = vaccinationRecordRepository
                 .findAllByVaccinationRecordDate(createDate);
+        return convertToVRResponse(vaccinationRecordList);
+    }
+
+    private List<VaccinationRecordResponse> convertToVRResponse(List<VaccinationRecord> vaccinationRecordList) {
         List<VaccinationRecordResponse> vaccinationRecordResponseList = new ArrayList<>();
         for (VaccinationRecord record : vaccinationRecordList) {
             VaccinationRecordResponse response = vaccinationRecordMapper.toVaccinationRecordResponse(record);
@@ -165,7 +157,8 @@ public class VaccinationRecordService {
 
     public Long calculateVaccinationRecordTotalCost(LocalDate startDate, LocalDate endDate) {
         List<VaccinationRecord> records = vaccinationRecordRepository
-                .findAllByVaccinationRecordDateBetween(startDate, endDate);
+                .findAllByVaccinationRecordDateBetweenAndAndVaccinationRecordReceiptSource(startDate, endDate,
+                                                                                           "APPOINTMENT");
 
         Long totalCost = 0L;
         for (VaccinationRecord record : records) {

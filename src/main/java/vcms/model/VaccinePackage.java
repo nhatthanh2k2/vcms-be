@@ -21,26 +21,26 @@ import java.util.List;
 public class VaccinePackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vaccine_package_id")
+    @Column(name = "vac_pkg_id")
     private Long vaccinePackageId;
 
-    @Column(name = "vaccine_package_name")
+    @Column(name = "vac_pkg_name")
     private String vaccinePackageName;
 
-    @Column(name = "vaccine_package_price")
+    @Column(name = "vac_pkg_price")
     private int vaccinePackagePrice;
 
-    @Column(name = "vaccine_package_type")
+    @Column(name = "vac_pkg_type")
     private String vaccinePackageType;
 
-    @Column(name = "vaccine_package_custom")
+    @Column(name = "vac_pkg_custom")
     private int isCustomPackage;
 
-    @Column(name = "vaccine_package_createAt")
+    @Column(name = "vac_pkg_createAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccinePackageCreateAt;
 
-    @Column(name = "vaccine_package_updateAt")
+    @Column(name = "vac_pkg_updateAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime vaccinePackageUpdateAt;
 
