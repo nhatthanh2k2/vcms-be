@@ -39,29 +39,29 @@ public class Order {
     private LocalDate orderInjectionDate;
 
     // Khach hang chua co ma KH thi luu thong tin
-    @Column(name = "order_customer_name")
+    @Column(name = "order_cust_name")
     private String orderCustomerFullName;
 
-    @Column(name = "order_customer_gender")
+    @Column(name = "order_cust_gender")
     private Gender orderCustomerGender;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "order_customer_dob")
+    @Column(name = "order_cust_dob")
     private LocalDate orderCustomerDob;
 
-    @Column(name = "order_customer_email")
+    @Column(name = "order_cust_email")
     private String orderCustomerEmail;
 
-    @Column(name = "order_customer_phone")
+    @Column(name = "order_cust_phone")
     private String orderCustomerPhone;
 
-    @Column(name = "order_customer_province")
+    @Column(name = "order_cust_province")
     private String orderCustomerProvince;
 
-    @Column(name = "order_customer_district")
+    @Column(name = "order_cust_district")
     private String orderCustomerDistrict;
 
-    @Column(name = "order_customer_ward")
+    @Column(name = "order_cust_ward")
     private String orderCustomerWard;
 
     // khach hang da co thong tin
