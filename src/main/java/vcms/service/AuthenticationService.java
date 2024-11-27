@@ -82,6 +82,10 @@ public class AuthenticationService {
 
         var employee = employeeService.getEmployeeByUsername(request.getUsername());
 
+        if (!employee.getEmployeeActive()) {
+            throw new AppException(ErrorCode.ACCOUNT_LOCKED);
+        }
+
         boolean authenticated = passwordEncoder
                 .matches(request.getPassword(), employee.getEmployeePassword());
         if (!authenticated)

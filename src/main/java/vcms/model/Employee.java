@@ -74,6 +74,9 @@ public class Employee {
     @Column(name = "employee_password")
     private String employeePassword;
 
+    @Column(name = "employee_active")
+    private Boolean employeeActive = true;
+
     @Column(name = "employee_createAt")
     @JsonFormat(pattern = "dd-MM-yyyy HH-mm-ss")
     private LocalDateTime employeeCreateAt;

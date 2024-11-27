@@ -42,4 +42,5 @@ public class EmployeeResponse {
 
     private String employeeUsername;
 
+    private Boolean employeeActive;
 }

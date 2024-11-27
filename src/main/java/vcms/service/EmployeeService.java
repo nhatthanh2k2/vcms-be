@@ -132,6 +132,20 @@ public class EmployeeService {
                 employeeRepository.save(employee));
     }
 
+    public EmployeeResponse deactivateEmployee(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        employee.setEmployeeActive(false);
+        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+    }
+
+    public EmployeeResponse activeEmployee(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTED));
+        employee.setEmployeeActive(true);
+        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)

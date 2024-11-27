@@ -105,6 +105,24 @@ public class EmployeeController {
                 .build();
     }
 
+    @PutMapping("/deactivate/{employeeId}")
+    public ApiResponse<EmployeeResponse> deactivateEmployee(
+            @PathVariable("employeeId") Long employeeId
+    ) {
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(employeeService.deactivateEmployee(employeeId))
+                .build();
+    }
+
+    @PutMapping("/active/{employeeId}")
+    public ApiResponse<EmployeeResponse> activeEmployee(
+            @PathVariable("employeeId") Long employeeId
+    ) {
+        return ApiResponse.<EmployeeResponse>builder()
+                .result(employeeService.activeEmployee(employeeId))
+                .build();
+    }
+
     @DeleteMapping("/delete/{employeeId}")
     public ApiResponse<String> deleteEmployeeById(
             @PathVariable("employeeId") Long employeeId) {

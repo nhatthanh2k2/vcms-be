@@ -20,7 +20,8 @@ public enum ErrorCode {
     UPDATE_FAILED(1011, "Update Failed", HttpStatus.BAD_REQUEST),
     VACCINE_QUANTITY_INSUFFICIENT(1012, "Vaccine quantity is insufficient", HttpStatus.BAD_REQUEST),
     DELETE_FAILED(1013, "Cannot delete due to dependencies", HttpStatus.BAD_REQUEST),
-    INVALID_IMAGE(1014, "Invalid image", HttpStatus.BAD_REQUEST);
+    INVALID_IMAGE(1014, "Invalid image", HttpStatus.BAD_REQUEST),
+    ACCOUNT_LOCKED(1015, "Account is locked", HttpStatus.FORBIDDEN);
 
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
