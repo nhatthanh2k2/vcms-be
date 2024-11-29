@@ -1,11 +1,13 @@
 package vcms.service;
 
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vcms.dto.request.VaccineBatchCreationRequest;
 import vcms.dto.response.BatchDetailResponse;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -124,6 +127,7 @@ public class VaccineBatchService {
     }
 
 
+    @Transactional(rollbackFor = AppException.class)
     public VaccineBatch insertVaccineBatch(VaccineBatchCreationRequest request) throws IOException {
 
         VaccineBatch vaccineBatch = vaccineBatchMapper.toVaccineBatch(request);
@@ -218,19 +222,25 @@ public class VaccineBatchService {
     }
 
 
-    private LocalDate getLocalDateFromCell(XSSFCell cell,
-                                           DateTimeFormatter formatter) {
+    private LocalDate getLocalDateFromCell(XSSFCell cell, DateTimeFormatter formatter) {
         if (cell == null) {
             return null;
         }
-        if (cell.getCellType() == CellType.NUMERIC) {
+        if (cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
             return cell.getLocalDateTimeCellValue().toLocalDate();
         }
         else if (cell.getCellType() == CellType.STRING) {
-            return LocalDate.parse(cell.getStringCellValue(), formatter);
+            try {
+                return LocalDate.parse(cell.getStringCellValue(), formatter);
+            }
+            catch (DateTimeParseException e) {
+                //System.err.println("Lỗi định dạng ngày: " + cell.getStringCellValue());
+                return null;
+            }
         }
         return null;
     }
+
 
     private boolean isRowEmpty(XSSFRow row) {
         for (int cellNum = row.getFirstCellNum(); cellNum < row.getLastCellNum(); cellNum++) {
