@@ -419,7 +419,6 @@ public class OrderService {
                     }
                 }
                 else if (detail.getVaccinePackage() != null) {
-                    // Nếu là gói vắc xin
                     totalCost += vaccinePackageService.calculateVaccinePackageCost(detail.getVaccinePackage());
                 }
             }

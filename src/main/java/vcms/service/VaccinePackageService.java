@@ -212,7 +212,7 @@ public class VaccinePackageService {
         }
         vaccinePackage.setVaccinePackageCreateAt(dateService.getDateTimeNow());
         vaccinePackage.setVaccinePackageUpdateAt(dateService.getDateTimeNow());
-        vaccinePackage.setVaccinePackagePrice((int) (totalPrice * 1.10));
+        vaccinePackage.setVaccinePackagePrice(totalPrice);
         vaccinePackageRepository.save(vaccinePackage);
         packageDetailService.insertAllPackageDetail(packageDetailList);
     }

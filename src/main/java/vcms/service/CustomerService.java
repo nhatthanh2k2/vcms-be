@@ -115,7 +115,10 @@ public class CustomerService {
         if (optionalCustomer.isPresent()) {
             return optionalCustomer.get();
         }
+
         throw new AppException(ErrorCode.CUSTOMER_NOT_EXISTED);
+
+
     }
 
     public CustomerResponse lookupCustomer(LookupCustomerRequest request) {
