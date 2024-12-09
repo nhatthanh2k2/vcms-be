@@ -26,7 +26,9 @@ public class SecurityConfig {
             "/api/appointments/create", "/api/appointments/create-code",
             "/api/orders/create", "/api/orders/create-code",
             "/api/employees/reset-password",
-            "/api/vaccination-record/getMyHistory"
+            "/api/vaccination-record/getMyHistory",
+            "/api/orders/my-list",
+            "/api/appointments/my-list",
     };
 
     private final String[] PUBLIC_GET_ENDPOINTS = {
@@ -41,7 +43,8 @@ public class SecurityConfig {
             "/api/vaccine-package/list-default",
             "/images/vaccines/*", "/images/avatars/*",
             "/images/news/*",
-            "/api/orders/detail/my-order/*"
+            "/api/orders/detail/my-order/*",
+
     };
 
     @Value("${jwt.signerKey}")

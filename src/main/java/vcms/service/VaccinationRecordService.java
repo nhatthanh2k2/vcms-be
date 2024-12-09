@@ -70,7 +70,8 @@ public class VaccinationRecordService {
     public List<VaccinationRecordResponse> getAllRecordOfCustomer(LookupCustomerRequest request) {
         Customer customer = customerService.findCustomerByIdentifierAndDob(
                 request.getCustomerIdentifier(), request.getCustomerDob());
-        List<VaccinationRecord> vaccinationRecordList = vaccinationRecordRepository.findAllByCustomer(customer);
+        List<VaccinationRecord> vaccinationRecordList = vaccinationRecordRepository.findAllByCustomerOrderByVaccinationRecordDateDesc(
+                customer);
         return convertToVRResponse(vaccinationRecordList);
     }
 

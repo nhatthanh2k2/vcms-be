@@ -24,6 +24,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     List<Appointment> findAllByAppointmentStatus(AppointmentStatus status);
 
+    List<Appointment> findAllByAppointmentCustomerPhoneAndAppointmentCustomerDobOrderByAppointmentInjectionDateDesc(
+            String phone, LocalDate dob);
+
     @Query("SELECT v.vaccineName, COUNT(a) FROM Appointment a " +
             "JOIN a.vaccine v " +
             "WHERE a.appointmentInjectionDate BETWEEN :startDate AND :endDate " +

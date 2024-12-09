@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface VaccinationRecordRepository extends JpaRepository<VaccinationRecord, Long> {
-    List<VaccinationRecord> findAllByCustomer(Customer customer);
+    List<VaccinationRecord> findAllByCustomerOrderByVaccinationRecordDateDesc(Customer customer);
 
     boolean existsByVaccinationRecordCode(String code);
 

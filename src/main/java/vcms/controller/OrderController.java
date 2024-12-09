@@ -1,6 +1,7 @@
 package vcms.controller;
 
 import org.springframework.web.bind.annotation.*;
+import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.OrderCreationRequest;
 import vcms.dto.request.OrderWithCustomerCodeRequest;
 import vcms.dto.response.ApiResponse;
@@ -29,6 +30,15 @@ public class OrderController {
     ) {
         return ApiResponse.<Map<String, Object>>builder()
                 .result(orderService.getAllOrder(page, size))
+                .build();
+    }
+
+    @PostMapping("/my-list")
+    public ApiResponse<List<OrderResponse>> getMyOrder(
+            @RequestBody LookupCustomerRequest request
+    ) {
+        return ApiResponse.<List<OrderResponse>>builder()
+                .result(orderService.getMyOrder(request))
                 .build();
     }
 

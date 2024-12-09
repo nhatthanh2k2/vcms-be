@@ -3,6 +3,7 @@ package vcms.controller;
 import org.springframework.web.bind.annotation.*;
 import vcms.dto.request.AppointmentCreationRequest;
 import vcms.dto.request.AppointmentWithCustomerCodeRequest;
+import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.UpdateAppointmentStatusRequest;
 import vcms.dto.response.ApiResponse;
 import vcms.dto.response.AppointmentResponse;
@@ -29,6 +30,15 @@ public class AppointmentController {
 
         return ApiResponse.<Map<String, Object>>builder()
                 .result(appointmentService.getAllAppointment(page, size))
+                .build();
+    }
+
+    @PostMapping("/my-list")
+    public ApiResponse<List<AppointmentResponse>> getMyAppointment(
+            @RequestBody LookupCustomerRequest request
+    ) {
+        return ApiResponse.<List<AppointmentResponse>>builder()
+                .result(appointmentService.getMyAppointment(request))
                 .build();
     }
 

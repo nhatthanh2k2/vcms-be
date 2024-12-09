@@ -18,6 +18,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findAllByOrderInjectionDate(LocalDate injectionDate);
 
+    List<Order> findAllByOrderCustomerPhoneAndOrderCustomerDobOrderByOrderInjectionDateDesc(String phone,
+                                                                                            LocalDate dob);
+
     @Query("SELECT SUM(o.orderTotal) FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate")
     Long sumTotalRevenueByPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 

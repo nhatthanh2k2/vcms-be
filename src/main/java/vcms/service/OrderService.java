@@ -5,10 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vcms.dto.request.BookVaccinationRequest;
-import vcms.dto.request.CustomPackageOrderRequest;
-import vcms.dto.request.OrderCreationRequest;
-import vcms.dto.request.OrderWithCustomerCodeRequest;
+import vcms.dto.request.*;
 import vcms.dto.response.BatchDetailResponse;
 import vcms.dto.response.OrderDetailResponse;
 import vcms.dto.response.OrderResponse;
@@ -130,6 +127,13 @@ public class OrderService {
         }
 
         return orderDetailResponseList;
+    }
+
+    public List<OrderResponse> getMyOrder(LookupCustomerRequest request) {
+        List<Order> orderList = orderRepository.
+                findAllByOrderCustomerPhoneAndOrderCustomerDobOrderByOrderInjectionDateDesc(
+                        request.getCustomerIdentifier(), request.getCustomerDob());
+        return convertOrderListToResponseList(orderList);
     }
 
     public List<OrderResponse> getOrderListByInjectionDate(LocalDate injectionDate) {

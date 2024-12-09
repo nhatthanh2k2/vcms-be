@@ -4,10 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import vcms.dto.request.AppointmentCreationRequest;
-import vcms.dto.request.AppointmentWithCustomerCodeRequest;
-import vcms.dto.request.BookVaccinationRequest;
-import vcms.dto.request.UpdateAppointmentStatusRequest;
+import vcms.dto.request.*;
 import vcms.dto.response.AppointmentResponse;
 import vcms.dto.response.BatchDetailResponse;
 import vcms.dto.response.VaccinePackageResponse;
@@ -88,6 +85,13 @@ public class AppointmentService {
     public List<AppointmentResponse> getAppointmentListByInjectionDate(LocalDate injectionDate) {
         List<Appointment> appointmentList =
                 appointmentRepository.findAllByAppointmentInjectionDate(injectionDate);
+        return convertAppointmentListToAppointmentResponseList(appointmentList);
+    }
+
+    public List<AppointmentResponse> getMyAppointment(LookupCustomerRequest request) {
+        List<Appointment> appointmentList = appointmentRepository
+                .findAllByAppointmentCustomerPhoneAndAppointmentCustomerDobOrderByAppointmentInjectionDateDesc(
+                        request.getCustomerIdentifier(), request.getCustomerDob());
         return convertAppointmentListToAppointmentResponseList(appointmentList);
     }
 
