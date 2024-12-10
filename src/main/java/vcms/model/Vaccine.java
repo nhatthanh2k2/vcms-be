@@ -115,4 +115,8 @@ public class Vaccine {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "vaccine", orphanRemoval = true)
     private List<VaccinationRecord> vaccinationRecordList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "vaccine", orphanRemoval = true)
+    private List<PriceHistory> priceHistoryList = new ArrayList<>();
 }

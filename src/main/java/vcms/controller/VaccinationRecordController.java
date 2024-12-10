@@ -1,6 +1,7 @@
 package vcms.controller;
 
 import org.springframework.web.bind.annotation.*;
+import vcms.dto.request.AddHistoryRequest;
 import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.VaccinationRecordCreationRequest;
 import vcms.dto.response.ApiResponse;
@@ -31,6 +32,15 @@ public class VaccinationRecordController {
             @RequestBody VaccinationRecordCreationRequest request) {
         return ApiResponse.<VaccinationRecordResponse>builder()
                 .result(vaccinationRecordService.createVaccinationRecord(request))
+                .build();
+    }
+
+    @PostMapping("/create/handbook")
+    public ApiResponse<String> addHistoryFromHandbook(
+            @RequestBody AddHistoryRequest request
+    ) {
+        return ApiResponse.<String>builder()
+                .result(vaccinationRecordService.addVaccinationRecordFromHandbook(request))
                 .build();
     }
 

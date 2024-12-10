@@ -1,6 +1,7 @@
 package vcms.service;
 
 import org.springframework.stereotype.Service;
+import vcms.dto.request.AddHistoryRequest;
 import vcms.dto.request.LookupCustomerRequest;
 import vcms.dto.request.VaccinationRecordCreationRequest;
 import vcms.dto.response.VaccinationRecordResponse;
@@ -84,6 +85,37 @@ public class VaccinationRecordService {
             }
         }
         throw new AppException(ErrorCode.VACCINE_QUANTITY_INSUFFICIENT);
+    }
+
+    public String addVaccinationRecordFromHandbook(AddHistoryRequest request) {
+        Customer customer = customerService.findCustomerByIdentifierAndDob(request.getCustomerIdentifier(),
+                                                                           request.getCustomerDob());
+        Employee employee = employeeService.getEmployeeByUsername(request.getEmployeeUsername());
+        VaccinationRecord vaccinationRecord = new VaccinationRecord();
+        Vaccine vaccine = vaccineService.getVaccineByVaccineCode(request.getVaccineCode());
+        VaccineBatch vaccineBatch = vaccineBatchService.getBatchById(1L);
+        String code = "";
+        boolean isCodeUnique = false;
+        while (!isCodeUnique) {
+            code = "VR" + generateService.generateRandomNumber();
+            isCodeUnique = !vaccinationRecordRepository.existsByVaccinationRecordCode(code);
+        }
+        vaccinationRecord.setVaccinationRecordCode(code);
+        vaccinationRecord.setVaccinationRecordStatus(RecordStatus.NOT_PRINTED);
+        vaccinationRecord.setVaccinationRecordDate(request.getVaccinationRecordDate());
+        vaccinationRecord.setVaccinePackage(null);
+        vaccinationRecord.setVaccine(vaccine);
+        vaccinationRecord.setVaccineBatch(vaccineBatch);
+        vaccinationRecord.setEmployee(employee);
+        vaccinationRecord.setCustomer(customer);
+        vaccinationRecord.setVaccinationRecordDosage(request.getVaccinationRecordDosage());
+        vaccinationRecord.setVaccinationRecordDose(request.getVaccinationRecordDose());
+        vaccinationRecord.setVaccinationRecordPayment("Không");
+        vaccinationRecord.setVaccinationRecordReceiptSource("Không");
+        vaccinationRecord.setVaccinationRecordTotal(0);
+        vaccinationRecord.setVaccinationRecordType("Tiêm nơi khác");
+        vaccinationRecordRepository.save(vaccinationRecord);
+        return "Thêm lịch sử tiêm thành công.";
     }
 
     public VaccinationRecordResponse createVaccinationRecord(VaccinationRecordCreationRequest request) {

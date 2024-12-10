@@ -94,6 +94,10 @@ public class VaccineService {
         return vaccineRepository.findAllById(vaccineIdList);
     }
 
+    public void saveVaccine(Vaccine vaccine) {
+        vaccineRepository.save(vaccine);
+    }
+
     public VaccineResponse createVaccine(VaccineCreationRequestByAdmin request) {
         Vaccine vaccine = vaccineMapper.toVaccineFromRequestByAdmin(request);
         String contentType = request.getVaccineImageFile().getContentType();

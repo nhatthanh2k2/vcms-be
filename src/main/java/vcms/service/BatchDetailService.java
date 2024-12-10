@@ -17,6 +17,7 @@ import java.util.List;
 public class BatchDetailService {
     private final BatchDetailRepository batchDetailRepository;
 
+
     public BatchDetailService(BatchDetailRepository batchDetailRepository) {
         this.batchDetailRepository = batchDetailRepository;
     }
