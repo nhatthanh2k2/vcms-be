@@ -1,0 +1,6 @@
+Xây dựng Backend cho hệ thống bằng Spring Boot
+
+- Spring Security và JWT để xác thực và phân quyền người dùng
+- Xử lý Đặt lịch tiêm và đặt mua vắc xin (thanh toán online qua Paypal)
+- Quản lý lô vắc xin: nhập lô bằng excel, xem lô vắc xin...
+- CRUD các thực thể như vắc xin, nhân viên, khách hàng,...
