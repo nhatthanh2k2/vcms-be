@@ -112,7 +112,7 @@ public class ApplicationInitConfig {
         return args -> {
             VaccineBatchCreationRequest request = new VaccineBatchCreationRequest();
             request.setVaccineBatchNumber("B-00-0000");
-            String filePath = "D:\\VCMS_Data\\Batch-00.xlsx";
+            String filePath = "/app/vcms/utils/Batch-00.xlsx";
             File file = new File(filePath);
             MultipartFile multipartFile = convertToMultipartFile(file);
             request.setBatchDetailFile(multipartFile);
